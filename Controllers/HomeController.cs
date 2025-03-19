@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
 using OnlineGallery.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace OnlineGallery.Controllers
