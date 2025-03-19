@@ -96,6 +96,7 @@ th {
   width: 100%;
   z-index: 9; }
 
+
 /* ------------------- navbar ------------------- */
 .navbar {
   padding: 25px 15px; }
@@ -175,11 +176,10 @@ th {
   width: 100%;
   background: #222222; }
   
-
 /* ------------------- blue ------------------- */
 
 .home-banner-area {
-  background: url(../img/blue.jpg) no-repeat;
+  background: url(../img/blue2.jpg) no-repeat;
   background-size: cover;
   background-position: center center;
   max-height: 1200px; }
