@@ -171,15 +171,16 @@ th {
       margin-left: 15px; } }
 
 .header-scrolled {
-  position: fixed;
-  left: 0;
-  width: 100%;
-  background: #222222; }
+    position: fixed;
+    left: 0;
+    width: 100%;
+    background: url(../img/bg2.jpg);
+}
   
 /* ------------------- blue ------------------- */
 
 .home-banner-area {
-  background: url(../img/blue2.jpg) no-repeat;
+  background: url(../img/bg.jpg) no-repeat;
   background-size: cover;
   background-position: center center;
   max-height: 1200px; }
