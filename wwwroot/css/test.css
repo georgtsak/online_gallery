@@ -1,0 +1,54 @@
+.top_nav ul {
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
+.top_nav li {
+    align-items: center;
+    margin-right: 20px;
+}
+
+.top_nav li img {
+    margin-right: 10px;
+}
+
+.thl-email {
+    color: white;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.contact_info {
+    background-color: #001c33;
+    padding: 10px;
+    text-align: center;
+    color: white;
+}
+
+.contact_info p {
+    margin: 5px 0;
+}
+
+.contact_info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact_info li {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.contact_info img {
+    margin-right: 5px;
+}
