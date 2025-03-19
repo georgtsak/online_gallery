@@ -1,6 +1,6 @@
 ﻿namespace OnlineGallery.Models
 {
-    public class Gallery1
+    public class Gallery1Model
     {
         public int Id { get; set; }
         public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);

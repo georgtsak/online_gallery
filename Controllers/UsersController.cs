@@ -34,7 +34,7 @@ namespace OnlineGallery.Controllers
             return Convert.ToBase64String(salt);
         }
 
-        private void Hash_Password(User user)
+        private void Hash_Password(UserModel user)
         {
             user.Salt = Create_Salt();
             byte[] pass = Encoding.ASCII.GetBytes(user.Password);
@@ -43,7 +43,7 @@ namespace OnlineGallery.Controllers
 
         }
 
-        private bool Verify_Password(string givenPass, User user)
+        private bool Verify_Password(string givenPass, UserModel user)
         {
             var derivedHash = Rfc2898DeriveBytes.Pbkdf2(givenPass, Convert.FromBase64String(user.Salt), 10, hashAlgorithm, 64);
             return CryptographicOperations.FixedTimeEquals(derivedHash, Convert.FromBase64String(user.Password));
