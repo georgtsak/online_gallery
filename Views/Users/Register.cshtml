@@ -1,0 +1,105 @@
+﻿@model OnlineGallery.Models.UserModel
+
+@{
+	ViewData["Title"] = "Register - OnlineGallery";
+}
+<link rel="stylesheet" type="text/css" href="~/css/auth.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<div class="hero_area">
+	<div class="container">
+		<div class="d-flex justify-content-center h-100">
+			<div class="card" style="height:520px;">
+				<div class="card-header">
+					<h3>Δημιουργία νέου λογαριασμού</h3>
+				</div>
+				<div class="card-body">
+					<form asp-controller="Users" asp-action="Register" name="login_form" onsubmit="return elegxos_null()">
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+							<input asp-for="Firstname" type="text" name="firstname" class="form-control" placeholder="Όνομα">
+						</div>
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+							<input asp-for="Lastname" type="text" name="lastname" class="form-control" placeholder="Επώνυμο">
+						</div>
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+							</div>
+							<input asp-for="Email" type="email" name="email" class="form-control" placeholder="Email">
+						</div>
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							<input asp-for="Password" type="password" minlength="8" id="password" name="password" class="form-control" placeholder="Κωδικός Πρόσβασης">
+						</div>
+						<div class="input-group form-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							<input type="password" minlength="8" id="password2" name="password2" class="form-control" placeholder="Επιβεβαίωση Κωδικού">
+						</div>
+						<div class="row align-items-center show">
+							<input type="checkbox" onclick="emfanish_kwdikou()">&nbsp;Εμφάνιση Κωδικού
+						</div>
+						<div class="form-group">
+							<input type="submit" value="Εγγραφή" class="btn float-right login_btn">
+						</div>
+					</form>
+				</div>
+				<div class="card-footer">
+					<div class="d-flex justify-content-center links">
+						Έχετε ήδη λογαριασμό;<a asp-action="Login">Σύνδεση</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function emfanish_kwdikou() //show password
+	{
+		var x = document.getElementById("password");
+		if (x.type === "password") {
+			x.type = "text";
+		}
+		else {
+			x.type = "password";
+		}
+	}
+
+	function elegxos_null() {
+		var fields = ["firstname", "lastname", "email", "password", "password2"];
+		var fieldNames = {
+			"firstname": "Όνομα",
+			"lastname": "Επώνυμο",
+			"email": "Email",
+			"password": "Κωδικός",
+			"password2": "Επιβεβαίωση Κωδικού"
+		};
+
+		for (var i = 0; i < fields.length; i++) {
+			var field = fields[i];
+			var value = document.forms["login_form"][field].value;
+			if (value == "") {
+				alert("Το πεδίο " + fieldNames[field] + " δεν μπορεί να είναι κενό.");
+				return false;
+			}
+		}
+		if (document.forms["login_form"]["password"].value != document.forms["login_form"]["password2"].value) {
+			alert("Ο κωδικός και η επιβεβαίωση κωδικού δεν ταιριάζουν.");
+			return false;
+		}
+
+		return true;
+	}
+
+</script>
