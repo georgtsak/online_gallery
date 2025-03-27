@@ -25,9 +25,10 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-envelope"></i></span>
 							</div>
-							<input asp-for="Email" type="email" name="email" class="form-control" placeholder="Email">
+							<input asp-for="Email" type="email" name="email" class="form-control @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "is-invalid" : "")" placeholder="Email">
 							<span asp-validation-for="Email" class="text-danger"></span>
 						</div>
+
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
