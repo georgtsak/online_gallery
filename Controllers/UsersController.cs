@@ -73,7 +73,7 @@ public class UsersController : Controller
         var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
         if (existingUser != null)
         {
-            ModelState.AddModelError("Email", "");
+            ModelState.AddModelError("Email", "Το email αυτό χρησιμοποιείται ήδη.");
             return View(user);
         }
 

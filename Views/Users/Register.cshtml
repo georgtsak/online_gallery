@@ -5,11 +5,22 @@
 }
 <link rel="stylesheet" type="text/css" href="~/css/auth.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+	.is-invalid {
+	border: 3px solid #dc3545 !important;
+	padding-right: 30px;
+}
 
+.input-group-text .fa-exclamation-circle {
+	font-size: 1.2rem;
+	color: #dc3545;
+}
+
+</style>
 <div class="hero_area">
 	<div class="container">
 		<div class="d-flex justify-content-center h-100">
-			<div class="card" style="height:470px;">
+			<div class="card" style="height:490px;">
 				<div class="card-header">
 					<h3>Δημιουργία νέου λογαριασμού</h3>
 				</div>
@@ -21,11 +32,19 @@
 							</div>
 							<input asp-for="FullName" type="text" name="fullname" class="form-control" placeholder="Ονοματεπώνυμο">
 						</div>
+
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-envelope"></i></span>
 							</div>
-							<input asp-for="Email" type="email" name="email" class="form-control @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "is-invalid" : "")" placeholder="Email">
+							<input asp-for="Email" type="email" name="email" class="form-control 
+								@(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "is-invalid" : "")" 
+								placeholder="Email">
+							<div class="input-group-append">
+								<span class="input-group-text @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "text-danger" : "")">
+									<i class="fas fa-exclamation-circle" style="display: @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "inline" : "none")"></i>
+								</span>
+							</div>
 							<span asp-validation-for="Email" class="text-danger"></span>
 						</div>
 
