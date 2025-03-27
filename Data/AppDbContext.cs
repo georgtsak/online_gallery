@@ -10,7 +10,7 @@ namespace OnlineGallery.Data
 		public AppDbContext(DbContextOptions<AppDbContext> options)
 			: base(options) { }
 
-		public DbSet<UserModel> Users { get; set; }
+		public DbSet<User> Users { get; set; }
 		public DbSet<ArtworkModel> Artworks { get; set; }
 		public DbSet<TransactionModel> Transactions { get; set; }
 

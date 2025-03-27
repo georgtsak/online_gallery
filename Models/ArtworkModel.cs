@@ -8,7 +8,7 @@
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
         public int ArtistId { get; set; }
-        public UserModel Artist { get; set; }
+        public User Artist { get; set; }
         public string Status { get; set; } = "Available"; // default timh
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }

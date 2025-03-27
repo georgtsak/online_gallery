@@ -1,4 +1,4 @@
-﻿@model OnlineGallery.Models.UserModel
+﻿@model OnlineGallery.Models.User
 
 @{
 	ViewData["Title"] = "Register - OnlineGallery";
@@ -26,6 +26,7 @@
 								<span class="input-group-text"><i class="fas fa-envelope"></i></span>
 							</div>
 							<input asp-for="Email" type="email" name="email" class="form-control" placeholder="Email">
+							<span asp-validation-for="Email" class="text-danger"></span>
 						</div>
 						<div class="input-group form-group">
 							<div class="input-group-prepend">

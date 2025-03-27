@@ -3,7 +3,7 @@ using System.Transactions;
 
 namespace OnlineGallery.Models
 {
-	public class UserModel
+	public class User
 	{
 		public int Id { get; set; }
 		public string FullName { get; set; }
@@ -14,7 +14,7 @@ namespace OnlineGallery.Models
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
 
-		public string Salt { get; set; } // hashing
+        public string Salt { get; set; } = ""; // hashing
 
 		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
