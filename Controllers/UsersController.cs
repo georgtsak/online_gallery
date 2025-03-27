@@ -31,13 +31,12 @@ public class UsersController : Controller
 	{
 		if (ModelState.IsValid)
 		{
-			// Δημιουργία Salt για το Password
 			var salt = GenerateSalt();
 			var hashedPassword = HashPassword(user.Password, salt);
 
-			user.Password = hashedPassword;  // Αποθήκευση του hashed password
-			user.Salt = salt;  // Αποθήκευση του Salt
-			user.Role = (Role)2; // Default Role = Visitor (Role 2)
+			user.Password = hashedPassword;  // save hashed password
+			user.Salt = salt;  // save salt
+			user.Role = (Role)2; // default role --> Visitor 
 
 			_context.Add(user);
 			await _context.SaveChangesAsync();
@@ -56,9 +55,8 @@ public class UsersController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(User user)
     {
-        // Δημιουργία salt και κρυπτογράφηση κωδικού πριν την επικύρωση του μοντέλου
         var salt = GenerateSalt();
-        user.Salt = salt; // Ορίζουμε το salt εδώ
+        user.Salt = salt;
         user.Password = HashPassword(user.Password, salt);
         user.Role = Role.Visitor;
         user.CreatedAt = DateTime.UtcNow;
@@ -89,7 +87,7 @@ public class UsersController : Controller
         catch (Exception ex)
         {
             Debug.WriteLine($"Error: {ex.Message}");
-            ModelState.AddModelError("", "Ο χρήστης δεν καταχωρήθηκε λόγω σφάλματος.");
+            ModelState.AddModelError("", "Ο χρήστης δεν καταχωρήθηκε.");
         }
 
         return View(user);
