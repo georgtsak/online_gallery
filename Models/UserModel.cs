@@ -30,7 +30,7 @@ namespace OnlineGallery.Models
 		Visitor = 2,
 		Buyer = 3,
 		Artist = 4,
-		BuyerAndArtist = 5
+		BuyerAndArtist = 5 // exei agorasei + anarthsei toulaxiston 1 ergo texnhs
 	}
 
 
