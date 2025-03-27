@@ -8,13 +8,29 @@
 <style>
 	.is-invalid {
 	border: 3px solid #dc3545 !important;
-	padding-right: 30px;
+	padding-right: 40px;
+	position: relative;
 }
 
-.input-group-text .fa-exclamation-circle {
+.input-group {
+	position: relative;
+	width: 100%;
+}
+
+.input-group .error-icon {
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-110%);
 	font-size: 1.2rem;
 	color: #dc3545;
+	display: none;
 }
+
+.is-invalid + .error-icon {
+	display: inline;
+}
+
 
 </style>
 <div class="hero_area">
@@ -40,13 +56,10 @@
 							<input asp-for="Email" type="email" name="email" class="form-control 
 								@(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "is-invalid" : "")" 
 								placeholder="Email">
-							<div class="input-group-append">
-								<span class="input-group-text @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "text-danger" : "")">
-									<i class="fas fa-exclamation-circle" style="display: @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "inline" : "none")"></i>
-								</span>
-							</div>
+							<i class="fas fa-exclamation-circle error-icon @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "d-inline" : "d-none")"></i>
 							<span asp-validation-for="Email" class="text-danger"></span>
 						</div>
+
 
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
