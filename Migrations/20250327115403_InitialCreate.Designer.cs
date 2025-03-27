@@ -11,7 +11,7 @@ using OnlineGallery.Data;
 
 namespace OnlineGallery.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20250327115403_InitialCreate")]
     partial class InitialCreate
     {
