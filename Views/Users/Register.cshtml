@@ -41,7 +41,7 @@
 					<h3>Δημιουργία νέου λογαριασμού</h3>
 				</div>
 				<div class="card-body">
-					<form asp-controller="Users" asp-action="Register" method="post" name="login_form" onsubmit="return elegxos_null()">
+					<form asp-controller="Users" asp-action="Register" method="post" name="register_form" onsubmit="return elegxos_null()">
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -116,13 +116,13 @@
 
 		for (var i = 0; i < fields.length; i++) {
 			var field = fields[i];
-			var value = document.forms["login_form"][field].value;
+			var value = document.forms["register_form"][field].value;
 			if (value == "") {
 				alert("Το πεδίο " + fieldNames[field] + " δεν μπορεί να είναι κενό.");
 				return false;
 			}
 		}
-		if (document.forms["login_form"]["password"].value != document.forms["login_form"]["password2"].value) {
+		if (document.forms["register_form"]["password"].value != document.forms["register_form"]["password2"].value) {
 			alert("Ο κωδικός και η επιβεβαίωση κωδικού δεν ταιριάζουν.");
 			return false;
 		}
