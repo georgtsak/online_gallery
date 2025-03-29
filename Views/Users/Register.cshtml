@@ -105,10 +105,9 @@
 	}
 
 	function elegxos_null() {
-		var fields = ["firstname", "lastname", "email", "password", "password2"];
+		var fields = ["fullname", "email", "password", "password2"];
 		var fieldNames = {
-			"firstname": "Όνομα",
-			"lastname": "Επώνυμο",
+			"fullname": "Ονοματεπώνυμο",
 			"email": "Email",
 			"password": "Κωδικός",
 			"password2": "Επιβεβαίωση Κωδικού"
@@ -122,6 +121,7 @@
 				return false;
 			}
 		}
+
 		if (document.forms["register_form"]["password"].value != document.forms["register_form"]["password2"].value) {
 			alert("Ο κωδικός και η επιβεβαίωση κωδικού δεν ταιριάζουν.");
 			return false;
