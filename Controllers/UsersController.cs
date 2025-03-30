@@ -164,5 +164,4 @@ public class UsersController : Controller
         HttpContext.Session.Clear(); // delete data
         return RedirectToAction("Index", "Home");
     }
-
 }
