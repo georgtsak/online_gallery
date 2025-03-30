@@ -90,6 +90,11 @@ public class UsersController : Controller
             _context.Add(user);
             await _context.SaveChangesAsync();
             Debug.WriteLine($"SAVED USER TO DB!!!!!");
+
+            HttpContext.Session.SetInt32("UserId", user.Id);
+            HttpContext.Session.SetString("UserRole", user.Role.ToString());
+            HttpContext.Session.SetString("UserFullName", user.FullName);
+
             return RedirectToAction("Index", "Home");
         }
         catch (Exception ex)
@@ -122,9 +127,10 @@ public class UsersController : Controller
 			return View();
 		}
 
-		/* session
-		HttpContext.Session.SetString("Id", user.Id.ToString());
-		HttpContext.Session.SetString("Role", user.Role.ToString());*/
+        // session
+		HttpContext.Session.SetInt32("UserId", user.Id);
+		HttpContext.Session.SetString("UserRole", user.Role.ToString());
+		HttpContext.Session.SetString("UserFullName", user.FullName);
 
 		Debug.WriteLine($"User {user.Email} logged in!");
 
