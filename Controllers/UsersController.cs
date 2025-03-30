@@ -157,4 +157,12 @@ public class UsersController : Controller
 			return Convert.ToBase64String(hashedBytes);
 		}
 	}
+
+    // ********************************************************* logout ******
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear(); // delete data
+        return RedirectToAction("Index", "Home");
+    }
+
 }
