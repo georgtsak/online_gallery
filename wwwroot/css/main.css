@@ -118,7 +118,8 @@ th {
     position: fixed;
     left: 0;
     width: 100%;
-    background: url(../img/bg2.jpg);
+    /*background: url(../img/bg2.jpg);*/
+    background: #0b0b0b;
 }
   
 /* ----------------- background ----------------- */
