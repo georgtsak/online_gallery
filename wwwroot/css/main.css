@@ -134,6 +134,7 @@ th {
 }
 
 .home-banner-right img {
-  margin-right: auto !important;
-  margin-left: auto !important;
-  display: block; }
+    margin-right: auto !important;
+    margin-left: auto !important;
+    display: block;
+}

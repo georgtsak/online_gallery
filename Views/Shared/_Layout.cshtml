@@ -15,28 +15,50 @@
 </head>
 
  <body style="background-color:#0d0d0d;">
-    <!-- ================ header ================= -->
+    <!-- ================ navbar ================= -->
     <header class="default-header sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
+            <div class="container d-flex align-items-center">
 
+                <div class="d-flex align-items-center">
                     <a class="text-secondary navbar-brand" asp-controller="Home" asp-action="Index">
                         <img src="~/img/logo.png" alt="Logo" />
                     </a>
                     <div class="ms-3">
-                        <a class="btn btn-info me-2" asp-area="" asp-controller="Home" asp-action="TestV">Profile</a>
+                        <a class="btn btn-dark me-2" asp-area="" asp-controller="Home" asp-action="TestV">Gallery</a>
                         <a class="btn btn-dark me-2" asp-area="" asp-controller="Home" asp-action="TestV">Credits</a>
-
-                        @if (Context.Session.GetInt32("UserId") != null)
-                        {
-                            <a class="btn btn-outline-light me-2" asp-controller="Users" asp-action="Logout">Logout</a>
-                        }
-                        else
-                        {
-                            <a class="btn btn-outline-light me-2" asp-controller="Users" asp-action="Login" role="button">Σύνδεση/Εγγραφή</a>
-                        }
+                        <a class="btn btn-dark me-2" asp-area="" asp-controller="Home" asp-action="TestV">Gallery</a>
                     </div>
+                </div>
+
+                <div class="ms-auto">
+                    @if (Context.Session.GetInt32("UserId") != null)
+                    {
+                        <a class="btn btn-outline-info me-2" asp-area="" asp-controller="Home" asp-action="TestV">Profile</a>
+                        <a class="btn btn-outline-light me-2" asp-controller="Users" asp-action="Logout">Logout</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-light me-2" asp-controller="Users" asp-action="Login" role="button">Σύνδεση/Εγγραφή</a>
+                    }
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+
+
+    <!-- ================================= -->
+
+    <section class="home-banner-area">
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <div class="col-md-4 d-flex align-items-center">
+                    <span class="badge badge-dark">© 2025 - GeorgeTsakiris - p20191 </span>
                 </div>
                 <div class="header_nav d-flex align-items-center">
                     <div class="main_nav">
@@ -54,24 +76,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-
-    
-
-    <!-- ================================= -->
-
-    <section class="home-banner-area">
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-                <div class="col-md-4 d-flex align-items-center">
-                    <span class="badge badge-dark">© 2025 - GeorgeTsakiris - p20191 </span>
-                </div>
-
                 <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
                     <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
                     <li class="ms-3"><a class="text-body-secondary" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
