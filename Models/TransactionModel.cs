@@ -6,7 +6,7 @@
         public int BuyerId { get; set; }
         public User Buyer { get; set; }
         public int ArtworkId { get; set; }
-        public ArtworkModel Artwork { get; set; }
+        public ArtworksModel Artwork { get; set; }
         public decimal Price { get; set; }
         public DateTime PurchasedAt { get; set; } = DateTime.UtcNow;
     }

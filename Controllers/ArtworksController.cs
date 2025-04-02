@@ -2,7 +2,7 @@
 
 namespace OnlineGallery.Controllers
 {
-    public class GalleryController : Controller
+    public class ArtworksController : Controller
     {
         public IActionResult Index()
         {

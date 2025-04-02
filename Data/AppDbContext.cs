@@ -11,7 +11,7 @@ namespace OnlineGallery.Data
 			: base(options) { }
 
 		public DbSet<User> Users { get; set; }
-		public DbSet<ArtworkModel> Artworks { get; set; }
+		public DbSet<ArtworksModel> Artworks { get; set; }
 		public DbSet<TransactionModel> Transactions { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

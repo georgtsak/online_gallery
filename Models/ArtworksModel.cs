@@ -1,6 +1,6 @@
 ﻿namespace OnlineGallery.Models
 {
-    public class ArtworkModel
+    public class ArtworksModel
     {
         public int Id { get; set; }
         public string Title { get; set; }

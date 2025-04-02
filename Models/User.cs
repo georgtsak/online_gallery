@@ -18,7 +18,7 @@ namespace OnlineGallery.Models
 
 		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-		public ICollection<ArtworkModel> Artworks { get; set; } = new List<ArtworkModel>(); // erga texnhs
+		public ICollection<ArtworksModel> Artworks { get; set; } = new List<ArtworksModel>(); // erga texnhs
 		public ICollection<TransactionModel> Transactions { get; set; } = new List<TransactionModel>(); // agores
 
 		public Role Role { get; set; } = Role.Visitor; // default
