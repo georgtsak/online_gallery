@@ -8,6 +8,7 @@ using OnlineGallery.Models;
 using OnlineGallery.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using OnlineGallery.Helper;
 
 public class UsersController : Controller
 {
@@ -67,7 +68,7 @@ public class UsersController : Controller
         user.Salt = salt;
         user.Password = HashPassword(user.Password, salt);
         user.Role = Role.Visitor;
-        user.CreatedAt = DateTime.UtcNow;
+        user.CreatedAt = TimeAthens.GetAthensTime();
 
         if (!ModelState.IsValid)
         {
