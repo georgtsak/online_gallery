@@ -10,7 +10,7 @@
         public int ArtistId { get; set; }
         public User Artist { get; set; }
         public string Status { get; set; } = "Available"; // default timh
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.Now; //UtcNow pagkosmia wra 
     }
 
 }
