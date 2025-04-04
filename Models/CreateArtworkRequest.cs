@@ -1,6 +1,6 @@
 ﻿namespace OnlineGallery.Models
 {
-    public class CreateImageRequest
+    public class CreateArtworkRequest
     {
         public IFormFile Image { get; set; }
         public string Title { get; set; }
