@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineGallery.Data;
 using OnlineGallery.Models;
 using Supabase;
@@ -57,6 +58,13 @@ namespace OnlineGallery.Controllers
         // **************************************************** return View ******
         public IActionResult Create()
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Users");
+                //return RedirectToAction("Login", "Users", new { returnUrl = "/Artworks/Create" });
+            }
             return View();
         }
     }
