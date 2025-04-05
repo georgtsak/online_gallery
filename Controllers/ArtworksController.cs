@@ -2,6 +2,7 @@
 using OnlineGallery.Data;
 using OnlineGallery.Models;
 using Supabase;
+using Supabase.Gotrue;
 
 namespace OnlineGallery.Controllers
 {
@@ -21,6 +22,8 @@ namespace OnlineGallery.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadArtwork([FromForm] CreateArtworkRequest request)
         {
+            var UserId = HttpContext.Session.GetInt32("UserId");
+            
             if (_supabaseClient == null)
             {
                 return StatusCode(500, "Supabase client not injected!");
@@ -42,7 +45,7 @@ namespace OnlineGallery.Controllers
                 Title = request.Title,
                 Description = request.Description,
                 Price = request.Price,
-                ArtistId = request.ArtistId,
+                ArtistId = UserId.Value,
                 ImageUrl = publicUrl
             };
 
@@ -51,5 +54,11 @@ namespace OnlineGallery.Controllers
 
             return Ok(new { Url = publicUrl, Message = "Artwork uploaded successfully!" });
         }
+        // **************************************************** return View ******
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
+   
