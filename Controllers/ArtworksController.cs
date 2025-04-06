@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using OnlineGallery.Data;
 using OnlineGallery.Models;
 using Supabase;
@@ -21,12 +21,11 @@ namespace OnlineGallery.Controllers
             _supabaseClient = supabaseClient;
         }
 
-        
-        [HttpPost("upload")]
+        [HttpPost]
         public async Task<IActionResult> UploadArtwork([FromForm] CreateArtworkRequest request)
         {
             var UserId = HttpContext.Session.GetInt32("UserId");
-            
+
             if (_supabaseClient == null)
             {
                 return StatusCode(500, "Supabase client not injected!");
@@ -57,8 +56,7 @@ namespace OnlineGallery.Controllers
 
             return Ok(new { Url = publicUrl, Message = "Artwork uploaded successfully!" });
         }
-        // **************************************************** ------ ---- ******
-        [HttpGet("create")]
+        // **************************************************** return View ******
         public IActionResult Create()
         {
             var userId = HttpContext.Session.GetInt32("UserId");
@@ -66,21 +64,9 @@ namespace OnlineGallery.Controllers
             if (userId == null)
             {
                 return RedirectToAction("Login", "Users");
+                //return RedirectToAction("Login", "Users", new { returnUrl = "/Artworks/Create" });
             }
-
             return View();
         }
-
-        [HttpGet("index")]
-        public async Task<IActionResult> Index()
-        {
-            var artworks = await _context.Artworks
-                .OrderByDescending(a => a.CreatedAt)
-                .ToListAsync();
-
-            return View(artworks);
-        }
-
     }
 }
-   
