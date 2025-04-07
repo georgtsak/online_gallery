@@ -5,11 +5,10 @@ using OnlineGallery.Data;
 using OnlineGallery.Models;
 using Supabase;
 using Supabase.Gotrue;
+using Microsoft.EntityFrameworkCore;
 
 namespace OnlineGallery.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class ArtworksController : Controller
     {
         private readonly AppDbContext _context;
@@ -22,16 +21,16 @@ namespace OnlineGallery.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadArtwork([FromForm] CreateArtworkRequest request)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateArtworkRequest request)
         {
             var UserId = HttpContext.Session.GetInt32("UserId");
+            if (UserId == null)
+                return RedirectToAction("Login", "Users");
 
-            if (_supabaseClient == null)
-            {
-                return StatusCode(500, "Supabase client not injected!");
-            }
+            if (!ModelState.IsValid)
+                return View(request);
 
-            Console.WriteLine("Uploading image...");
             using var memoryStream = new MemoryStream();
             await request.Image.CopyToAsync(memoryStream);
             var imageBytes = memoryStream.ToArray();
@@ -39,7 +38,6 @@ namespace OnlineGallery.Controllers
             var bucket = _supabaseClient.Storage.From("artworks");
             var fileName = $"{Guid.NewGuid()}_{request.Image.FileName}";
             await bucket.Upload(imageBytes, fileName);
-
             var publicUrl = bucket.GetPublicUrl(fileName);
 
             var artwork = new ArtworksModel
@@ -48,14 +46,15 @@ namespace OnlineGallery.Controllers
                 Description = request.Description,
                 Price = request.Price,
                 ArtistId = UserId.Value,
-                ImageUrl = publicUrl
+                ImageUrl = publicUrl,
             };
 
             _context.Artworks.Add(artwork);
             await _context.SaveChangesAsync();
 
-            return Ok(new { Url = publicUrl, Message = "Artwork uploaded successfully!" });
+            return RedirectToAction("Index");
         }
+
         // **************************************************** return View ******
         public IActionResult Create()
         {
@@ -67,6 +66,14 @@ namespace OnlineGallery.Controllers
                 //return RedirectToAction("Login", "Users", new { returnUrl = "/Artworks/Create" });
             }
             return View();
+        }
+        public async Task<IActionResult> Index()    
+        {
+            var artworks = await _context.Artworks
+                .OrderByDescending(a => a.CreatedAt)
+                .ToListAsync();
+
+            return View(artworks);
         }
     }
 }
