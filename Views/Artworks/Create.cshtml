@@ -8,7 +8,7 @@
 
 <h2>Upload Artwork</h2>
 
-<form asp-action="Create" asp-controller="Artworks" method="post" enctype="multipart/form-data" class="upload_form" novalidate style="color:white;">
+<form asp-action="Create" asp-controller="Artworks" method="post" enctype="multipart/form-data" class="upload_form" novalidate>
     <div class="mb-3">
         <label for="Title" class="form-label">Title</label>
         <input type="text" class="form-control" id="Title" name="Title" required>
@@ -29,7 +29,5 @@
         <input type="file" class="form-control" id="Image" name="Image" accept="image/*" required>
     </div>
 
-    
-    <button type="submit" class="btn btn-primary">Upload</button>
-
+    <button type="submit" class="btn btn-primary w-100">Upload</button>
 </form>
