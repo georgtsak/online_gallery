@@ -165,4 +165,22 @@ public class UsersController : Controller
         HttpContext.Session.Clear(); // delete data
         return RedirectToAction("Index", "Home");
     }
+
+    // ********************************************************* profile ******
+    public async Task<IActionResult> Profile()
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        if (userId == null)
+            return RedirectToAction("Login");
+
+        var user = await _context.Users.FindAsync(userId);
+        
+
+        var model = new ProfileModel
+        {
+            User = user!,
+        };
+
+        return View(model);
+    }
 }

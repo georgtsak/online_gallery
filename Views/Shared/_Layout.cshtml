@@ -33,7 +33,7 @@
                 <div class="ms-auto">
                     @if (Context.Session.GetInt32("UserId") != null)
                     {
-                        <a class="btn btn-outline-info me-2" asp-area="" asp-controller="Home" asp-action="TestV">Profile</a>
+                        <a class="btn btn-outline-info me-2" asp-area="" asp-controller="Users" asp-action="Profile">Profile</a>
                         <a class="btn btn-outline-light me-2" asp-controller="Users" asp-action="Logout">Logout</a>
                     }
                     else

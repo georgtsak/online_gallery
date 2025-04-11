@@ -1,0 +1,22 @@
+﻿@model ProfileModel
+
+<div class="text-center mb-4">
+    <button class="btn btn-secondary" onclick="showSection('profile')">MyProfile</button>
+</div>
+
+
+
+<div id="profileSection" style="display:none;">
+    <h3>My Profile Info</h3>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>Email:</strong> @Model.User.Email</li>
+        <li class="list-group-item"><strong>Full Name:</strong> @Model.User.FullName</li>
+        <li class="list-group-item"><strong>Role:</strong> @Model.User.Role</li>
+    </ul>
+</div>
+
+<script>
+    function showSection(section) {
+        document.getElementById('profileSection').style.display = section === 'profile' ? 'block' : 'none';
+    }
+</script>
