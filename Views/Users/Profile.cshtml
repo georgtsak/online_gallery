@@ -1,10 +1,35 @@
 ﻿@model ProfileModel
 
 <div class="text-center mb-4">
-    <button class="btn btn-secondary" onclick="showSection('profile')">MyProfile</button>
+    <button class="btn btn-primary me-2" onclick="showSection('artworks')">My Artworks</button>
+    <button class="btn btn-secondary" onclick="showSection('profile')">My Profile</button>
 </div>
 
-
+<div id="artworksSection">
+    <h3>My Artworks</h3>
+    @if (Model.Artworks.Any())
+    {
+        <div class="row">
+            @foreach (var artwork in Model.Artworks)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <img src="@artwork.ImageUrl" class="card-img-top" alt="@artwork.Title" />
+                        <div class="card-body">
+                            <h5 class="card-title">@artwork.Title</h5>
+                            <p class="card-text">@artwork.Description</p>
+                            <p class="text-muted">€@artwork.Price</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>You have not uploaded any artworks yet.</p>
+    }
+</div>
 
 <div id="profileSection" style="display:none;">
     <h3>My Profile Info</h3>
@@ -17,6 +42,7 @@
 
 <script>
     function showSection(section) {
+        document.getElementById('artworksSection').style.display = section === 'artworks' ? 'block' : 'none';
         document.getElementById('profileSection').style.display = section === 'profile' ? 'block' : 'none';
     }
 </script>

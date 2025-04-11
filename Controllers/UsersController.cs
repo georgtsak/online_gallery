@@ -174,11 +174,15 @@ public class UsersController : Controller
             return RedirectToAction("Login");
 
         var user = await _context.Users.FindAsync(userId);
-        
+        var artworks = await _context.Artworks
+            .Where(a => a.ArtistId == userId)
+            .OrderByDescending(a => a.CreatedAt)
+            .ToListAsync();
 
         var model = new ProfileModel
         {
             User = user!,
+            Artworks = artworks
         };
 
         return View(model);
