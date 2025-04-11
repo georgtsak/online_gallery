@@ -179,6 +179,15 @@ public class UsersController : Controller
             .OrderByDescending(a => a.CreatedAt)
             .ToListAsync();
 
+        foreach (var artwork in artworks)
+        {
+            if (artwork.Title.Length > 50)
+                artwork.Title = artwork.Title.Substring(0, 50) + "...";
+
+            if (artwork.Description.Length > 300)
+                artwork.Description = artwork.Description.Substring(0, 300) + "...";
+        }
+
         var model = new ProfileModel
         {
             User = user!,
@@ -187,4 +196,5 @@ public class UsersController : Controller
 
         return View(model);
     }
+
 }

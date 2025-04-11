@@ -13,8 +13,24 @@
     .card-body {
         padding-right: 20px;
         padding-left:20px;
-        padding-bottom:0px;
+        height: 150px;
+        overflow: hidden;
     }
+
+    .card-title, .card-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+    }
+
+    .card-text {
+        font-size: 1rem;
+    }
+
 
 </style>
 <div class="text-center mb-4">
@@ -47,6 +63,8 @@
         <p>You have not uploaded any artworks yet.</p>
     }
 </div>
+
+
 
 <div id="profileSection" style="display:none;">
     <h3>My Profile Info</h3>
