@@ -8,10 +8,13 @@
 </div>
 
 <div id="artworks_section">
-    <h3>My Artworks</h3>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h3>My Artworks</h3>
+        <button class="btn btn-outline-secondary" id="toggle_layout" onclick="toggleLayout()">Switch Layout</button>
+    </div>
     @if (Model.Artworks.Any())
     {
-        <div class="row">
+        <div id="artworks_container" class="row">
             @foreach (var artwork in Model.Artworks)
             {
                 <div class="col-md-4 mb-3">
@@ -32,6 +35,7 @@
         <p>You have not uploaded any artworks yet.</p>
     }
 </div>
+
 
 
 
@@ -60,6 +64,12 @@
             document.getElementById('profile_button').classList.add('active');
         }
     }
+
+    function toggleLayout() {
+        const container = document.getElementById('artworks_container');
+        container.classList.toggle('list-view');
+    }
+
 
     // energopoihsh artworks_section - arxikh fortwsh
     document.addEventListener('DOMContentLoaded', function () {
