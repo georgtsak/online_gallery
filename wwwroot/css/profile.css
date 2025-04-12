@@ -13,6 +13,10 @@
     padding-left: 20px;
     height: 150px;
     overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Αυτό διασφαλίζει ότι το περιεχόμενο της κάρτας είναι σωστά κατανεμημένο */
 }
 
 .card-title, .card-text {
@@ -69,5 +73,10 @@
     flex-direction: column;
     justify-content: center;
     flex-grow: 1;
+}
+
+/* ******* buttons ******* */
+
+.button-container {
 }
 
