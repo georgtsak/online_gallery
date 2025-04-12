@@ -48,6 +48,7 @@
     flex-direction: row;
     align-items: center;
     height: 130px;
+    width:1110px;
 
 }
 
@@ -69,6 +70,4 @@
     justify-content: center;
     flex-grow: 1;
 }
-
-
 

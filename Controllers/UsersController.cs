@@ -181,11 +181,11 @@ public class UsersController : Controller
 
         foreach (var artwork in artworks)
         {
-            if (artwork.Title.Length > 50)
-                artwork.Title = artwork.Title.Substring(0, 50) + "...";
+            if (artwork.Title.Length > 100)
+                artwork.Title = artwork.Title.Substring(0, 100) + "...";
 
-            if (artwork.Description.Length > 300)
-                artwork.Description = artwork.Description.Substring(0, 300) + "...";
+            if (artwork.Description.Length > 500)
+                artwork.Description = artwork.Description.Substring(0, 500) + "...";
         }
 
         var model = new ProfileModel
