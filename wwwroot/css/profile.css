@@ -13,10 +13,9 @@
     padding-left: 20px;
     height: 150px;
     overflow: hidden;
-
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Αυτό διασφαλίζει ότι το περιεχόμενο της κάρτας είναι σωστά κατανεμημένο */
+    justify-content: space-between;
 }
 
 .card-title, .card-text {
@@ -41,42 +40,40 @@
     gap: 0.5rem;
 }
 
-#artworks_container.list-view .col-md-2 {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
+    #artworks_container.list-view .col-md-2 {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
 
-#artworks_container.list-view .card {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 130px;
-    width:1110px;
+    #artworks_container.list-view .card {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 130px;
+        width: 1110px;
+    }
 
-}
+    #artworks_container.list-view .card-img-top {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 0.25rem;
+        padding-left: 3px;
+        flex-shrink: 0;
+    }
 
-#artworks_container.list-view .card-img-top {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 0.25rem;
-    padding-left: 3px;
-    flex-shrink: 0;
-}
-
-#artworks_container.list-view .card-body {
-    height: auto;
-    padding: 1rem 1.5rem;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex-grow: 1;
-}
+    #artworks_container.list-view .card-body {
+        height: auto;
+        padding: 1rem 1.5rem;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 1;
+    }
 
 /* ******* buttons ******* */
 
 .button-container {
 }
-
