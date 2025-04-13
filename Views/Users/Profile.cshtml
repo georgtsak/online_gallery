@@ -9,7 +9,7 @@
 
 <div id="artworks_section">
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <h3>My Artworks</h3>
+        <h3>@Model.User.FullName's Artworks</h3>
         <button class="btn btn-outline-secondary" id="toggle_layout" onclick="toggleLayout()">Switch Layout</button>
     </div>
     @if (Model.Artworks.Any())
@@ -52,9 +52,15 @@
     <h3>My Profile Info</h3>
     <ul class="list-group">
         <li class="list-group-item"><strong>Email:</strong> @Model.User.Email</li>
-        <li class="list-group-item"><strong>Full Name:</strong> @Model.User.FullName</li>
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span><strong>Full Name:</strong> @Model.User.FullName</span>
+            <button class="btn btn-secondary">Edit</button>
+        </li>
+
         <li class="list-group-item"><strong>Role:</strong> @Model.User.Role</li>
     </ul>
+
 </div>
 
 <script>
