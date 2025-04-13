@@ -48,3 +48,71 @@ h2 {
     margin-bottom: 30px;
     font-size: 2rem;
 }
+
+/* ******* gallery ******* */
+
+.gallery {
+    column-count: 5;
+    column-gap: 15px;
+    width: 100%;
+    margin: auto;
+}
+
+.gallery img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.gallery-item img {
+    width: 100%;
+    display: block;
+    transition: all 0.4s ease;
+}
+
+.gallery-item:hover img {
+    filter: blur(2px) brightness(0.6);
+    transform: scale(1.05);
+}
+
+.gallery-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    transition: opacity 0.4s ease;
+}
+
+.gallery-item:hover .gallery-info {
+    opacity: 1;
+}
+
+.gallery-info h5 {
+    margin-bottom: 10px;
+}
+
+.gallery-info p {
+    margin-bottom: 8px;
+}
+
+.gallery-info .btn {
+    margin: 5px;
+}

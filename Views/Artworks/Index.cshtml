@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<OnlineGallery.Models.ArtworksModel>
 
-
 @{
-    ViewData["Title"] = "Gallery - Index)";
+    ViewData["Title"] = "Gallery - Index";
 }
 
 <!DOCTYPE html>
@@ -12,40 +11,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewData["Title"]</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .gallery {
-            column-count: 5;
-            column-gap: 15px;
-            width: 100%;
-            margin: auto;
-        }
-
-        .gallery img {
-            width: 100%;
-            display: block;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="~/css/artworks.css" />
 </head>
 <body>
-
     <div class="container text-center mt-5">
         <div class="gallery">
             @foreach (var artwork in Model)
             {
                 <div class="gallery-item">
                     <img src="@artwork.ImageUrl" alt="@artwork.Title" class="img-fluid">
-                    @*<p>@artwork.Title</p>
-                    <p>@artwork.Description</p>
-                    <p>Price: @artwork.Price</p>*@
+                    <div class="gallery-info">
+                        <h5>@artwork.Title</h5>
+                        <p>@artwork.Price€</p>
+                        <a href="#" class="btn btn-primary">...</a>
+                        <a href="#" class="btn btn-success">Buy</a>
+                    </div>
                 </div>
             }
-
         </div>
-
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
