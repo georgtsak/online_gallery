@@ -58,12 +58,13 @@ h2 {
     margin: auto;
 }
 
-    .gallery img {
-        width: 100%;
-        display: block;
-        border-radius: 8px;
-        margin-bottom: 15px;
-    }
+.gallery img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    min-height: 130px;
+}
 
 /* ******** hover ******** */
 
