@@ -24,12 +24,12 @@
     padding: 10px;
 }
 
-.form-control:focus {
-    background-color: #2a2a2a;
-    color: white;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    border: 1px solid #007bff;
-}
+    .form-control:focus {
+        background-color: #2a2a2a;
+        color: white;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        border: 1px solid #007bff;
+    }
 
 .btn-primary {
     background-color: #007bff;
@@ -38,9 +38,9 @@
     border-radius: 10px;
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-}
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
 
 h2 {
     color: white;
@@ -58,30 +58,31 @@ h2 {
     margin: auto;
 }
 
-.gallery img {
-    width: 100%;
-    display: block;
-    border-radius: 8px;
-    margin-bottom: 15px;
-}
+    .gallery img {
+        width: 100%;
+        display: block;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+/* ******** hover ******** */
 
 .gallery-item {
     position: relative;
     overflow: hidden;
     border-radius: 8px;
-    margin-bottom: 15px;
 }
 
-.gallery-item img {
-    width: 100%;
-    display: block;
-    transition: all 0.4s ease;
-}
+    .gallery-item img {
+        width: 100%;
+        display: block;
+        transition: all 0.4s ease;
+    }
 
-.gallery-item:hover img {
-    filter: blur(2px) brightness(0.6);
-    transform: scale(1.05);
-}
+    .gallery-item:hover img {
+        filter: blur(2px) brightness(0.6);
+        transform: scale(1.05);
+    }
 
 .gallery-info {
     position: absolute;
