@@ -1,6 +1,7 @@
 ﻿@model ProfileModel
 
 <link rel="stylesheet" href="~/css/profile.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> <!-- icons -->
 
 <div class="text-center mb-4" style="padding-top:60px;">
     <button class="btn btn-dark me-2 active" id="artworks_button" onclick="showSection('artworks')">MyArtworks</button>
@@ -27,9 +28,9 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <p class="text-muted mb-0">€@artwork.Price</p>
                                 <div>
-                                    <button class="btn btn-sm btn-primary">View</button>
-                                    <button class="btn btn-sm btn-secondary">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                    <button class="btn btn-sm btn-info"><i class="bi bi-eye"></i></button>
+                                    <button class="btn btn-sm btn-secondary"><i class="bi bi-pencil-square"></i></button>
+                                    <button class="btn btn-sm btn-danger"><i class="bi bi-trash3"></i></button>
                                 </div>
                             </div>
 
@@ -56,7 +57,7 @@
 
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <span><strong>Full Name:</strong> @Model.User.FullName</span>
-            <button class="btn btn-secondary">Edit</button>
+            <button class="btn btn-secondary"><i class="bi bi-pencil-square"></i></button>
         </li>
 
         <li class="list-group-item"><strong>Role:</strong> @Model.User.Role</li>
