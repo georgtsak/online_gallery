@@ -47,13 +47,13 @@ h2 {
     margin: auto;
 }
 
-.gallery img {
-    width: 100%;
-    display: block;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    min-height: 130px;
-}
+    .gallery img {
+        width: 100%;
+        display: block;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        min-height: 130px;
+    }
 
 /* ******** hover ******** */
 
@@ -74,6 +74,10 @@ h2 {
         transform: scale(1.05);
     }
 
+    .gallery-item:hover .gallery-info {
+        opacity: 1;
+    }
+
 .gallery-info {
     position: absolute;
     top: 0;
@@ -92,23 +96,22 @@ h2 {
     transition: opacity 0.4s ease;
 }
 
-.gallery-item:hover .gallery-info {
-    opacity: 1;
-}
+    .gallery-info h5 {
+        margin-bottom: 10px;
 
-.gallery-info h5 {
-    margin-bottom: 10px;
-}
+      
+    }
 
-.gallery-info p {
-    margin-bottom: 8px;
-}
+    .gallery-info p {
+        margin-bottom: 8px;
+    }
 
-.gallery-info .btn {
-    margin: 5px;
-}
+    .gallery-info .btn {
+        margin: 5px;
+    }
 
-/* buttons */
+
+/* ******* buttons ******* */
 
 .btn{
     color:white;
