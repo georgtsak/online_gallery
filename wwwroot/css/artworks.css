@@ -26,13 +26,11 @@
 
     .form-control:focus {
         background-color: #2a2a2a;
-        color: white;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         border: 1px solid #007bff;
     }
 
 h2 {
-    color: white;
     text-align: center;
     margin-bottom: 30px;
     font-size: 2rem;
@@ -84,7 +82,6 @@ h2 {
     left: 0;
     right: 0;
     bottom: 0;
-    color: white;
     background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
     display: flex;
@@ -94,6 +91,7 @@ h2 {
     text-align: center;
     padding: 10px;
     transition: opacity 0.4s ease;
+    color:white;
 }
 
     .gallery-info h5 {
@@ -111,6 +109,3 @@ h2 {
 
 /* ******* buttons ******* */
 
-.btn{
-    color:white;
-}
