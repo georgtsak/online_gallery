@@ -12,17 +12,17 @@ namespace OnlineGallery.Data
 
 		public DbSet<User> Users { get; set; }
 		public DbSet<ArtworksModel> Artworks { get; set; }
-		public DbSet<TransactionModel> Transactions { get; set; }
+		public DbSet<TransactionsModel> Transactions { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<TransactionModel>()
+			modelBuilder.Entity<TransactionsModel>()
 				.HasOne(t => t.Artwork)
 				.WithMany()
 				.HasForeignKey(t => t.ArtworkId)
 				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<TransactionModel>()
+			modelBuilder.Entity<TransactionsModel>()
 				.HasOne(t => t.Buyer)
 				.WithMany()
 				.HasForeignKey(t => t.BuyerId)

@@ -21,7 +21,7 @@ namespace OnlineGallery.Models
         public DateTime CreatedAt { get; set; } = TimeAthens.GetAthensTime();
 
         public ICollection<ArtworksModel> Artworks { get; set; } = new List<ArtworksModel>(); // erga texnhs
-		public ICollection<TransactionModel> Transactions { get; set; } = new List<TransactionModel>(); // agores
+		public ICollection<TransactionsModel> Transactions { get; set; } = new List<TransactionsModel>(); // agores
 
 		public Role Role { get; set; } = Role.Visitor; // default
 	}
