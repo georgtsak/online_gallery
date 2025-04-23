@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineGallery.Data;
 using OnlineGallery.Helper;
 using OnlineGallery.Models;
-using System.Security.Claims;
-
 namespace OnlineGallery.Controllers
 {
     public class TransactionController : Controller
