@@ -1,4 +1,5 @@
 ﻿using OnlineGallery.Helper;
+using Supabase.Gotrue;
 
 namespace OnlineGallery.Models
 {
@@ -11,8 +12,13 @@ namespace OnlineGallery.Models
         public string ImageUrl { get; set; }
         public int ArtistId { get; set; }
         public User Artist { get; set; }
-        public string Status { get; set; } = "Available"; // default timh
+        public ArtworkStatus Status { get; set; } = ArtworkStatus.Available;
         public DateTime CreatedAt { get; set; } = TimeAthens.GetAthensTime();
+    }
+    public enum ArtworkStatus
+    {
+        Available = 1,
+        Sold = 0       
     }
 
 

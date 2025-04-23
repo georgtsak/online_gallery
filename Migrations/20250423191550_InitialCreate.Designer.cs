@@ -12,7 +12,7 @@ using OnlineGallery.Data;
 namespace OnlineGallery.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250327115403_InitialCreate")]
+    [Migration("20250423191550_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace OnlineGallery.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("OnlineGallery.Models.ArtworkModel", b =>
+            modelBuilder.Entity("OnlineGallery.Models.ArtworksModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,9 +50,8 @@ namespace OnlineGallery.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -65,7 +64,7 @@ namespace OnlineGallery.Migrations
                     b.ToTable("Artworks");
                 });
 
-            modelBuilder.Entity("OnlineGallery.Models.TransactionModel", b =>
+            modelBuilder.Entity("OnlineGallery.Models.TransactionsModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,7 +84,10 @@ namespace OnlineGallery.Migrations
                     b.Property<DateTime>("PurchasedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserModelId")
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -94,12 +96,12 @@ namespace OnlineGallery.Migrations
 
                     b.HasIndex("BuyerId");
 
-                    b.HasIndex("UserModelId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("OnlineGallery.Models.UserModel", b =>
+            modelBuilder.Entity("OnlineGallery.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -122,9 +124,8 @@ namespace OnlineGallery.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<string>("Salt")
                         .IsRequired()
@@ -135,9 +136,9 @@ namespace OnlineGallery.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("OnlineGallery.Models.ArtworkModel", b =>
+            modelBuilder.Entity("OnlineGallery.Models.ArtworksModel", b =>
                 {
-                    b.HasOne("OnlineGallery.Models.UserModel", "Artist")
+                    b.HasOne("OnlineGallery.Models.User", "Artist")
                         .WithMany("Artworks")
                         .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -146,30 +147,30 @@ namespace OnlineGallery.Migrations
                     b.Navigation("Artist");
                 });
 
-            modelBuilder.Entity("OnlineGallery.Models.TransactionModel", b =>
+            modelBuilder.Entity("OnlineGallery.Models.TransactionsModel", b =>
                 {
-                    b.HasOne("OnlineGallery.Models.ArtworkModel", "Artwork")
+                    b.HasOne("OnlineGallery.Models.ArtworksModel", "Artwork")
                         .WithMany()
                         .HasForeignKey("ArtworkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineGallery.Models.UserModel", "Buyer")
+                    b.HasOne("OnlineGallery.Models.User", "Buyer")
                         .WithMany()
                         .HasForeignKey("BuyerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("OnlineGallery.Models.UserModel", null)
+                    b.HasOne("OnlineGallery.Models.User", null)
                         .WithMany("Transactions")
-                        .HasForeignKey("UserModelId");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Artwork");
 
                     b.Navigation("Buyer");
                 });
 
-            modelBuilder.Entity("OnlineGallery.Models.UserModel", b =>
+            modelBuilder.Entity("OnlineGallery.Models.User", b =>
                 {
                     b.Navigation("Artworks");
 

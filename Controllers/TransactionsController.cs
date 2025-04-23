@@ -15,6 +15,7 @@ namespace OnlineGallery.Controllers
         }
 
         [HttpPost]
+        [HttpPost]
         public IActionResult Buy(int id)
         {
             var buyerId = HttpContext.Session.GetInt32("UserId");
@@ -43,5 +44,6 @@ namespace OnlineGallery.Controllers
             TempData["SuccessMessage"] = "Transaction completed successfully!";
             return RedirectToAction("Index", "Artworks");
         }
+
     }
 }
