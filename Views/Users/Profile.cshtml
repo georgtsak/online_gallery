@@ -4,9 +4,10 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> <!-- icons -->
 
 <div class="text-center mb-4" style="padding-top:60px;">
-    <button class="btn btn-dark me-2 active" id="artworks_button" onclick="showSection('artworks')">MyArtworks</button>
-    <button class="btn btn-dark">MyPurchases</button>
-    <button class="btn btn-dark" id="profile_button" onclick="showSection('profile')">MyProfile</button>
+    <button class="btn btn-dark me-2 active" id="artworks_button" onclick="showSection('artworks')">Artworks</button>
+    <button class="btn btn-dark me-2" id="purchases_button" onclick="showSection('purchases')">Purchases</button>
+    <button class="btn btn-dark me-2" id="sales_button" onclick="showSection('sales')">Sales</button>
+    <button class="btn btn-dark" id="account_button" onclick="showSection('account')">Account</button>
 </div>
 
 <div id="artworks_section">
@@ -47,11 +48,68 @@
         <p>You have not uploaded any artworks yet.</p>
     }
 </div>
+<!-- ******************************************** purchases section ****** -->
 
-<!-- ********************************************** profile section ****** -->
+<div id="purchases_section" style="display:none;">
+    <h3>My Purchases</h3>
+    @if (Model.Purchases.Any())
+    {
+        <div class="row">
+            @foreach (var p in Model.Purchases)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <img src="@p.Artwork.ImageUrl" class="card-img-top" alt="@p.Artwork.Title" />
+                        <div class="card-body">
+                            <h5 class="card-title">@p.Artwork.Title</h5>
+                            <p class="card-text">
+                                €@p.Price
+                                <small class="text-muted">on @p.PurchasedAt.ToString("dd/MM/yyyy")</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>You have not made any purchases yet.</p>
+    }
+</div>
+<!-- ************************************************ sales section ****** -->
 
-<div id="profile_section" style="display:none;">
-    <h3>My Profile Info</h3>
+<div id="sales_section" style="display:none;">
+    <h3>My Sales</h3>
+    @if (Model.Sales.Any())
+    {
+        <div class="row">
+            @foreach (var s in Model.Sales)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <img src="@s.Artwork.ImageUrl" class="card-img-top" alt="@s.Artwork.Title" />
+                        <div class="card-body">
+                            <h5 class="card-title">@s.Artwork.Title</h5>
+                            <p class="card-text">
+                                €@s.Price
+                                <small class="text-muted">on @s.PurchasedAt.ToString("dd/MM/yyyy")</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>You have not sold any artworks yet.</p>
+    }
+</div>
+<!-- ********************************************** account section ****** -->
+
+<div id="account_section" style="display:none;">
+    <h3>My Account Info</h3>
     <ul class="list-group">
         <li class="list-group-item"><strong>Email:</strong> @Model.User.Email</li>
 
@@ -67,20 +125,14 @@
 
 <script>
     function showSection(section) {
-        document.getElementById('artworks_section').style.display = 'none';
-        document.getElementById('profile_section').style.display = 'none';
-
-        document.getElementById('artworks_button').classList.remove('active');
-        document.getElementById('profile_button').classList.remove('active');
-
-        if (section === 'artworks') {
-            document.getElementById('artworks_section').style.display = 'block';
-            document.getElementById('artworks_button').classList.add('active');
-        } else if (section === 'profile') {
-            document.getElementById('profile_section').style.display = 'block';
-            document.getElementById('profile_button').classList.add('active');
-        }
+        ['artworks', 'purchases', 'sales', 'account'].forEach(sec => {
+            document.getElementById(sec + '_section').style.display = 'none';
+            document.getElementById(sec + '_button').classList.remove('active');
+        });
+        document.getElementById(section + '_section').style.display = 'block';
+        document.getElementById(section + '_button').classList.add('active');
     }
+
 
     function toggleLayout() {
         const container = document.getElementById('artworks_container');

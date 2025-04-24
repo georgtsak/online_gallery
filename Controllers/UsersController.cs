@@ -174,27 +174,44 @@ public class UsersController : Controller
             return RedirectToAction("Login");
 
         var user = await _context.Users.FindAsync(userId);
+        if (user == null)
+            return RedirectToAction("Login");
+
         var artworks = await _context.Artworks
             .Where(a => a.ArtistId == userId)
             .OrderByDescending(a => a.CreatedAt)
             .ToListAsync();
 
-        foreach (var artwork in artworks)
+        foreach (var a in artworks)
         {
-            if (artwork.Title.Length > 100)
-                artwork.Title = artwork.Title.Substring(0, 100) + "...";
-
-            if (artwork.Description.Length > 500)
-                artwork.Description = artwork.Description.Substring(0, 500) + "...";
+            if (a.Title.Length > 100)
+                a.Title = a.Title[..100] + "...";
+            if (a.Description.Length > 500)
+                a.Description = a.Description[..500] + "...";
         }
+
+        var purchases = await _context.Transactions
+            .Include(t => t.Artwork)
+            .Where(t => t.BuyerId == userId && t.Status == TransactionStatus.Completed)
+            .OrderByDescending(t => t.PurchasedAt)
+            .ToListAsync();
+
+        var sales = await _context.Transactions
+            .Include(t => t.Artwork)
+            .Where(t => t.Artwork.ArtistId == userId && t.Status == TransactionStatus.Completed)
+            .OrderByDescending(t => t.PurchasedAt)
+            .ToListAsync();
 
         var model = new ProfileModel
         {
-            User = user!,
-            Artworks = artworks
+            User = user,
+            Artworks = artworks,
+            Purchases = purchases,
+            Sales = sales
         };
 
         return View(model);
     }
+
 
 }
