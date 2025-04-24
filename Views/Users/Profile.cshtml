@@ -58,28 +58,18 @@
         <ul class="list-group">
             @foreach (var t in Model.Purchases)
             {
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <li class="list-group-item d-flex align-items-center">
                     <div>
-                        <h5>@t.Artwork.Title</h5>
-                        <p>
-                            €@t.Price
-                            <small class="text-muted">on @t.PurchasedAt</small>
-                        </p>
+                        <h5 class="mb-1">@t.Artwork.Title</h5>
+                        <small class="text-muted">
+                            €@t.Price on @t.PurchasedAt
+                        </small>
                     </div>
 
-                    <div>
+                    <div class="flex-grow-1 text-center">
                         @if (t.Status == TransactionStatus.Pending)
                         {
-                            <form asp-controller="Transaction" asp-action="Pay" method="post" class="mt-2 d-inline">
-                                <input type="hidden" name="transactionId" value="@t.Id" />
-                                <button type="submit" class="btn btn-primary btn-sm">Pay Now</button>
-                            </form>
-
-                            <form asp-controller="Transaction" asp-action="Cancel" method="post" class="mt-2 d-inline">
-                                <input type="hidden" name="transactionId" value="@t.Id" />
-                                <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
-                            </form>
-                            <span class="badge bg-warning text-dark">Pending</span>  
+                            <span class="badge bg-warning text-dark">Pending</span>
                         }
                         else if (t.Status == TransactionStatus.Completed)
                         {
@@ -90,6 +80,24 @@
                             <span class="badge bg-danger">Cancelled</span>
                         }
                     </div>
+
+                    @if (t.Status == TransactionStatus.Pending)
+                    {
+                        <div class="d-inline-flex gap-2">
+                            <form asp-controller="Transaction" asp-action="Pay" method="post">
+                                <input type="hidden" name="transactionId" value="@t.Id" />
+                                <button type="submit" class="btn btn-outline-primary btn-sm">Pay Now <i class="bi bi-credit-card-2-back"></i></button>
+                            </form>
+                            <form asp-controller="Transaction" asp-action="Cancel" method="post">
+                                <input type="hidden" name="transactionId" value="@t.Id" />
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Cancel <i class="bi bi-x-lg"></i></button>
+                            </form>
+                        </div>
+                    }
+                    else if (t.Status == TransactionStatus.Completed)
+                    {
+                        <button type="submit" class="btn btn-outline-info btn-sm">Download <i class="bi bi-download"></i></button>
+                    }
                 </li>
             }
         </ul>
