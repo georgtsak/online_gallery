@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineGallery.Data;
 using OnlineGallery.Helper;
 using OnlineGallery.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace OnlineGallery.Controllers
 {
     public class TransactionController : Controller
@@ -21,28 +23,61 @@ namespace OnlineGallery.Controllers
             if (buyerId == null)
                 return RedirectToAction("Login", "Users");
 
-            var artwork = _context.Artworks.FirstOrDefault(a => a.Id == id);
+            var artwork = _context.Artworks.Find(id);
             if (artwork == null)
-                return NotFound("Artwork not found.");
+                return NotFound();
 
             if (artwork.ArtistId == buyerId)
-                return BadRequest("You cannot purchase your own artwork.");
+                return BadRequest("Cannot buy your own artwork.");
 
-            var transaction = new TransactionsModel
+            // Create pending transaction
+            var tx = new TransactionsModel
             {
                 ArtworkId = id,
                 BuyerId = buyerId.Value,
                 Price = artwork.Price,
                 PurchasedAt = TimeAthens.GetAthensTime(),
-                Status = (int)TransactionStatus.Pending
+                Status = TransactionStatus.Pending
             };
-
-            _context.Transactions.Add(transaction);
+            _context.Transactions.Add(tx);
             _context.SaveChanges();
 
-            TempData["SuccessMessage"] = "Transaction completed successfully!";
-            return RedirectToAction("Index", "Artworks");
+            // Set the session flag to redirect to purchases section after the buy
+            HttpContext.Session.SetBool("RedirectToPurchases", true);
+
+            // Redirect to the profile
+            return RedirectToAction("Profile", "Users");
+        }
+
+
+
+        // 2) pending --> pay --> completed
+        [HttpPost]
+        public IActionResult Pay(int transactionId)
+        {
+            var buyerId = HttpContext.Session.GetInt32("UserId");
+            if (buyerId == null)
+                return RedirectToAction("Login", "Users");
+
+            var tx = _context.Transactions
+                .Include(t => t.Artwork)
+                .FirstOrDefault(t => t.Id == transactionId && t.BuyerId == buyerId.Value);
+
+            if (tx == null)
+                return NotFound();
+
+            if (tx.Status != TransactionStatus.Pending)
+                return BadRequest("Transaction is not pending.");
+
+            tx.Status = TransactionStatus.Completed;
+            tx.Artwork.Status = ArtworkStatus.Sold;
+
+            _context.SaveChanges();
+
+            // redirect to profile, set active section to 'purchases'
+            return RedirectToAction("Profile", "Users", new { section = "purchases" });
         }
 
     }
+
 }

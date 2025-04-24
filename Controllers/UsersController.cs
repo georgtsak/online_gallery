@@ -9,6 +9,7 @@ using OnlineGallery.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using OnlineGallery.Helper;
+using static System.Collections.Specialized.BitVector32;
 
 public class UsersController : Controller
 {
@@ -166,8 +167,8 @@ public class UsersController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    // ********************************************************* profile ******
-    public async Task<IActionResult> Profile()
+    // ******************************************************** profile ******
+    public async Task<IActionResult> Profile(string section = "artworks")
     {
         var userId = HttpContext.Session.GetInt32("UserId");
         if (userId == null)
@@ -192,9 +193,11 @@ public class UsersController : Controller
 
         var purchases = await _context.Transactions
             .Include(t => t.Artwork)
-            .Where(t => t.BuyerId == userId && t.Status == TransactionStatus.Completed)
+            .Where(t => t.BuyerId == userId &&
+                       (t.Status == TransactionStatus.Completed || t.Status == TransactionStatus.Pending))
             .OrderByDescending(t => t.PurchasedAt)
             .ToListAsync();
+
 
         var sales = await _context.Transactions
             .Include(t => t.Artwork)
@@ -210,8 +213,22 @@ public class UsersController : Controller
             Sales = sales
         };
 
+        // Check the session flag for redirection to purchases section
+        var redirectToPurchases = HttpContext.Session.GetBool("RedirectToPurchases") ?? false;
+
+        if (redirectToPurchases)
+        {
+            // Set the section to purchases if the flag is true
+            ViewData["ActiveSection"] = "purchases";
+            HttpContext.Session.SetBool("RedirectToPurchases", false); // Reset the flag
+        }
+        else
+        {
+            // Default to artworks section
+            ViewData["ActiveSection"] = section;
+        }
+
         return View(model);
     }
-
 
 }
