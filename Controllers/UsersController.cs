@@ -193,8 +193,8 @@ public class UsersController : Controller
 
         var purchases = await _context.Transactions
             .Include(t => t.Artwork)
-            .Where(t => t.BuyerId == userId &&
-                       (t.Status == TransactionStatus.Completed || t.Status == TransactionStatus.Pending))
+            .Where(t => t.BuyerId == userId)
+                       //(t.Status == TransactionStatus.Completed || t.Status == TransactionStatus.Pending))
             .OrderByDescending(t => t.PurchasedAt)
             .ToListAsync();
 
@@ -213,18 +213,14 @@ public class UsersController : Controller
             Sales = sales
         };
 
-        // Check the session flag for redirection to purchases section
         var redirectToPurchases = HttpContext.Session.GetBool("RedirectToPurchases") ?? false;
-
         if (redirectToPurchases)
         {
-            // Set the section to purchases if the flag is true
             ViewData["ActiveSection"] = "purchases";
-            HttpContext.Session.SetBool("RedirectToPurchases", false); // Reset the flag
+            HttpContext.Session.SetBool("RedirectToPurchases", false);
         }
         else
         {
-            // Default to artworks section
             ViewData["ActiveSection"] = section;
         }
 

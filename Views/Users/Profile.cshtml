@@ -48,6 +48,7 @@
         <p>You have not uploaded any artworks yet.</p>
     }
 </div>
+
 <!-- ******************************************** purchases section ****** -->
 
 <div id="purchases_section" style="display:none;">
@@ -55,31 +56,38 @@
     @if (Model.Purchases.Any())
     {
         <ul class="list-group">
-            @foreach (var p in Model.Purchases)
+            @foreach (var t in Model.Purchases)
             {
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
-                        <h5>@p.Artwork.Title</h5>
+                        <h5>@t.Artwork.Title</h5>
                         <p>
-                            €@p.Price
-                            <small class="text-muted">on @p.PurchasedAt</small>
+                            €@t.Price
+                            <small class="text-muted">on @t.PurchasedAt</small>
                         </p>
                     </div>
 
                     <div>
-                        @if (p.Status == (int)TransactionStatus.Pending)
+                        @if (t.Status == TransactionStatus.Pending)
                         {
-                            <span class="badge bg-warning text-dark">Pending...</span>
-
-                            <form asp-controller="Transaction" asp-action="Pay" method="post" class="mt-2">
-                                <input type="hidden" name="transactionId" value="@p.Id" />
+                            <form asp-controller="Transaction" asp-action="Pay" method="post" class="mt-2 d-inline">
+                                <input type="hidden" name="transactionId" value="@t.Id" />
                                 <button type="submit" class="btn btn-primary btn-sm">Pay Now</button>
                             </form>
+
+                            <form asp-controller="Transaction" asp-action="Cancel" method="post" class="mt-2 d-inline">
+                                <input type="hidden" name="transactionId" value="@t.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+                            </form>
+                            <span class="badge bg-warning text-dark">Pending</span>  
                         }
-                        else
+                        else if (t.Status == TransactionStatus.Completed)
                         {
-                            <!-- Completed status -->
                             <span class="badge bg-success">Completed</span>
+                        }
+                        else if (t.Status == TransactionStatus.Cancelled)
+                        {
+                            <span class="badge bg-danger">Cancelled</span>
                         }
                     </div>
                 </li>
@@ -91,7 +99,6 @@
         <p>You have not made any purchases yet.</p>
     }
 </div>
-
 
 
 <!-- ************************************************ sales section ****** -->

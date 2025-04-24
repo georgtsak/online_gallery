@@ -30,7 +30,7 @@ namespace OnlineGallery.Controllers
             if (artwork.ArtistId == buyerId)
                 return BadRequest("Cannot buy your own artwork.");
 
-            // Create pending transaction
+            // create pending transaction
             var tx = new TransactionsModel
             {
                 ArtworkId = id,
@@ -42,10 +42,8 @@ namespace OnlineGallery.Controllers
             _context.Transactions.Add(tx);
             _context.SaveChanges();
 
-            // Set the session flag to redirect to purchases section after the buy
             HttpContext.Session.SetBool("RedirectToPurchases", true);
 
-            // Redirect to the profile
             return RedirectToAction("Profile", "Users");
         }
 
@@ -74,9 +72,32 @@ namespace OnlineGallery.Controllers
 
             _context.SaveChanges();
 
-            // redirect to profile, set active section to 'purchases'
             return RedirectToAction("Profile", "Users", new { section = "purchases" });
         }
+
+        [HttpPost]
+        public IActionResult Cancel(int transactionId)
+        {
+            var buyerId = HttpContext.Session.GetInt32("UserId");
+            if (buyerId == null)
+                return RedirectToAction("Login", "Users");
+
+            var tx = _context.Transactions
+                .Include(t => t.Artwork)
+                .FirstOrDefault(t => t.Id == transactionId && t.BuyerId == buyerId.Value);
+
+            if (tx == null || tx.Status != (int)TransactionStatus.Pending)
+                return NotFound();
+
+            tx.Status = TransactionStatus.Cancelled;
+
+            tx.Artwork.Status = ArtworkStatus.Available;
+
+            _context.SaveChanges();
+            return RedirectToAction("Profile", "Users", new { section = "purchases" });
+        }
+
+
 
     }
 
