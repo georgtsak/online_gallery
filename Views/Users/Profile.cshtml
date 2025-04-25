@@ -71,7 +71,7 @@
             @foreach (var t in Model.Purchases)
             {
                 <li class="list-group-item d-flex align-items-center justify-content-between"
-                    style="padding:10px;;margin-bottom:10px; border: 1px solid rgba(52, 58, 64,0.8);">
+                    style="padding:10px;margin-bottom:10px; border: 1px solid rgba(52, 58, 64,0.8);">
 
                     <div>
                         <h5 class="mb-1">@t.Artwork.Title</h5>
@@ -159,7 +159,7 @@
 
 <div id="account_section" style="display:none;">
     <h3>My Account Info</h3>
-    <ul class="list-group">
+    <ul class="list-group" style="border: 2px solid rgba(52, 58, 64,0.8);">
         <li class="list-group-item"><strong>Email:</strong> @Model.User.Email</li>
 
         <li class="list-group-item d-flex justify-content-between align-items-center">
