@@ -164,10 +164,23 @@
 
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <span><strong>Full Name:</strong> @Model.User.FullName</span>
-            <button class="btn btn-secondary"><i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-pencil-square"></i></button>
         </li>
 
         <li class="list-group-item"><strong>Role:</strong> @Model.User.Role</li>
+        <li class="list-group-item d-flex justify-content-end align-items-center">
+            <form asp-controller="" asp-action="" method="post" style="padding-right: 5px;">
+                <button type="submit" class="btn btn-outline-primary btn-sm">Change Password</button>
+            </form>
+            <form asp-controller="" asp-action="" method="post">
+                <button type="submit" class="btn btn-outline-danger btn-sm">Delete Account</button>
+            </form>
+        </li>
+        <li class="list-group-item d-flex justify-content-end align-items-center">
+            <input type="text" class="form-control form-control-sm"
+                   style="max-width: 192px; margin-right:5px; border:1px solid #17a2b8" id="nameInput" placeholder="------- initially hidden -------"/>
+            <button class="btn btn-info btn-sm" style="" id="saveButton">Save</button>
+        </li>
     </ul>
 
 </div>
