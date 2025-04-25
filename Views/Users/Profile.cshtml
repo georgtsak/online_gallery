@@ -2,6 +2,7 @@
 
 <link rel="stylesheet" href="~/css/profile.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> <!-- icons -->
+
 <style>
     .fixed-badge {
         min-width: 75px;
@@ -9,12 +10,17 @@
         display: inline-block;
     }
 </style>
+
+<!-- ****************************************************** buttons ****** -->
+
 <div class="text-center mb-4" style="padding-top:60px;">
     <button class="btn btn-dark me-2 active" id="artworks_button" onclick="showSection('artworks')">Artworks</button>
     <button class="btn btn-dark me-2" id="purchases_button" onclick="showSection('purchases')">Purchases</button>
     <button class="btn btn-dark me-2" id="sales_button" onclick="showSection('sales')">Sales</button>
     <button class="btn btn-dark" id="account_button" onclick="showSection('account')">Account</button>
 </div>
+
+<!-- ********************************************* artworks section ****** -->
 
 <div id="artworks_section">
     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -64,7 +70,9 @@
         <ul class="list-group">
             @foreach (var t in Model.Purchases)
             {
-                <li class="list-group-item d-flex align-items-center justify-content-between">
+                <li class="list-group-item d-flex align-items-center justify-content-between"
+                    style="padding:10px;;margin-bottom:10px; border: 1px solid rgba(52, 58, 64,0.8);">
+
                     <div>
                         <h5 class="mb-1">@t.Artwork.Title</h5>
                         <small class="text-muted">€@t.Price on @t.PurchasedAt</small>
@@ -73,7 +81,7 @@
                     <div class="d-flex justify-content-center flex-grow-1">
                         @if (t.Status == TransactionStatus.Pending)
                         {
-                            <form asp-controller="Transaction" asp-action="Pay" method="post">
+                            <form asp-controller="Transaction" asp-action="Pay" method="post" style="padding-right:5px;">
                                 <input type="hidden" name="transactionId" value="@t.Id" />
                                 <button type="submit" class="btn btn-outline-primary btn-sm">
                                     Pay Now <i class="bi bi-credit-card-2-back"></i>
@@ -163,6 +171,8 @@
     </ul>
 
 </div>
+
+<!-- *********************************************************** js ****** -->
 
 <script>
 
