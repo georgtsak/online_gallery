@@ -9,6 +9,10 @@
         text-align: center;
         display: inline-block;
     }
+    .card1{
+        border: 2px solid rgba(52, 58, 64,0.8);
+        padding-bottom:30px;
+    }
 </style>
 
 <!-- ****************************************************** buttons ****** -->
@@ -160,31 +164,43 @@
 
 <div id="account_section" style="display:none;">
     <h3>My Account Info</h3>
-    <ul class="list-group" style="border: 2px solid rgba(52, 58, 64,0.8);">
-        <li class="list-group-item"><strong>Email:</strong> @Model.User.Email</li>
+    <div class="row">
+        <div class="col-md-8"> 
+            <div class="card card1">
+                <div class="card-header">User Info</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Email:</strong> @Model.User.Email</li>
 
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span><strong>Full Name:</strong> @Model.User.FullName</span>
-            <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-pencil-square"></i></button>
-        </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><strong>Full Name:</strong> @Model.User.FullName</span>
+                        <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-pencil-square"></i></button>
+                    </li>
 
-        <li class="list-group-item"><strong>Role:</strong> @Model.User.Role</li>
-        <li class="list-group-item d-flex justify-content-end align-items-center">
-            <form asp-controller="" asp-action="" method="post" style="padding-right: 5px;">
-                <button type="submit" class="btn btn-outline-primary btn-sm">Change Password</button>
-            </form>
-            <form asp-controller="" asp-action="" method="post">
-                <button type="submit" class="btn btn-outline-danger btn-sm">Delete Account</button>
-            </form>
-        </li>
-        <li class="list-group-item d-flex justify-content-end align-items-center">
-            <input type="text" class="form-control form-control-sm"
-                   style="max-width: 192px; margin-right:5px; border:1px solid #17a2b8" id="nameInput" placeholder="------- initially hidden -------"/>
-            <button class="btn btn-info btn-sm" style="" id="saveButton">Save</button>
-        </li>
-    </ul>
+                    <li class="list-group-item"><strong>Role:</strong> @Model.User.Role</li> 
+                </ul>
+            </div>
+        </div>
 
+        <div class="col-md-4">
+            <div class="card card1">
+                <div class="card-header">Actions</div>
+                <div class="card-body">
+                    <form asp-controller="" asp-action="" method="post" class="mb-2">
+                        <button type="submit" class="btn btn-outline-primary btn-sm w-100">Change Password</button>
+                        <li class="list-group-item d-flex justify-content-end align-items-center">
+                            <input type="text" class="form-control form-control-sm w-100" style="margin-right:5px; border:1px solid #17a2b8" id="nameInput" placeholder="------- initially hidden -------" ; />
+                            <button class="btn btn-info btn-sm" id="saveButton">Save</button>
+                        </li>
+                    </form>
+                    <form asp-controller="" asp-action="" method="post">
+                        <button type="submit" class="btn btn-outline-danger btn-sm w-100">Delete Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <!-- *********************************************************** js ****** -->
 
