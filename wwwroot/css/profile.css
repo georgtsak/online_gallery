@@ -32,6 +32,23 @@
     font-size: 1rem;
 }
 
+.fixed-badge {
+    min-width: 75px;
+    text-align: center;
+    display: inline-block;
+}
+
+.card1 {
+    /*border: 2px solid rgba(52, 58, 64,0.8);*/
+    border: 2px solid #17a2b8;
+    padding-bottom: 5px;
+    min-height: 250px;
+}
+
+.pad_top1 {
+    padding-top: 20px;
+}
+
 /* ****** list view ****** */
 
 #artworks_container.list-view {

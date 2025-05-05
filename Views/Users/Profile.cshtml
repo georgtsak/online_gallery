@@ -3,18 +3,6 @@
 <link rel="stylesheet" href="~/css/profile.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> <!-- icons -->
 
-<style>
-    .fixed-badge {
-        min-width: 75px;
-        text-align: center;
-        display: inline-block;
-    }
-    .card1{
-        border: 2px solid rgba(52, 58, 64,0.8);
-        padding-bottom:30px;
-    }
-</style>
-
 <!-- ****************************************************** buttons ****** -->
 
 <div class="text-center mb-4" style="padding-top:60px;">
@@ -165,10 +153,13 @@
 <div id="account_section" style="display:none;">
     <h3>My Account Info</h3>
     <div class="row">
+
+        <!-- **************************************************** user info ****** -->
+
         <div class="col-md-8"> 
             <div class="card card1">
                 <div class="card-header">User Info</div>
-                <ul class="list-group list-group-flush">
+                <ul class="list-group list-group-flush pad_top1">
                     <li class="list-group-item"><strong>Email:</strong> @Model.User.Email</li>
 
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -181,30 +172,45 @@
             </div>
         </div>
 
+        <!-- ****************************************************** actions ****** -->
+
         <div class="col-md-4">
             <div class="card card1">
                 <div class="card-header">Actions</div>
                 <div class="card-body">
-                    <form asp-controller="" asp-action="" method="post" class="mb-2">
-                        <button type="submit" class="btn btn-outline-info btn-sm w-100">Change Password</button>
-                    </form>
 
-                    <div class="d-flex justify-content-end mb-2">
-                        <input type="text" class="form-control form-control-sm me-2"
-                               style="max-width: auto; margin-right:5px; border:1px solid #17a2b8"
-                               id="current_password" placeholder="Current Password" />
-                        <input type="text" class="form-control form-control-sm me-2"
-                               style="max-width: auto; margin-right:5px; border:1px solid #17a2b8"
-                               id="new_password" placeholder="New Password" />
-                        <button class="btn btn-info btn-sm" id="save_button">Save</button>
+                    <!-- ********************************************** default buttons ****** -->
+
+                    <div id="default_actions" class="pad_top1">
+                        <button class="btn btn-outline-info w-100 mb-2" id="change_password_btn">Change Password</button>
+                        <form asp-controller="" asp-action="" method="post">
+                            <button type="submit" class="btn btn-outline-danger w-100">Delete Account</button>
+                        </form>
                     </div>
 
-                    <form asp-controller="" asp-action="" method="post">
-                        <button type="submit" class="btn btn-outline-danger btn-sm w-100">Delete Account</button>
-                    </form>
+                    <!-- ********************************************* initially hidden ****** -->
+
+                    <div id="password_change_section" class="d-none">
+                        <p class="text-muted mb-2">Change your password</p>
+
+                        <input type="password" class="form-control form-control-sm mb-2"
+                               style="border:1px solid #17a2b8"
+                               id="current_password" placeholder="Current Password" />
+
+                        <input type="password" class="form-control form-control-sm mb-2"
+                               style="border:1px solid #17a2b8"
+                               id="new_password" placeholder="New Password" />
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-secondary btn-sm" id="cancel_btn">Cancel</button>
+                            <button class="btn btn-info btn-sm" id="confirm_btn">Save changes</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
+
 
     </div>
 </div>
@@ -235,4 +241,22 @@
         showSection(activeSection);
     });
 
+    document.addEventListener("DOMContentLoaded", function () {
+        const change_password_btn = document.getElementById("change_password_btn");
+        const default_actions = document.getElementById("default_actions");
+        const password_section = document.getElementById("password_change_section");
+        const cancel_btn = document.getElementById("cancel_btn");
+
+        change_password_btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            default_actions.classList.add("d-none");
+            password_section.classList.remove("d-none");
+        });
+
+        cancel_btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            password_section.classList.add("d-none");
+            default_actions.classList.remove("d-none");
+        });
+    });
 </script>
