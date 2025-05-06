@@ -2,7 +2,6 @@
 
 <link rel="stylesheet" href="~/css/profile.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> <!-- icons -->
-
 <!-- ****************************************************** buttons ****** -->
 
 <div class="text-center mb-4" style="padding-top:60px;">
@@ -156,7 +155,7 @@
 
         <!-- **************************************************** user info ****** -->
 
-        <div class="col-md-8"> 
+        <div class="col-md-8">
             <div class="card card1">
                 <div class="card-header">User Info</div>
                 <ul class="list-group list-group-flush pad_top1">
@@ -167,7 +166,7 @@
                         <button class="btn btn-outline-secondary btn-sm"> Edit <i class="bi bi-pencil-square"></i></button>
                     </li>
 
-                    <li class="list-group-item"><strong>Role:</strong> @Model.User.Role</li> 
+                    <li class="list-group-item"><strong>Role:</strong> @Model.User.Role</li>
                 </ul>
             </div>
         </div>
@@ -188,29 +187,32 @@
                         </form>
                     </div>
 
+
                     <!-- ********************************************* initially hidden ****** -->
 
                     <div id="password_change_section" class="d-none">
                         <p class="text-muted mb-2">Change your password</p>
 
-                        <input type="password" class="form-control form-control-sm mb-2"
-                               style="border:1px solid #17a2b8"
-                               id="current_password" placeholder="Current Password" />
+                        <form asp-controller="Users" asp-action="ChangePassword" method="post">
+                            <input type="password" class="form-control form-control-sm mb-2"
+                                   style="border:1px solid #17a2b8"
+                                   name="CurrentPassword" placeholder="Current Password" required />
 
-                        <input type="password" class="form-control form-control-sm mb-2"
-                               style="border:1px solid #17a2b8"
-                               id="new_password" placeholder="New Password" />
+                            <input type="password" class="form-control form-control-sm mb-2"
+                                   style="border:1px solid #17a2b8"
+                                   name="NewPassword" placeholder="New Password" required />
 
-                        <div class="d-flex justify-content-between">
-                            <button class="btn btn-secondary btn-sm" id="cancel_btn">Cancel</button>
-                            <button class="btn btn-info btn-sm" id="confirm_btn">Save changes</button>
-                        </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary btn-sm" id="cancel_btn">Cancel</button>
+                                <button type="submit" class="btn btn-info btn-sm" id="confirm_btn">Save changes</button>
+                            </div>
+                        </form>
                     </div>
 
                     <div id="delete_account_section" class="d-none">
                         <p class="text-muted mb-2">Please confirm your password to delete your account.</p>
 
-                        <form asp-controller="Account" asp-action="DeleteAccount" method="post" id="delete_form">
+                        <form asp-controller="" asp-action="" method="post" id="delete_form">
                             <input type="password" class="form-control form-control-sm mb-2"
                                    style="border:1px solid #dc3545"
                                    name="Password" placeholder="Current Password" required />

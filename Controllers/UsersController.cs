@@ -13,56 +13,56 @@ using static System.Collections.Specialized.BitVector32;
 
 public class UsersController : Controller
 {
-	private readonly AppDbContext _context;
+    private readonly AppDbContext _context;
 
-	public UsersController(AppDbContext context)
-	{
-		_context = context;
-	}
+    public UsersController(AppDbContext context)
+    {
+        _context = context;
+    }
 
-	// **************************************************** return View ******
-	// GET: Users/Create
-	public IActionResult Create()
-	{
-		return View();
-	}
+    // **************************************************** return View ******
+    // GET: Users/Create
+    public IActionResult Create()
+    {
+        return View();
+    }
 
-	// GET: Users/Register
-	public IActionResult Register()
-	{
-		return View();
-	}
-	public IActionResult Login()
-	{
-		//Debug.WriteLine("login page opened");
-		return View();
-	}
+    // GET: Users/Register
+    public IActionResult Register()
+    {
+        return View();
+    }
+    public IActionResult Login()
+    {
+        //Debug.WriteLine("login page opened");
+        return View();
+    }
 
-	// ********************************************************* create ******
-	// POST: Users/Create
-	[HttpPost]
-	[ValidateAntiForgeryToken]
-	public async Task<IActionResult> Create([Bind("FullName,Email,Password")] User user)
-	{
-		if (ModelState.IsValid)
-		{
-			var salt = GenerateSalt();
-			var hashedPassword = HashPassword(user.Password, salt);
+    // ********************************************************* create ******
+    // POST: Users/Create
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create([Bind("FullName,Email,Password")] User user)
+    {
+        if (ModelState.IsValid)
+        {
+            var salt = GenerateSalt();
+            var hashedPassword = HashPassword(user.Password, salt);
 
-			user.Password = hashedPassword;  // save hashed password
-			user.Salt = salt;  // save salt
-			user.Role = (Role)2; // default role --> Visitor 
+            user.Password = hashedPassword;  // save hashed password
+            user.Salt = salt;  // save salt
+            user.Role = (Role)2; // default role --> Visitor 
 
-			_context.Add(user);
-			await _context.SaveChangesAsync();
-			return RedirectToAction(nameof(Index));
-		}
-		return View(user);
-	}
+            _context.Add(user);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        return View(user);
+    }
 
-	// ******************************************************* register ******
-	// POST: Users/Register
-	[HttpPost]
+    // ******************************************************* register ******
+    // POST: Users/Register
+    [HttpPost]
     public async Task<IActionResult> Register(User user)
     {
         var salt = GenerateSalt();
@@ -108,57 +108,57 @@ public class UsersController : Controller
         return View(user);
     }
 
-	// ********************************************************** login ******
-	// POST: Users/Login
-	[HttpPost]
-	public async Task<IActionResult> Login(string email, string password)
-	{
-		var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+    // ********************************************************** login ******
+    // POST: Users/Login
+    [HttpPost]
+    public async Task<IActionResult> Login(string email, string password)
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
 
-		if (user == null)
-		{
-			ModelState.AddModelError("Email", "Το email δεν βρέθηκε.");
-			return View();
-		}
+        if (user == null)
+        {
+            ModelState.AddModelError("Email", "Το email δεν βρέθηκε.");
+            return View();
+        }
 
-		var hashedPassword = HashPassword(password, user.Salt);
+        var hashedPassword = HashPassword(password, user.Salt);
 
-		if (user.Password != hashedPassword)
-		{
-			ModelState.AddModelError("Password", "Λάθος κωδικός.");
-			return View();
-		}
+        if (user.Password != hashedPassword)
+        {
+            ModelState.AddModelError("Password", "Λάθος κωδικός.");
+            return View();
+        }
 
         // session
-		HttpContext.Session.SetInt32("UserId", user.Id);
-		HttpContext.Session.SetString("UserRole", user.Role.ToString());
-		HttpContext.Session.SetString("UserFullName", user.FullName);
+        HttpContext.Session.SetInt32("UserId", user.Id);
+        HttpContext.Session.SetString("UserRole", user.Role.ToString());
+        HttpContext.Session.SetString("UserFullName", user.FullName);
 
-		Debug.WriteLine($"User {user.Email} logged in!");
+        Debug.WriteLine($"User {user.Email} logged in!");
 
-		return RedirectToAction("Index", "Home");
-	}
+        return RedirectToAction("Index", "Home");
+    }
 
-	// ******************************************************** hashing ******
-	private string GenerateSalt()
-	{
-		var saltBytes = new byte[16];
-		using (var rng = new RNGCryptoServiceProvider())
-		{
-			rng.GetBytes(saltBytes);
-		}
-		return Convert.ToBase64String(saltBytes);
-	}
+    // ******************************************************** hashing ******
+    private string GenerateSalt()
+    {
+        var saltBytes = new byte[16];
+        using (var rng = new RNGCryptoServiceProvider())
+        {
+            rng.GetBytes(saltBytes);
+        }
+        return Convert.ToBase64String(saltBytes);
+    }
 
-	private string HashPassword(string password, string salt)
-	{
-		using (var sha256 = SHA256.Create())
-		{
-			var combinedBytes = Encoding.UTF8.GetBytes(password + salt);
-			var hashedBytes = sha256.ComputeHash(combinedBytes);
-			return Convert.ToBase64String(hashedBytes);
-		}
-	}
+    private string HashPassword(string password, string salt)
+    {
+        using (var sha256 = SHA256.Create())
+        {
+            var combinedBytes = Encoding.UTF8.GetBytes(password + salt);
+            var hashedBytes = sha256.ComputeHash(combinedBytes);
+            return Convert.ToBase64String(hashedBytes);
+        }
+    }
 
     // ********************************************************* logout ******
     public IActionResult Logout()
@@ -194,7 +194,7 @@ public class UsersController : Controller
         var purchases = await _context.Transactions
             .Include(t => t.Artwork)
             .Where(t => t.BuyerId == userId)
-                       //(t.Status == TransactionStatus.Completed || t.Status == TransactionStatus.Pending))
+            //(t.Status == TransactionStatus.Completed || t.Status == TransactionStatus.Pending))
             .OrderByDescending(t => t.PurchasedAt)
             .ToListAsync();
 
@@ -227,4 +227,28 @@ public class UsersController : Controller
         return View(model);
     }
 
+    // ************************************************ change password ******
+
+    [HttpPost]
+    public async Task<IActionResult> ChangePassword(string currentPassword, string newPassword)
+    {
+        int? userId = HttpContext.Session.GetInt32("UserId");
+        if (userId == null) return Unauthorized();
+
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null) return NotFound();
+
+        var currentHashed = HashPassword(currentPassword, user.Salt);
+        if (user.Password != currentHashed)
+        {
+            return BadRequest("invalid current password");
+        }
+
+        string newSalt = GenerateSalt();
+        user.Salt = newSalt;
+        user.Password = HashPassword(newPassword, newSalt);
+
+        await _context.SaveChangesAsync();
+        return Ok("password changed successfully");
+    }
 }
