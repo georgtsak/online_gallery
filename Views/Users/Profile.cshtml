@@ -184,7 +184,7 @@
                     <div id="default_actions" class="pad_top1">
                         <button class="btn btn-outline-info w-100 mb-2" id="change_password_btn">Change Password</button>
                         <form asp-controller="" asp-action="" method="post">
-                            <button type="submit" class="btn btn-outline-danger w-100">Delete Account</button>
+                            <button class="btn btn-outline-danger w-100" id="delete_account_btn">Delete Account</button>
                         </form>
                     </div>
 
@@ -206,6 +206,22 @@
                             <button class="btn btn-info btn-sm" id="confirm_btn">Save changes</button>
                         </div>
                     </div>
+
+                    <div id="delete_account_section" class="d-none">
+                        <p class="text-muted mb-2">Please confirm your password to delete your account.</p>
+
+                        <form asp-controller="Account" asp-action="DeleteAccount" method="post" id="delete_form">
+                            <input type="password" class="form-control form-control-sm mb-2"
+                                   style="border:1px solid #dc3545"
+                                   name="Password" placeholder="Current Password" required />
+
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary btn-sm" id="cancel_delete_btn">Cancel</button>
+                                <button type="submit" class="btn btn-danger btn-sm" id="confirm_delete_btn">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+
 
                 </div>
             </div>
@@ -241,6 +257,8 @@
         showSection(activeSection);
     });
 
+    // ********************************************** account actions ****** //
+
     document.addEventListener("DOMContentLoaded", function () {
         const change_password_btn = document.getElementById("change_password_btn");
         const default_actions = document.getElementById("default_actions");
@@ -257,6 +275,37 @@
             e.preventDefault();
             password_section.classList.add("d-none");
             default_actions.classList.remove("d-none");
+        });
+
+        // *********************************************** delete account ****** //
+
+        const deleteAccountBtn = document.getElementById("delete_account_btn");
+        const deleteSection = document.getElementById("delete_account_section");
+        const cancelDeleteBtn = document.getElementById("cancel_delete_btn");
+
+        deleteAccountBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            default_actions.classList.add("d-none");
+            deleteSection.classList.remove("d-none");
+        });
+
+        cancelDeleteBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            deleteSection.classList.add("d-none");
+            default_actions.classList.remove("d-none");
+        });
+
+        document.getElementById("confirm_delete_btn").addEventListener("click", function () {
+            const password = document.getElementById("delete_password").value;
+
+            if (!password) {
+                alert("Please enter your current password.");
+                return;
+            }
+
+            if (confirm("Are you sure you want to permanently delete your account?")) {
+                document.getElementById("delete_account_form").submit();
+            }
         });
     });
 </script>
