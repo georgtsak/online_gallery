@@ -249,6 +249,10 @@ public class UsersController : Controller
         user.Password = HashPassword(newPassword, newSalt);
 
         await _context.SaveChangesAsync();
-        return Ok("password changed successfully");
+
+        // password changed successfully 
+        return RedirectToAction("Profile", new { section = "account" });
+
+
     }
 }
