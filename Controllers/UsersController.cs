@@ -255,4 +255,27 @@ public class UsersController : Controller
 
 
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> DeleteAccount(string password)
+    {
+        int? userId = HttpContext.Session.GetInt32("UserId");
+        if (userId == null) return Unauthorized();
+
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null) return NotFound();
+
+        var hashed = HashPassword(password, user.Salt);
+        if (user.Password != hashed)
+        {
+            return BadRequest("invalid password.");
+        }
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+        HttpContext.Session.Clear();
+
+        return RedirectToAction("Index", "Home");
+    }
+
 }

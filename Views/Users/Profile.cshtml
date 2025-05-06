@@ -212,7 +212,7 @@
                     <div id="delete_account_section" class="d-none">
                         <p class="text-muted mb-2">Please confirm your password to delete your account.</p>
 
-                        <form asp-controller="" asp-action="" method="post" id="delete_form">
+                        <form asp-controller="Users" asp-action="DeleteAccount" method="post" id="delete_form">
                             <input type="password" class="form-control form-control-sm mb-2"
                                    style="border:1px solid #dc3545"
                                    name="Password" placeholder="Current Password" required />
