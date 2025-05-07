@@ -163,9 +163,22 @@
                     <li class="list-group-item"><strong>Email:</strong> @Model.User.Email</li>
 
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span><strong>Full Name:</strong> @Model.User.FullName</span>
-                        <button class="btn btn-outline-secondary btn-sm"> Edit <i class="bi bi-pencil-square"></i></button>
+                        <span>
+                            <strong>Full Name:</strong>
+                            <span id="fullNameText">@Model.User.FullName</span>
+                            <form id="editFullNameForm" method="post" class="d-none" asp-action="EditFullName">
+                                @Html.AntiForgeryToken() <!-- Για CSRF προστασία -->
+                                <input type="text" id="fullNameInput" name="FullName" class="form-control" value="@Model.User.FullName" />
+                                <button type="submit" class="btn btn-outline-success btn-sm">Save Changes</button>
+                            </form>
+                        </span>
+                        <div>
+                            <button id="editBtn" class="btn btn-outline-secondary btn-sm">Edit <i class="bi bi-pencil-square"></i></button>
+                        </div>
                     </li>
+
+
+
 
                     <li class="list-group-item"><strong>Role:</strong> @Model.User.Role</li>
                 </ul>
@@ -311,7 +324,18 @@
             default_actions.classList.remove("d-none");
         });
     });
+
+    // *********************************************** clear messages ****** //
+
     document.getElementById("cancel_delete_btn")?.addEventListener("click", function () {
         window.location.href = "/Users/ClearMessages";
+    });
+
+    // ************************************************ edit fullname ****** //
+
+    document.getElementById('editBtn').addEventListener('click', function () {
+        document.getElementById('fullNameText').classList.add('d-none');
+        document.getElementById('editFullNameForm').classList.remove('d-none');
+        this.classList.add('d-none');
     });
 </script>

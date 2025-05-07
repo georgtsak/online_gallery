@@ -252,8 +252,6 @@ public class UsersController : Controller
 
         // password changed successfully 
         return RedirectToAction("Profile", new { section = "account" });
-
-
     }
 
     [HttpPost]
@@ -299,5 +297,20 @@ public class UsersController : Controller
         return RedirectToAction("Profile", new { section = "account" });
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditFullName(string fullName)
+    {
+        int? userId = HttpContext.Session.GetInt32("UserId");
+        if (userId == null) return Unauthorized();
 
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null) return NotFound();
+
+        user.FullName = fullName;
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("Profile", new { section = "account" });
+    }
 }
