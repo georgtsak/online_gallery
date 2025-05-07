@@ -181,12 +181,13 @@
 
                     <!-- ********************************************** default buttons ****** -->
 
-                    <div id="default_actions" class="pad_top1">
-                        <button class="btn btn-outline-info w-100 mb-2" id="change_password_btn">Change Password11</button>
+                    <div id="default_actions" class="pad_top1 @(TempData["DeleteError"] != null || TempData["ConfirmDelete"] != null ? "d-none" : "")">
+                        <button class="btn btn-outline-info w-100 mb-2" id="change_password_btn">Change Password</button>
                         <form asp-controller="" asp-action="" method="post">
                             <button class="btn btn-outline-danger w-100" id="delete_account_btn">Delete Account</button>
                         </form>
                     </div>
+
 
 
                     <!-- ********************************************* initially hidden ****** -->
@@ -211,14 +212,11 @@
                     </div>
 
                     <div id="delete_account_section" class="@((TempData["DeleteError"] != null || TempData["ConfirmDelete"] != null) ? "" : "d-none")">
-                        @if (TempData["DeleteError"] != null)
-                        {
-                            <div class="text-danger mb-2">@TempData["DeleteError"]</div>
-                        }
 
                         @if (TempData["ConfirmDelete"] != null)
                         {
-                            <p class="text-muted mb-2">Are you sure you want to permanently delete your account?</p>
+                            <p class="text-muted mb-2">Are you sure you want to delete your account permanently?</p>
+                            <p class="text-muted mb-2">This action cannot be undone.</p>
                             <form asp-controller="Users" asp-action="DeleteAccountConfirmed" method="post">
                                 <div class="d-flex justify-content-between">
                                     <a href="@Url.Action("Profile", new { section = "account" })" class="btn btn-secondary btn-sm">Cancel</a>
@@ -231,6 +229,10 @@
                         {
                             <p class="text-muted mb-2">Please confirm your password to delete your account.</p>
                             <form asp-controller="Users" asp-action="DeleteAccount" method="post" id="delete_form">
+                                @if (TempData["DeleteError"] != null)
+                                {
+                                    <div class="text-danger mb-2 small">@TempData["DeleteError"]</div>
+                                }
                                 <input type="password" class="form-control form-control-sm mb-2"
                                        name="Password" placeholder="Current Password" style="border:1px solid #dc3545;" required />
 
