@@ -255,7 +255,7 @@ public class UsersController : Controller
 
 
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> DeleteAccount(string password)
     {
@@ -268,8 +268,22 @@ public class UsersController : Controller
         var hashed = HashPassword(password, user.Salt);
         if (user.Password != hashed)
         {
-            return BadRequest("invalid password.");
+            TempData["DeleteError"] = "Invalid password!";
+            return RedirectToAction("Profile", new { section = "account" });
         }
+
+        TempData["ConfirmDelete"] = true;
+        return RedirectToAction("Profile", new { section = "account" });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteAccountConfirmed()
+    {
+        int? userId = HttpContext.Session.GetInt32("UserId");
+        if (userId == null) return Unauthorized();
+
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null) return NotFound();
 
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
@@ -277,5 +291,6 @@ public class UsersController : Controller
 
         return RedirectToAction("Index", "Home");
     }
+
 
 }
