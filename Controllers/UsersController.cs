@@ -292,5 +292,12 @@ public class UsersController : Controller
         return RedirectToAction("Index", "Home");
     }
 
+    public IActionResult ClearMessages()
+    {
+        TempData.Remove("DeleteError");
+        TempData.Remove("ConfirmDelete");
+        return RedirectToAction("Profile", new { section = "account" });
+    }
+
 
 }
