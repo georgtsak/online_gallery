@@ -254,6 +254,8 @@ public class UsersController : Controller
         return RedirectToAction("Profile", new { section = "account" });
     }
 
+    // ************************************************* delete account ******
+
     [HttpPost]
     public async Task<IActionResult> DeleteAccount(string password)
     {
@@ -290,12 +292,16 @@ public class UsersController : Controller
         return RedirectToAction("Index", "Home");
     }
 
+    // ************************************************* clear messages ******
+
     public IActionResult ClearMessages()
     {
         TempData.Remove("DeleteError");
         TempData.Remove("ConfirmDelete");
         return RedirectToAction("Profile", new { section = "account" });
     }
+
+    // ************************************************** edit fullname ******
 
     [HttpPost]
     [ValidateAntiForgeryToken]

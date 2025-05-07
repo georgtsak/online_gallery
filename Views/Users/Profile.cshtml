@@ -163,20 +163,21 @@
                     <li class="list-group-item"><strong>Email:</strong> @Model.User.Email</li>
 
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>
+                        <span class="d-flex align-items-center">
                             <strong>Full Name:</strong>
-                            <span id="fullNameText">@Model.User.FullName</span>
-                            <form id="editFullNameForm" method="post" class="d-none" asp-action="EditFullName">
+                            <span id="fullNameText" class="mx-2">@Model.User.FullName</span>
+
+                            <form id="editFullNameForm" method="post" asp-action="EditFullName" class="d-flex align-items-center">
                                 @Html.AntiForgeryToken()
-                                <input type="text" id="fullNameInput" name="FullName" class="form-control" value="@Model.User.FullName" />
-                                <button type="submit" class="btn btn-outline-success btn-sm">Save Changes</button>
+                                <input type="text" id="fullNameInput" name="FullName" class="form-control form-control-sm mx-2" value="@Model.User.FullName" style="display: none;" />
+                                <button type="submit" id="saveBtn" class="btn btn-outline-info btn-sm" style="display: none;">Save Changes</button>
+                                <button type="button" id="cancelBtn" class="btn btn-outline-secondary btn-sm mx-2" style="display: none;">Cancel</button>
                             </form>
                         </span>
                         <div>
                             <button id="editBtn" class="btn btn-outline-secondary btn-sm">Edit <i class="bi bi-pencil-square"></i></button>
                         </div>
                     </li>
-
 
 
 
@@ -333,11 +334,29 @@
 
     // ************************************************ edit fullname ****** //
 
-    document.getElementById('editBtn').addEventListener('click', function () {
-        document.getElementById('fullNameText').classList.add('d-none');
-        document.getElementById('editFullNameForm').classList.remove('d-none');
-        this.classList.add('d-none');
+    const editBtn = document.getElementById("editBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const fullNameText = document.getElementById("fullNameText");
+    const fullNameInput = document.getElementById("fullNameInput");
+    const saveBtn = document.getElementById("saveBtn");
+
+    editBtn.addEventListener("click", function () {
+        fullNameText.style.display = "none";
+        fullNameInput.style.display = "inline-block";
+        saveBtn.style.display = "inline-block";
+        cancelBtn.style.display = "inline-block";
+        editBtn.style.display = "none";
     });
+
+    cancelBtn.addEventListener("click", function () {
+        fullNameText.style.display = "inline";
+        fullNameInput.style.display = "none";
+        saveBtn.style.display = "none";
+        cancelBtn.style.display = "none";
+        editBtn.style.display = "inline-block";
+    });
+
+    // *********************************** restrict unsafe characters ****** //
 
     document.getElementById('editFullNameForm').addEventListener('submit', function (event) {
         var fullNameInput = document.getElementById('fullNameInput').value;
