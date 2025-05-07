@@ -2,6 +2,7 @@
 
 <link rel="stylesheet" href="~/css/profile.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> <!-- icons -->
+
 <!-- ****************************************************** buttons ****** -->
 
 <div class="text-center mb-4" style="padding-top:60px;">
@@ -181,7 +182,7 @@
                     <!-- ********************************************** default buttons ****** -->
 
                     <div id="default_actions" class="pad_top1">
-                        <button class="btn btn-outline-info w-100 mb-2" id="change_password_btn">Change Password</button>
+                        <button class="btn btn-outline-info w-100 mb-2" id="change_password_btn">Change Password11</button>
                         <form asp-controller="" asp-action="" method="post">
                             <button class="btn btn-outline-danger w-100" id="delete_account_btn">Delete Account</button>
                         </form>
@@ -217,11 +218,12 @@
 
                         @if (TempData["ConfirmDelete"] != null)
                         {
-                            <p class="text-warning mb-2">Are you sure you want to permanently delete your account?</p>
+                            <p class="text-muted mb-2">Are you sure you want to permanently delete your account?</p>
                             <form asp-controller="Users" asp-action="DeleteAccountConfirmed" method="post">
                                 <div class="d-flex justify-content-between">
-                                    <button type="submit" class="btn btn-danger btn-sm">Yes, I'm sure</button>
                                     <a href="@Url.Action("Profile", new { section = "account" })" class="btn btn-secondary btn-sm">Cancel</a>
+                                    <button type="submit" class="btn btn-danger btn-sm">Yes, I'm sure</button>
+
                                 </div>
                             </form>
                         }
@@ -230,7 +232,7 @@
                             <p class="text-muted mb-2">Please confirm your password to delete your account.</p>
                             <form asp-controller="Users" asp-action="DeleteAccount" method="post" id="delete_form">
                                 <input type="password" class="form-control form-control-sm mb-2"
-                                       name="Password" placeholder="Current Password" required />
+                                       name="Password" placeholder="Current Password" style="border:1px solid #dc3545;" required />
 
                                 <div class="d-flex justify-content-between">
                                     <button type="button" class="btn btn-secondary btn-sm" id="cancel_delete_btn">Cancel</button>
@@ -239,9 +241,6 @@
                             </form>
                         }
                     </div>
-
-
-
                 </div>
             </div>
         </div>
