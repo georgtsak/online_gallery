@@ -270,10 +270,12 @@
 
 <!-- ******************************************************** alert ****** -->
 
-@if (TempData["SuccessMsg"] != null)
+@if (TempData["InfoMsg"] != null)
 {
-    <div class="alert alert-dark alert-dismissible fade show fixed-bottom end-0" role="alert" id="tempAlert" style="max-width: fit-content;padding:3px 8px;margin-left:10px;">
-        @TempData["SuccessMsg"]
+    <div class="alert alert-dark alert-dismissible fade show alert-custom" role="alert" id="tempAlert">
+        <div class="vertical-line"></div>
+        <i class="bi bi-info-circle"></i>
+        @TempData["InfoMsg"]
     </div>
 }
 

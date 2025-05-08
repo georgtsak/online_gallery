@@ -92,4 +92,21 @@
 
 /* ******* alerts ******* */
 
+.alert-custom {
+    align-items: center;
+    max-width: fit-content;
+    padding: 4px 8px;
+    margin-left: 10px;
+    background-color: rgba(255,255,255,0.2);
+    color: #17a2b8;
+    position: fixed;
+    right: 10px;
+    bottom: 0px;
+}
+
+    .alert-custom i {
+        margin-right: 5px;
+        font-size: 16px;
+    }
+
 
