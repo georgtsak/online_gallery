@@ -241,7 +241,8 @@ public class UsersController : Controller
         var currentHashed = HashPassword(currentPassword, user.Salt);
         if (user.Password != currentHashed)
         {
-            return BadRequest("invalid current password");
+            TempData["PassChangeError"] = "Invalid current password.";
+            return RedirectToAction("Profile", new { section = "account" });
         }
 
         string newSalt = GenerateSalt();
@@ -250,9 +251,9 @@ public class UsersController : Controller
 
         await _context.SaveChangesAsync();
 
-        // password changed successfully 
         return RedirectToAction("Profile", new { section = "account" });
     }
+
 
     // ************************************************* delete account ******
 
@@ -268,7 +269,7 @@ public class UsersController : Controller
         var hashed = HashPassword(password, user.Salt);
         if (user.Password != hashed)
         {
-            TempData["DeleteError"] = "Invalid password!";
+            TempData["DeleteError"] = "Invalid password.";
             return RedirectToAction("Profile", new { section = "account" });
         }
 
@@ -296,6 +297,7 @@ public class UsersController : Controller
 
     public IActionResult ClearMessages()
     {
+        TempData.Remove("PassChangeError");
         TempData.Remove("DeleteError");
         TempData.Remove("ConfirmDelete");
         return RedirectToAction("Profile", new { section = "account" });

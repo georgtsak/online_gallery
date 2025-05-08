@@ -195,15 +195,20 @@
 
                     <!-- ********************************************** default buttons ****** -->
 
-                    <div id="default_actions" class="pad_top1 @(TempData["DeleteError"] != null || TempData["ConfirmDelete"] != null ? "d-none" : "")">
+                    <div id="default_actions" class="pad_top1 @(TempData["DeleteError"] != null || TempData["PassChangeError"] != null || TempData["ConfirmDelete"] != null ? "d-none" : "")">
                         <button class="btn btn-outline-info w-100 mb-2" id="change_password_btn">Change Password</button>
                         <button class="btn btn-outline-danger w-100" id="delete_account_btn">Delete Account</button>
                     </div>
 
                     <!-- ********************************************* initially hidden ****** -->
 
-                    <div id="password_change_section" class="d-none">
+                    <div id="password_change_section" class="@(TempData["PassChangeError"] != null ? "" : "d-none")">
                         <p class="text-muted mb-2">Change your password</p>
+
+                        @if (TempData["PassChangeError"] != null)
+                        {
+                            <div class="text-info mb-2 small">@TempData["PassChangeError"]</div>
+                        }
 
                         <form asp-controller="Users" asp-action="ChangePassword" method="post">
                             <input type="password" class="form-control form-control-sm mb-2"
@@ -221,12 +226,13 @@
                         </form>
                     </div>
 
+
                     <div id="delete_account_section" class="@((TempData["DeleteError"] != null || TempData["ConfirmDelete"] != null) ? "" : "d-none")">
 
                         @if (TempData["ConfirmDelete"] != null)
                         {
                             <p class="text-muted mb-2">Are you sure you want to delete your account permanently?</p>
-                            <p class="text-muted mb-2">This action cannot be undone.</p>
+                            <p class="text-muted mb-2 small">This action cannot be undone.</p>
                             <form asp-controller="Users" asp-action="DeleteAccountConfirmed" method="post">
                                 <div class="d-flex justify-content-between">
                                     <a href="@Url.Action("ClearMessages", "Users")" class="btn btn-secondary btn-sm">Cancel</a>
@@ -306,6 +312,11 @@
             password_section.classList.add("d-none");
             default_actions.classList.remove("d-none");
         });
+        cancel_btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            window.location.href = "/Users/ClearMessages";
+        });
+
 
         // *********************************************** delete account ****** //
 
