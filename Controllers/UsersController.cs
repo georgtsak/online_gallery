@@ -251,6 +251,7 @@ public class UsersController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["SuccessMsg"] = "Password changed successfully!";
         return RedirectToAction("Profile", new { section = "account" });
     }
 
@@ -274,6 +275,7 @@ public class UsersController : Controller
         }
 
         TempData["ConfirmDelete"] = true;
+        TempData["SuccessMsg"] = "Account deletion will log you out and return you to the homepage.";
         return RedirectToAction("Profile", new { section = "account" });
     }
 
@@ -319,6 +321,7 @@ public class UsersController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["SuccessMsg"] = "Full Name changed successfully!";
         return RedirectToAction("Profile", new { section = "account" });
     }
 }

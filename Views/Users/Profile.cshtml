@@ -268,6 +268,14 @@
     </div>
 </div>
 
+<!-- ******************************************************** alert ****** -->
+
+@if (TempData["SuccessMsg"] != null)
+{
+    <div class="alert alert-dark alert-dismissible fade show fixed-bottom end-0" role="alert" id="tempAlert" style="max-width: fit-content;padding:3px 8px;margin-left:10px;">
+        @TempData["SuccessMsg"]
+    </div>
+}
 
 <!-- *********************************************************** js ****** -->
 
@@ -379,5 +387,17 @@
             alert('Full name can only contain letters, numbers and spaces.');
         }
     });
+
+    // ************************************************ alert timeout ****** //
+
+    setTimeout(function () {
+        var alert = document.getElementById('tempAlert');
+        if (alert) {
+            alert.classList.remove('show');
+            setTimeout(function () {
+                alert.remove();
+            }, 200);
+        }
+    }, 5000);
 
 </script>
