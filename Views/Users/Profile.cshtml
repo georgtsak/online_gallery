@@ -212,12 +212,13 @@
 
                         <form asp-controller="Users" asp-action="ChangePassword" method="post">
                             <input type="password" class="form-control form-control-sm mb-2"
-                                   style="border:1px solid #17a2b8"
+                                   style="border:1px solid #17a2b8" maxlength="20"
                                    name="CurrentPassword" placeholder="Current Password" required />
 
                             <input type="password" class="form-control form-control-sm mb-2"
                                    style="border:1px solid #17a2b8"
-                                   name="NewPassword" placeholder="New Password" required />
+                                   name="NewPassword" placeholder="New Password" required minlength="8" maxlength="20" pattern=".{8,20}" title="The password must be between 8 and 20 characters long." />
+
 
                             <div class="d-flex justify-content-between">
                                 <button type="button" class="btn btn-secondary btn-sm" id="cancel_btn">Cancel</button>

@@ -46,7 +46,7 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input asp-for="FullName" type="text" name="fullname" class="form-control" placeholder="Ονοματεπώνυμο">
+							<input asp-for="FullName" type="text" maxlength="20" name="fullname" class="form-control" placeholder="Full Name">
 						</div>
 
 						<div class="input-group form-group">
@@ -63,13 +63,13 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input asp-for="Password" type="password" minlength="8" id="password" name="password" class="form-control" placeholder="Κωδικός Πρόσβασης">
+							<input asp-for="Password" type="password" minlength="8" maxlength="20" pattern=".{8,20}" title="The password must be between 8 and 20 characters long." id="password" name="password" class="form-control" placeholder="Password" required>
 						</div>
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input type="password" minlength="8" id="password2" name="password2" class="form-control" placeholder="Επιβεβαίωση Κωδικού">
+							<input type="password" minlength="8" maxlength="20" pattern=".{8,20}" title="The password must be between 8 and 20 characters long." id="password2" name="password2" class="form-control" placeholder="Confirm Password">
 						</div>
 						<div class="row align-items-center show">
 							<input type="checkbox" onclick="emfanish_kwdikou()">&nbsp;Εμφάνιση Κωδικού
