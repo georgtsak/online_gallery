@@ -114,23 +114,24 @@ public class UsersController : Controller
     public async Task<IActionResult> Login(string email, string password)
     {
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-
-        if (user == null)
+        //TempData["LoginError"] = null;
+		if (user == null)
         {
-            ModelState.AddModelError("Email", "Το email δεν βρέθηκε.");
-            return View();
-        }
+			TempData["LoginError"] = "The email address you entered is not registered.";
+			return RedirectToAction("Login");
 
-        var hashedPassword = HashPassword(password, user.Salt);
+		}
+
+		var hashedPassword = HashPassword(password, user.Salt);
 
         if (user.Password != hashedPassword)
         {
-            ModelState.AddModelError("Password", "Λάθος κωδικός.");
-            return View();
-        }
+			TempData["LoginError"] = "Incorrect email or password. Please try again.";
+			return RedirectToAction("Login");
+		}
 
-        // session
-        HttpContext.Session.SetInt32("UserId", user.Id);
+		// session
+		HttpContext.Session.SetInt32("UserId", user.Id);
         HttpContext.Session.SetString("UserRole", user.Role.ToString());
         HttpContext.Session.SetString("UserFullName", user.FullName);
 
