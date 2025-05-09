@@ -13,7 +13,9 @@
 </div>
 
 <!-- ********************************************* artworks section ****** -->
-
+@{
+    var user_id = Context.Session.GetInt32("UserId") ?? 0;
+}
 <div id="artworks_section">
     <div class="d-flex justify-content-between align-items-center mb-2">
         <h3>@Model.User.FullName's Artworks</h3>
@@ -24,6 +26,7 @@
         <div id="artworks_container" class="row">
             @foreach (var artwork in Model.Artworks)
             {
+                var owner = artwork.ArtistId == user_id;
                 <div class="col-md-4 mb-3">
                     <div class="card">
                         <img src="@artwork.ImageUrl" class="card-img-top" alt="@artwork.Title" />
@@ -34,11 +37,45 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <p class="text-muted mb-0">€@artwork.Price</p>
                                 <div>
-                                    <button class="btn btn-sm btn-outline-success"><i class="bi bi-cart2"></i></button>
-                                    <button class="btn btn-sm btn-outline-secondary disabled"><i class="bi bi-cart-x"></i></button>
-                                    <button class="btn btn-sm btn-outline-info"><i class="bi bi-eye"></i></button>
-                                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-square"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3"></i></button>
+                                    @if (artwork.Status == ArtworkStatus.Available)
+                                    {
+                                        <button class="btn btn-sm btn-success disabled" title="Artwork available">
+                                            <i class="bi bi-cart-check"></i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-sm btn-secondary disabled" title="Artwork sold">
+                                            <i class="bi bi-cart-x"></i>
+                                        </button>
+                                    }
+
+                                    <button class="btn btn-sm btn-outline-info" title="View artwork details">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+
+                                    @if (owner)
+                                    {
+                                        
+                                        if (artwork.Status == ArtworkStatus.Available)
+                                        {
+                                            <button class="btn btn-sm btn-outline-secondary" title="Edit artwork">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" title="Delete artwork">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-sm btn-outline-secondary disabled" title="Cannot edit, artwork is sold">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger disabled" title="Cannot delete, artwork is sold">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        }
+                                    }
                                 </div>
                             </div>
 
@@ -47,7 +84,6 @@
                 </div>
             }
         </div>
-
     }
     else
     {
