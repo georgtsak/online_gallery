@@ -382,11 +382,11 @@
 
     document.getElementById('editFullNameForm').addEventListener('submit', function (event) {
         var fullNameInput = document.getElementById('fullNameInput').value;
-        var regex = /^[A-Za-z0-9\s]+$/;
+        var regex = /^[A-Za-zΑ-Ωα-ωΆ-Ώά-ώ0-9\s]+$/;
 
         if (!regex.test(fullNameInput)) {
             event.preventDefault();
-            alert('Full name can only contain letters, numbers and spaces.');
+            alert("Full name can only contain letters, numbers and spaces.");
         }
     });
 
