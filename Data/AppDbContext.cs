@@ -27,8 +27,13 @@ namespace OnlineGallery.Data
 				.WithMany()
 				.HasForeignKey(t => t.BuyerId)
 				.OnDelete(DeleteBehavior.NoAction);
-		}
+
+            modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
+            modelBuilder.Entity<ArtworksModel>().HasQueryFilter(a => !a.Artist.IsDeleted);
 
 
-	}
+        }
+
+
+    }
 }

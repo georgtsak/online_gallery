@@ -194,10 +194,12 @@ public class UsersController : Controller
 
         var purchases = await _context.Transactions
             .Include(t => t.Artwork)
+                .ThenInclude(a => a.Artist)
+            .IgnoreQueryFilters()
             .Where(t => t.BuyerId == userId)
-            //(t.Status == TransactionStatus.Completed || t.Status == TransactionStatus.Pending))
             .OrderByDescending(t => t.PurchasedAt)
             .ToListAsync();
+
 
 
         var sales = await _context.Transactions
