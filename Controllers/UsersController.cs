@@ -266,7 +266,7 @@ public class UsersController : Controller
         if (userId == null) return Unauthorized();
 
         var user = await _context.Users.FindAsync(userId);
-        if (user == null) return NotFound();
+        if (user == null || user.IsDeleted) return NotFound();
 
         var hashed = HashPassword(password, user.Salt);
         if (user.Password != hashed)
@@ -289,7 +289,8 @@ public class UsersController : Controller
         var user = await _context.Users.FindAsync(userId);
         if (user == null) return NotFound();
 
-        _context.Users.Remove(user);
+        //_context.Users.Remove(user);
+        user.IsDeleted = true;
         await _context.SaveChangesAsync();
         HttpContext.Session.Clear();
 

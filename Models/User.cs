@@ -14,17 +14,14 @@ namespace OnlineGallery.Models
 
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
-
         public string Salt { get; set; } = ""; // hashing
-
-		//public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime CreatedAt { get; set; } = TimeAthens.GetAthensTime();
-
         public ICollection<ArtworksModel> Artworks { get; set; } = new List<ArtworksModel>(); // erga texnhs
 		public ICollection<TransactionsModel> Transactions { get; set; } = new List<TransactionsModel>(); // agores
 
 		public Role Role { get; set; } = Role.Visitor; // default
-	}
+        public bool IsDeleted { get; set; } = false;
+    }
 
 	public enum Role
 	{
