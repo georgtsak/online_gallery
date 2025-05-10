@@ -30,6 +30,9 @@ namespace OnlineGallery.Controllers
             if (artwork.ArtistId == buyerId)
                 return BadRequest("Cannot buy your own artwork.");
 
+            if (artwork.Status != ArtworkStatus.Available)
+                return BadRequest("This artwork is no longer available.");
+
             // create pending transaction
             var tx = new TransactionsModel
             {
@@ -66,6 +69,13 @@ namespace OnlineGallery.Controllers
 
             if (tx.Status != TransactionStatus.Pending)
                 return BadRequest("Transaction is not pending.");
+
+            if (tx.Artwork.Status != ArtworkStatus.Available)
+            {
+                tx.Status = TransactionStatus.Cancelled;
+                _context.SaveChanges();
+                return BadRequest("This artwork is no longer available. Your transaction was cancelled.");
+            }
 
             tx.Status = TransactionStatus.Completed;
             tx.Artwork.Status = ArtworkStatus.Sold;
