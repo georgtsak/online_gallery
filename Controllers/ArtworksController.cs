@@ -6,6 +6,7 @@ using OnlineGallery.Models;
 using Supabase;
 using Supabase.Gotrue;
 using Microsoft.EntityFrameworkCore;
+using OnlineGallery.Helper;
 
 namespace OnlineGallery.Controllers
 {
@@ -51,6 +52,8 @@ namespace OnlineGallery.Controllers
 
             _context.Artworks.Add(artwork);
             await _context.SaveChangesAsync();
+
+            UserRoleHelper.UpdateUserRole(_context, UserId.Value); // helper
 
             return RedirectToAction("Index");
         }

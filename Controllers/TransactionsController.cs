@@ -74,13 +74,15 @@ namespace OnlineGallery.Controllers
             {
                 tx.Status = TransactionStatus.Cancelled;
                 _context.SaveChanges();
-                return BadRequest("This artwork is no longer available. Your transaction was cancelled.");
+                return BadRequest("This artwork is no longer available.");
             }
 
             tx.Status = TransactionStatus.Completed;
             tx.Artwork.Status = ArtworkStatus.Sold;
 
             _context.SaveChanges();
+
+            UserRoleHelper.UpdateUserRole(_context, buyerId.Value); // helper
 
             return RedirectToAction("Profile", "Users", new { section = "purchases" });
         }
