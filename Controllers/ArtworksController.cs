@@ -73,6 +73,7 @@ namespace OnlineGallery.Controllers
         public async Task<IActionResult> Index()    
         {
             var artworks = await _context.Artworks
+                .Include(a => a.Artist)
                 .OrderByDescending(a => a.CreatedAt)
                 .ToListAsync();
 

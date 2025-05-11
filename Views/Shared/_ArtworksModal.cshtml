@@ -1,7 +1,7 @@
 ﻿@model OnlineGallery.Models.ArtworksModel
 
 @{
-    @*var isArtist = (int)Model.Role == 4 || (int)Model.Role == 5;*@
+    var isArtist = Model.Artist != null && (Model.Artist.Role == Role.Artist || Model.Artist.Role == Role.BuyerAndArtist);
 }
 
 <div class="modal fade" id="artworkModal-@Model.Id" tabindex="-1" aria-labelledby="artworkModalLabel" aria-hidden="true">
@@ -15,12 +15,14 @@
                 <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid mb-3" style="max-height: 400px;height:auto;width:auto;">
                 <p><strong>Description:</strong> @Model.Description</p>
                 <p><strong>@Model.Price€</strong> </p>
-
+                @if (Model.Artist != null)
+                {
+                    <p><strong>Artist:</strong> @Model.Artist.FullName (@Model.Artist.Email)</p>
+                }
                 @*@if (isArtist)
                 {
                     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
                 }*@
-
                 <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@Model.Id" method="post">
                     <button type="submit" class="btn btn-success">Buy Now</button>
                 </form>
