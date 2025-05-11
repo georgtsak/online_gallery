@@ -28,6 +28,7 @@ namespace OnlineGallery.Data
 				.HasForeignKey(t => t.BuyerId)
 				.OnDelete(DeleteBehavior.NoAction);
 
+			// agnoei tous deleted users kai ta artworks pou eixan anevasei
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
             modelBuilder.Entity<ArtworksModel>().HasQueryFilter(a => !a.Artist.IsDeleted);
 

@@ -109,6 +109,8 @@
                     <div>
                         <h5 class="mb-1">@t.Artwork.Title</h5>
                         <small class="text-muted">€@t.Price on @t.PurchasedAt</small>
+                        <small class="text-muted">Artist: @t.Artwork.Artist?.FullName @*(@t.Artwork.Artist?.Email)*@</small><br />
+
                     </div>
 
                     <div class="d-flex justify-content-center flex-grow-1">

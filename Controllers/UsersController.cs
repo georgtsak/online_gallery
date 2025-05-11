@@ -195,7 +195,7 @@ public class UsersController : Controller
         var purchases = await _context.Transactions
             .Include(t => t.Artwork)
                 .ThenInclude(a => a.Artist)
-            .IgnoreQueryFilters()
+            .IgnoreQueryFilters() // emfanizei kai transactions apo deleted artists
             .Where(t => t.BuyerId == userId)
             .OrderByDescending(t => t.PurchasedAt)
             .ToListAsync();
