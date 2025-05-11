@@ -1,0 +1,22 @@
+﻿@model ArtistModalModel
+
+<div class="modal fade" id="artistModal-@Model.Artist.Id" tabindex="-1" aria-labelledby="artistModalLabel-@Model.Artist.Id" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="artistModalLabel-@Model.Artist.Id">@Model.Artist.FullName</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Email: @Model.Artist.Email</p>
+                <h6>Artworks:</h6>
+                <ul>
+                    @foreach (var art in Model.Artworks)
+                    {
+                        <li>@art.Title - €@art.Price</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
