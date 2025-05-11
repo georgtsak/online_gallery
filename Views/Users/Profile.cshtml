@@ -110,7 +110,7 @@
                 bool available = t.Artwork.Status == ArtworkStatus.Available;
                 
                 var artist = t.Artwork.Artist;
-                var artistArtworks = Model.Artworks.Where(a => a.ArtistId == artist.Id).ToList();
+                var artistArtworks = Model.AllArtworks.Where(a => a.ArtistId == artist.Id).ToList();
                 var modalModel = new ArtistModalModel
                 {
                     Artist = artist,

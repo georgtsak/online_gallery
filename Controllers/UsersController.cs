@@ -184,6 +184,10 @@ public class UsersController : Controller
             .OrderByDescending(a => a.CreatedAt)
             .ToListAsync();
 
+        var allArtworks = await _context.Artworks
+            .Include(a => a.Artist)
+            .ToListAsync();
+
         foreach (var a in artworks)
         {
             if (a.Title.Length > 100)
@@ -212,6 +216,7 @@ public class UsersController : Controller
         {
             User = user,
             Artworks = artworks,
+            AllArtworks = allArtworks,
             Purchases = purchases,
             Sales = sales
         };
