@@ -185,6 +185,7 @@ public class UsersController : Controller
             .ToListAsync();
 
         var allArtworks = await _context.Artworks
+            .IgnoreQueryFilters()
             .Include(a => a.Artist)
             .ToListAsync();
 

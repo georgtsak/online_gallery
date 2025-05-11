@@ -9,13 +9,27 @@
             </div>
             <div class="modal-body">
                 <p>Email: @Model.Artist.Email</p>
+
                 <h6>Artworks:</h6>
-                <ul>
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     @foreach (var art in Model.Artworks)
                     {
-                        <li>@art.Title - €@art.Price</li>
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="@art.ImageUrl" class="card-img-top" alt="@art.Title" style="object-fit: cover; height: 200px;" />
+                                <div class="card-body">
+                                    <h6 class="card-title text-truncate">@art.Title</h6>
+                                    <p class="card-text fw-bold">€@art.Price</p>
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#artworkModal-@art.Id">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        @await Html.PartialAsync("_ArtworksModal", art)
                     }
-                </ul>
+                </div>
             </div>
         </div>
     </div>
