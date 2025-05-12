@@ -52,9 +52,10 @@
                                         </button>
                                     }
 
-                                    <button class="btn btn-sm btn-outline-info" title="View artwork details">
+                                    <button type="button" class="btn btn-sm btn-outline-info" title="View artwork details" data-bs-toggle="modal" data-bs-target="#artworkModal-@artwork.Id">
                                         <i class="bi bi-eye"></i>
                                     </button>
+                                    @await Html.PartialAsync("_ArtworksModal", artwork)
 
                                     @if (owner)
                                     {
@@ -64,6 +65,7 @@
                                             <button class="btn btn-sm btn-outline-secondary" title="Edit artwork">
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
+                                            
                                             <button class="btn btn-sm btn-outline-danger" title="Delete artwork">
                                                 <i class="bi bi-trash3"></i>
                                             </button>
