@@ -109,5 +109,29 @@ namespace OnlineGallery.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var artwork = await _context.Artworks.FindAsync(id);
+            if (artwork == null)
+                return NotFound();
+
+            if (!string.IsNullOrEmpty(artwork.ImageUrl)) // diagrafh apo th supabase
+            {
+                var uri = new Uri(artwork.ImageUrl);
+                var fileName = Path.GetFileName(uri.LocalPath);
+
+                var bucket = _supabaseClient.Storage.From("artworks");
+                await bucket.Remove(fileName);
+            }
+
+            _context.Artworks.Remove(artwork);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+
     }
 }
