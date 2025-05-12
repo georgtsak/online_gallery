@@ -3,6 +3,8 @@
 
 <link rel="stylesheet" href="~/css/profile.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> <!-- icons -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
 
 <!-- ****************************************************** buttons ****** -->
@@ -66,11 +68,11 @@
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
 
-                                            <form asp-controller="Artworks" asp-action="Delete" asp-route-id="@artwork.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this artwork?');" style="display:inline;">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete artwork">
-                                                    <i class="bi bi-trash3"></i>
-                                                </button>
-                                            </form>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" title="Delete artwork"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteModal-@artwork.Id">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                            @Html.Partial("~/Views/Artworks/_DeleteModal.cshtml", artwork)
 
                                         }
                                         else
