@@ -1,34 +1,49 @@
 ﻿@model OnlineGallery.Models.ArtworksModel
-
 @{
-    ViewData["Title"] = "Upload Artwork";
+    ViewData["Title"] = ViewBag.IsEdit == true ? "Edit Artwork" : "Upload Artwork";
+    bool isEdit = ViewBag.IsEdit == true;
 }
+
 <link rel="stylesheet" href="~/css/artworks.css" />
 
 <div class="center-wrapper">
-    <form asp-action="Create" asp-controller="Artworks" method="post" enctype="multipart/form-data" class="upload_form" novalidate>
-        <h2>Upload Artwork</h2>
+    <form asp-action="@(isEdit ? "Edit" : "Create")" asp-controller="Artworks" method="post" enctype="multipart/form-data" class="upload_form" novalidate>
+        <h2>@(isEdit ? "Edit Artwork" : "Upload Artwork")</h2>
+
+        <input type="hidden" asp-for="Id" />
 
         <div class="mb-3">
-            <label for="Title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="Title" name="Title" required>
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" required />
         </div>
 
         <div class="mb-3">
-            <label for="Description" class="form-label">Description</label>
-            <textarea class="form-control" id="Description" name="Description" rows="3" required></textarea>
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="2" required></textarea>
         </div>
 
         <div class="mb-3">
-            <label for="Price" class="form-label">Price</label>
-            <input type="number" step="0.01" class="form-control" id="Price" name="Price" required>
+            <label asp-for="Price" class="form-label"></label>
+            <input asp-for="Price" class="form-control" type="number" step="0.01" required />
         </div>
 
-        <div class="mb-3">
-            <label for="Image" class="form-label">Upload Image</label>
-            <input type="file" class="form-control" id="Image" name="Image" accept="image/*" required>
-        </div>
+        @if (!isEdit)
+        {
+            <div class="mb-3">
+                <label for="Image" class="form-label">Upload Image</label>
+                <input type="file" class="form-control" id="Image" name="Image" accept="image/*" required>
+            </div>
+        }
+        else
+        {
+            <div class="mb-3">
+                <label class="form-label">Artwork:</label>
+                <img src="@Model.ImageUrl" class="img-thumbnail" style="max-width: 100px;" />
+            </div>
+        }
 
-        <button type="submit" class="btn btn-info w-100" style="  border: none; padding: 10px 5px;border-radius: 10px;">Upload</button>
+        <button type="submit" class="btn btn-info w-100" style="border: none; padding: 10px 5px; border-radius: 10px;">
+            @(isEdit ? "Save Changes" : "Upload")
+        </button>
     </form>
 </div>

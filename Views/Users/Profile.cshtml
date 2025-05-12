@@ -62,10 +62,10 @@
                                         
                                         if (artwork.Status == ArtworkStatus.Available)
                                         {
-                                            <button class="btn btn-sm btn-outline-secondary" title="Edit artwork">
+                                            <a asp-controller="Artworks" asp-action="Edit" asp-route-id="@artwork.Id" class="btn btn-sm btn-outline-secondary" title="Edit artwork">
                                                 <i class="bi bi-pencil-square"></i>
-                                            </button>
-                                            
+                                            </a>
+
                                             <button class="btn btn-sm btn-outline-danger" title="Delete artwork">
                                                 <i class="bi bi-trash3"></i>
                                             </button>

@@ -79,5 +79,35 @@ namespace OnlineGallery.Controllers
 
             return View(artworks);
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var artwork = await _context.Artworks.FindAsync(id);
+            if (artwork == null)
+                return NotFound();
+
+            ViewBag.IsEdit = true;
+
+            return View("Create", artwork);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, ArtworksModel updatedArtwork)
+        {
+            var artwork = await _context.Artworks.FindAsync(id);
+            if (artwork == null)
+                return NotFound();
+
+            artwork.Title = updatedArtwork.Title;
+            artwork.Description = updatedArtwork.Description;
+            artwork.Price = updatedArtwork.Price;
+
+            _context.Update(artwork);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
