@@ -55,7 +55,7 @@ namespace OnlineGallery.Controllers
 
             UserRoleHelper.UpdateUserRole(_context, UserId.Value); // helper
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Profile","Users");
         }
 
         // **************************************************** return View ******
@@ -70,6 +70,9 @@ namespace OnlineGallery.Controllers
             }
             return View();
         }
+
+        // ********************************************************** index ******
+
         public async Task<IActionResult> Index()    
         {
             var artworks = await _context.Artworks
@@ -79,6 +82,8 @@ namespace OnlineGallery.Controllers
 
             return View(artworks);
         }
+
+        // *************************************************** edit artwork ******
 
         public async Task<IActionResult> Edit(int id)
         {
@@ -106,8 +111,10 @@ namespace OnlineGallery.Controllers
             _context.Update(artwork);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Profile", "Users");
         }
+
+        // ************************************************* delete artwork ******
 
         [HttpPost]
         [ValidateAntiForgeryToken]

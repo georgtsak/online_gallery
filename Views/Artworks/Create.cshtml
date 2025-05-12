@@ -45,8 +45,17 @@
                 </div>
             }
         </div>
-        <button type="submit" class="btn btn-info w-100 mb-2" style="border: none; padding: 10px 5px; border-radius: 10px;">
-            @(isEdit ? "Save Changes" : "Upload")
-        </button>
+
+        <div class="d-flex gap-2">
+            
+
+            <button type="button" class="btn btn-dark w-50 mr-2" onclick="window.history.back();" style="border: none; padding: 10px 5px; border-radius: 10px;">
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-info w-50" style="border: none; padding: 10px 5px; border-radius: 10px;">
+                @(isEdit ? "Save Changes" : "Upload")
+            </button>
+        </div>
+
     </form>
 </div>
