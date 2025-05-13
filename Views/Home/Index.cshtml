@@ -5,6 +5,8 @@
     Layout = "_Layout";
 }
 
+<!-- ***************************************************** carousel ****** -->
+
 <div class="row justify-content-center fullscreen align-items-center">
     <div class="col-lg-5 col-md-8 home-banner-left">
         <div id="textCarousel" class="carousel slide" data-ride="carousel">
@@ -40,6 +42,28 @@
     </div>
 
 </div>
+
+<!-- ************************************************** top artists ****** -->
+
+<section class="py-5">
+    <h2 class="text-center mb-2">Top 5 Artists</h2>
+
+    <div class="rounded mb-2" style="background-color: rgba(05,0,0,0.8); width: 100%;">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                @foreach (var artist in Model.TopArtists)
+                {
+                    <div class="col-md-2 text-center mx-2 mb-0">
+                        <img src="@artist.SampleArtwork?.ImageUrl" class="rounded mb-2"
+                             style="width: 170px; height: 170px; object-fit: cover;" />
+                        <h5>@artist.Artist.FullName</h5>
+                        <p>sales: @artist.SalesCount </p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
 
 <script src="js/owl.carousel.min.js"></script>
 <link rel="stylesheet" href="css/carousel.css" />
