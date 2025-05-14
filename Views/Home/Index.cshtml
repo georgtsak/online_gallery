@@ -97,20 +97,25 @@
     const slider = document.getElementById('artworkSlider');
     const cardWidth = 250 + 16; // width + margin
     let autoScroll;
-    let scrollStep = 2; // pixels per frame
+    let scrollStep = 3; // pixels per frame
     let scrollInterval = 16; // 60fps
+    let cloned = false;
 
+    // klwnopoihsh twn cards sto telos tou slider
+    // gia na apofygoume to reverse animation
     window.addEventListener('DOMContentLoaded', () => {
-        const cards = Array.from(slider.children);
-        const visibleCardsCount = Math.floor(slider.offsetWidth / cardWidth);
+        // apofugh klwnopoihshs an exei ginei hdh
+        // gia na mhn uparksei uperfortwsh tou slider
+        if (!cloned) {
+            const cards = Array.from(slider.children);
+            const visibleCardsCount = Math.floor(slider.offsetWidth / cardWidth);
 
-        // klwnopoihsh twn cards sto telos tou slider
-        // apofugh reverse animation
-        for (let i = 0; i < visibleCardsCount; i++) {
-            const clone = cards[i].cloneNode(true);
-            slider.appendChild(clone);
+            for (let i = 0; i < visibleCardsCount; i++) {
+                const clone = cards[i].cloneNode(true);
+                slider.appendChild(clone);
+            }
+            cloned = true;
         }
-
         startAutoScroll();
     });
 
@@ -126,6 +131,7 @@
     }
 
     function startAutoScroll() {
+        stopAutoScroll();
         autoScroll = setInterval(scrollSlider, scrollInterval);
     }
 
@@ -137,8 +143,6 @@
     slider.addEventListener('mouseenter', stopAutoScroll);
     slider.addEventListener('mouseleave', startAutoScroll);
 </script>
-
-
 
 <script src="js/owl.carousel.min.js"></script>
 <link rel="stylesheet" href="css/carousel.css" />
