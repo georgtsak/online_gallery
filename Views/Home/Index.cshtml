@@ -95,15 +95,17 @@
 
 <script>
     const slider = document.getElementById('artworkSlider');
-    const cardWidth = 250 +10; // card + margin
+    const cardWidth = 250 + 16; // width + margin
     let autoScroll;
+    let scrollStep = 2; // pixels per frame
+    let scrollInterval = 16; // 60fps
 
-    // klwnopoihsh twn cards sto telos tou slider
-    // apofugh reverse animation
     window.addEventListener('DOMContentLoaded', () => {
-        const cards = slider.children;
+        const cards = Array.from(slider.children);
         const visibleCardsCount = Math.floor(slider.offsetWidth / cardWidth);
 
+        // klwnopoihsh twn cards sto telos tou slider
+        // apofugh reverse animation
         for (let i = 0; i < visibleCardsCount; i++) {
             const clone = cards[i].cloneNode(true);
             slider.appendChild(clone);
@@ -113,31 +115,30 @@
     });
 
     function scrollSlider() {
-        slider.scrollLeft += cardWidth;
+        slider.scrollLeft += scrollStep;
 
+        // telos tou slider, start smoothly
         if (slider.scrollLeft >= slider.scrollWidth - slider.offsetWidth) {
-            setTimeout(() => {
-                slider.style.scrollBehavior = 'auto';
-                slider.scrollLeft = 0;
-
-                setTimeout(() => {
-                    slider.style.scrollBehavior = 'smooth';
-                }, 50);
-            }, 300);
+            slider.style.scrollBehavior = 'auto';
+            slider.scrollLeft = 0;
+            slider.style.scrollBehavior = 'smooth';
         }
     }
 
     function startAutoScroll() {
-        autoScroll = setInterval(scrollSlider, 1000);
+        autoScroll = setInterval(scrollSlider, scrollInterval);
     }
 
     function stopAutoScroll() {
         clearInterval(autoScroll);
     }
 
+    // kanei pause sto hover
     slider.addEventListener('mouseenter', stopAutoScroll);
     slider.addEventListener('mouseleave', startAutoScroll);
 </script>
+
+
 
 <script src="js/owl.carousel.min.js"></script>
 <link rel="stylesheet" href="css/carousel.css" />
