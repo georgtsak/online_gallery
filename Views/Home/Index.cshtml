@@ -1,9 +1,12 @@
-﻿@{
+﻿@model HomeModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 @{
     Layout = "_Layout";
 }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> <!-- icons -->
 
 <!-- ***************************************************** carousel ****** -->
 
@@ -79,9 +82,12 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">@artwork.Title</h5>
                         <p class="card-text">€@artwork.Price</p>
-                        <button class="btn btn-sm btn-info">View</button>
+                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#artworkModal-@artwork.Id">
+                            <i class="bi bi-eye"></i>
+                        </button>
                     </div>
                 </div>
+                @await Html.PartialAsync("_ArtworksModal", artwork)
             }
         </div>
     </div>
