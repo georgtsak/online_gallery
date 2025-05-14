@@ -17,10 +17,23 @@ namespace OnlineGallery.Controllers
             _logger = logger;
             _context = context;
         }
-
+        
         public IActionResult Index()
         {
-            var topArtists = _context.Transactions
+            var model = new HomeModel
+            {
+                TopArtists = GetTopArtists(),
+                RecentArtworks = GetRecentArtworksOfTopArtists()
+            };
+
+            return View(model);
+        }
+
+        // *********************************** top 5 artists based on sales ******
+
+        private List<HomeModel.TopArtists1> GetTopArtists()
+        {
+            var topArtistsData = _context.Transactions
                 .Where(t => t.Status == TransactionStatus.Completed)
                 .Include(t => t.Artwork)
                 .ThenInclude(a => a.Artist)
@@ -33,7 +46,9 @@ namespace OnlineGallery.Controllers
                 })
                 .OrderByDescending(x => x.SalesCount)
                 .Take(5)
-                .ToList()
+                .ToList();
+
+            var topArtists = topArtistsData
                 .Select(x =>
                 {
                     var sampleArtwork = _context.Artworks
@@ -50,14 +65,30 @@ namespace OnlineGallery.Controllers
                 })
                 .ToList();
 
-            var model = new HomeModel
-            {
-                TopArtists = topArtists
-            };
-
-            return View(model);
+            return topArtists;
         }
 
+        // ********************************* recent artworks of top artists ******
+
+        private List<ArtworksModel> GetRecentArtworksOfTopArtists()
+        {
+            var topArtistIds = _context.Transactions
+                .Where(t => t.Status == TransactionStatus.Completed)
+                .Include(t => t.Artwork)
+                .GroupBy(t => t.Artwork.ArtistId)
+                .OrderByDescending(g => g.Count())
+                .Take(5)
+                .Select(g => g.Key)
+                .ToList();
+
+            var artworks = _context.Artworks
+                .Where(a => topArtistIds.Contains(a.ArtistId))
+                .OrderByDescending(a => a.CreatedAt)
+                .Take(20)
+                .ToList();
+
+            return artworks;
+        }
 
         public IActionResult Privacy()
         {

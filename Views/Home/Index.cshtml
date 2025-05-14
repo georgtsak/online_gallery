@@ -45,8 +45,8 @@
 
 <!-- ************************************************** top artists ****** -->
 
-<section class="py-5">
-    <h2 class="text-center mb-2">Top 5 Artists</h2>
+<div class="py-5">
+    <h3 class="text-center mb-2">Top 5 Artists</h3>
 
     <div class="rounded mb-2" style="background-color: rgba(05,0,0,0.8); width: 100%;">
         <div class="container py-5">
@@ -63,7 +63,75 @@
             </div>
         </div>
     </div>
-</section>
+</div>
+
+<!-- ******************************* recent artworks of top artists ****** -->
+
+<div class="container mt-5">
+    <h3 class="text-center mb-2">Recent Artworks by Top Artists</h3>
+
+    <div class="position-relative">
+        <div class="d-flex overflow-hidden" id="artworkSlider" style="scroll-behavior: smooth;">
+            @foreach (var artwork in Model.RecentArtworks)
+            {
+                <div class="card m-2 flex-shrink-0" style="width: 250px;">
+                    <img src="@artwork.ImageUrl" class="card-img-top" alt="@artwork.Title" style="height: 200px; object-fit: cover;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@artwork.Title</h5>
+                        <p class="card-text">€@artwork.Price</p>
+                        <button class="btn btn-sm btn-info">View</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    const slider = document.getElementById('artworkSlider');
+    const cardWidth = 250 +10; // card + margin
+    let autoScroll;
+
+    // klwnopoihsh twn cards sto telos tou slider
+    // apofugh reverse animation
+    window.addEventListener('DOMContentLoaded', () => {
+        const cards = slider.children;
+        const visibleCardsCount = Math.floor(slider.offsetWidth / cardWidth);
+
+        for (let i = 0; i < visibleCardsCount; i++) {
+            const clone = cards[i].cloneNode(true);
+            slider.appendChild(clone);
+        }
+
+        startAutoScroll();
+    });
+
+    function scrollSlider() {
+        slider.scrollLeft += cardWidth;
+
+        if (slider.scrollLeft >= slider.scrollWidth - slider.offsetWidth) {
+            setTimeout(() => {
+                slider.style.scrollBehavior = 'auto';
+                slider.scrollLeft = 0;
+
+                setTimeout(() => {
+                    slider.style.scrollBehavior = 'smooth';
+                }, 50);
+            }, 300);
+        }
+    }
+
+    function startAutoScroll() {
+        autoScroll = setInterval(scrollSlider, 1000);
+    }
+
+    function stopAutoScroll() {
+        clearInterval(autoScroll);
+    }
+
+    slider.addEventListener('mouseenter', stopAutoScroll);
+    slider.addEventListener('mouseleave', startAutoScroll);
+</script>
 
 <script src="js/owl.carousel.min.js"></script>
 <link rel="stylesheet" href="css/carousel.css" />

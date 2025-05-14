@@ -14,7 +14,5 @@
             public ArtworksModel SampleArtwork { get; set; } // random artwork
             public int SalesCount { get; set; }     
         }
-        
     }
-
 }
