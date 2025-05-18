@@ -38,7 +38,7 @@
 		<div class="d-flex justify-content-center h-100">
 			<div class="card" style="height:490px;">
 				<div class="card-header">
-					<h3>Δημιουργία νέου λογαριασμού</h3>
+					<h3>Create New Account</h3>
 				</div>
 				<div class="card-body">
 					<form asp-controller="Users" asp-action="Register" method="post" name="register_form" onsubmit="return elegxos()">
@@ -72,16 +72,16 @@
 							<input type="password" minlength="8" maxlength="20" pattern=".{8,20}" title="The password must be between 8 and 20 characters long." id="password2" name="password2" class="form-control" placeholder="Confirm Password">
 						</div>
 						<div class="row align-items-center show">
-							<input type="checkbox" onclick="emfanish_kwdikou()">&nbsp;Εμφάνιση Κωδικού
+							<input type="checkbox" onclick="emfanish_kwdikou()">&nbsp;Show Password
 						</div>
 						<div class="form-group">
-							<input type="submit" value="Εγγραφή" class="btn float-right login_btn">
+							<input type="submit" value="Register" class="btn float-right login_btn">
 						</div>
 					</form>
 				</div>
 				<div class="card-footer">
 					<div class="d-flex justify-content-center links">
-						Έχετε ήδη λογαριασμό;<a asp-action="Login">Σύνδεση</a>
+						Already have an account?<a asp-action="Login">Login</a>
 					</div>
 
 				</div>
@@ -105,17 +105,17 @@
 	function elegxos() {
 		var fields = ["fullname", "email", "password", "password2"];
 		var fieldNames = {
-			"fullname": "Ονοματεπώνυμο",
+			"fullname": "Full Name",
 			"email": "Email",
-			"password": "Κωδικός",
-			"password2": "Επιβεβαίωση Κωδικού"
+			"password": "Password",
+			"password2": "Confirm Password"
 		};
 
 		for (var i = 0; i < fields.length; i++) {
 			var field = fields[i];
 			var value = document.forms["register_form"][field].value;
 			if (value == "") {
-				alert("Το πεδίο " + fieldNames[field] + " δεν μπορεί να είναι κενό.");
+				alert("The field " + fieldNames[field] + " cannot be empty.");
 				return false;
 			}
 		}
@@ -131,7 +131,7 @@
 		}
 
 		if (document.forms["register_form"]["password"].value != document.forms["register_form"]["password2"].value) {
-			alert("Ο κωδικός και η επιβεβαίωση κωδικού δεν ταιριάζουν.");
+			alert("Password and Confirm Password do not match.");
 			return false;
 		}
 
