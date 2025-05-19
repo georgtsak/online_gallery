@@ -1,12 +1,12 @@
 ﻿.custom-card {
-    transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out, background-color 0.5s ease-in-out, border-width 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out, background-color 0.5s ease-in-out;
     background-color: rgba(0, 0, 0, 0.8);
     border-radius: 1rem;
+    border: 0.5px solid white; 
 }
 
     .custom-card:hover {
         transform: scale(1.03);
         box-shadow: 0 0.2rem 0.4rem rgba(23,162,184, 0.5);
-        border-width: 2px;
         background-color: rgba(0,0,0,0.3);
     }
