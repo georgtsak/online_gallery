@@ -215,17 +215,21 @@
     <h3>My Sales</h3>
     @if (Model.Sales.Any())
     {
-        <div class="row">
+        <div id="artworks_container" class="list-view">
             @foreach (var s in Model.Sales)
             {
-                <div class="col-md-4 mb-3">
-                    <div class="card">
+                <div class="col-md-2">
+                    <div class="card position-relative">
                         <img src="@s.Artwork.ImageUrl" class="card-img-top" alt="@s.Artwork.Title" />
                         <div class="card-body">
                             <h5 class="card-title">@s.Artwork.Title</h5>
                             <p class="card-text">
                                 €@s.Price
                                 <small class="text-muted">on @s.PurchasedAt.ToString("dd/MM/yyyy")</small>
+                                @if (s.Artwork.Status == ArtworkStatus.Sold)
+                                {
+                                    <span class="badge bg-success text-dark fixed-badge">Sold</span>
+                                }
                             </p>
                         </div>
                     </div>
