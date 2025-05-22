@@ -23,9 +23,20 @@
                 {
                     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
                 }*@
-                <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@Model.Id" method="post">
-                    <button type="submit" class="btn btn-success">Buy Now</button>
-                </form>
+
+                @if (Model.Status == ArtworkStatus.Available)
+                {
+                    <span title="Artwork available">
+                        <i class="bi bi-circle-fill text-success small"> Available</i>
+                    </span>
+                    <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@Model.Id" method="post">
+                        <button type="submit" class="btn btn-success">Buy Now</button>
+                    </form>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-secondary" disabled>Sold</button>
+                }
 
             </div>
         </div>
