@@ -1,7 +1,7 @@
 ﻿@model ArtistModalModel
 
 <div class="modal fade" id="artistModal-@Model.Artist.Id" tabindex="-1" aria-labelledby="artistModalLabel-@Model.Artist.Id" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 800px;">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="d-flex align-items-center">
@@ -22,9 +22,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body">
-
-                <p><strong>Email:</strong>
+            <div class="modal-body" style="height: 410px; overflow-y: auto;">
+                <p>
+                    <strong>Email:</strong>
                     @if (Model.Artist.IsDeleted)
                     {
                         @MaskEmail(Model.Artist.Email)
@@ -59,6 +59,7 @@
         </div>
     </div>
 </div>
+
 
 @functions {
     public string MaskEmail(string email)
