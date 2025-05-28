@@ -4,15 +4,24 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="artistModalLabel-@Model.Artist.Id">@Model.Artist.FullName
-                    @if (Model.Artist.IsDeleted)
-                    {
-                        <span class="text-danger small"><em> - Deleted user</em></span>
-                    }
-                </h5>
-                
+                <div class="d-flex align-items-center">
+                    <img src="@Model.Artist.ProfileImgUrlOrDefault"
+                         alt="Profile Image"
+                         class="rounded-circle me-2"
+                         style="width: 30px; height: 30px; object-fit: cover; border:1px solid #17a2b8; padding:3px; margin-right:5px;" />
+
+                    <h5 class="modal-title m-0" id="artistModalLabel-@Model.Artist.Id">
+                        @Model.Artist.FullName
+                        @if (Model.Artist.IsDeleted)
+                        {
+                            <span class="text-danger small"><em> - Deleted user</em></span>
+                        }
+                    </h5>
+                </div>
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
 
                 <p><strong>Email:</strong>
@@ -32,13 +41,13 @@
                     @foreach (var art in Model.Artworks)
                     {
                         <div class="col">
-                            <div class="card h-100">
-                                <img src="@art.ImageUrl" class="card-img-top" alt="@art.Title" style="object-fit: cover; height: 200px;" />
+                            <div class="card p-3 border-info mb-3">
+                                <img src="@art.ImageUrl" class="card-img-top" alt="@art.Title" style="object-fit: cover; height: 130px; width:200px;" />
                                 <div class="card-body">
                                     <h6 class="card-title text-truncate">@art.Title</h6>
                                     <p class="card-text fw-bold">€@art.Price</p>
-                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#artworkModal-@art.Id">
-                                        <i class="bi bi-eye"></i>
+                                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#artworkModal-@art.Id">
+                                        <i class="bi bi-eye"></i> View artwork
                                     </button>
                                 </div>
                             </div>
