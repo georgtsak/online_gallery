@@ -5,40 +5,54 @@
 }
 
 <div class="modal fade" id="artworkModal-@Model.Id" tabindex="-1" aria-labelledby="artworkModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 800px;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="artworkModalLabel">@Model.Title</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body d-flex flex-column align-items-center">
-                <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid mb-3" style="max-height: 400px;height:auto;width:auto;">
-                <p><strong>Description:</strong> @Model.Description</p>
-                <p><strong>@Model.Price€</strong> </p>
-                @if (Model.Artist != null)
-                {
-                    <p><strong>Artist:</strong> @Model.Artist.FullName (@Model.Artist.Email)</p>
-                }
-                @*@if (isArtist)
-                {
-                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-                }*@
 
-                @if (Model.Status == ArtworkStatus.Available)
-                {
-                    <span title="Artwork available">
-                        <i class="bi bi-circle-fill text-success small"> Available</i>
-                    </span>
-                    <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@Model.Id" method="post">
-                        <button type="submit" class="btn btn-success">Buy Now</button>
-                    </form>
-                }
-                else
-                {
-                    <button type="button" class="btn btn-secondary" disabled>Sold</button>
-                }
+            <div class="modal-body m-3 border border-info rounded"
+                 style="background-color: rgba(23, 162, 184, 0.1); height:410px; overflow-y: auto;">
+                <div class="row h-100 mr-2">
+                    <div class="col-md-6 d-flex justify-content-center align-items-center">
+                        <img src="@Model.ImageUrl"
+                             alt="@Model.Title"
+                             style="max-width: 80%; max-height: 80%; object-fit: contain;" />
+                    </div>
 
+                    <div class="col-md-6 d-flex flex-column justify-content-center border border-info rounded bg-light">
+                        <div>
+                            <p><strong>Description:</strong> @Model.Description</p>
+                            <p><strong>Price:</strong> @Model.Price€</p>
+
+                            @if (Model.Artist != null)
+                            {
+                                <p><strong>Artist:</strong> @Model.Artist.FullName (@Model.Artist.Email)</p>
+                            }
+                        </div>
+
+                        <div>
+                            @if (Model.Status == ArtworkStatus.Available)
+                            {
+                                <span title="Artwork available">
+                                    <i class="bi bi-circle-fill text-info small"> Available</i>
+                                </span>
+                                <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@Model.Id" method="post">
+                                    <button type="submit" class="btn btn-info w-50 mt-2">Buy Now</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-secondary w-50 mt-2" disabled>Sold</button>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
+
+
