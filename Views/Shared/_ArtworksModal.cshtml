@@ -12,8 +12,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <div class="modal-body m-3 border border-info rounded"
-                 style="background-color: rgba(23, 162, 184, 0.1); height:410px; overflow-y: auto;">
+            <div class="modal-body m-3 border rounded"
+                 style="height:410px; overflow-y: auto; background-color: @(Model.Status == ArtworkStatus.Available
+                                            ? "rgba(23, 162, 184, 0.1)"
+                                            : "rgba(108, 117, 125, 0.2)");">
                 <div class="row h-100 mr-2">
                     <div class="col-md-6 d-flex justify-content-center align-items-center">
                         <img src="@Model.ImageUrl"
@@ -21,7 +23,7 @@
                              style="max-width: 80%; max-height: 80%; object-fit: contain;" />
                     </div>
 
-                    <div class="col-md-6 d-flex flex-column justify-content-center border border-info rounded bg-light">
+                    <div class="col-md-6 d-flex flex-column justify-content-center border rounded bg-light @(Model.Status == ArtworkStatus.Available ? "border-info" : "border-secondary")">
                         <div>
                             <p><strong>Description:</strong> @Model.Description</p>
                             <p><strong>Price:</strong> @Model.Price€</p>
@@ -50,6 +52,7 @@
                     </div>
                 </div>
             </div>
+
 
         </div>
     </div>
