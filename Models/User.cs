@@ -21,6 +21,16 @@ namespace OnlineGallery.Models
 
 		public Role Role { get; set; } = Role.Visitor; // default
         public bool IsDeleted { get; set; } = false;
+        public string? ProfileImgUrl { get; set; }
+        public string ProfileImgUrlOrDefault
+        {
+            get
+            {
+                return string.IsNullOrEmpty(ProfileImgUrl)
+                    ? "https://sofwlyfuejegiceqpgzw.supabase.co/storage/v1/object/public/profile-img/default.jpg"
+                    : ProfileImgUrl;
+            }
+        }
     }
 
 	public enum Role

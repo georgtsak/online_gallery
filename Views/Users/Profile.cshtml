@@ -285,7 +285,14 @@
 
         <div class="col-md-8">
             <div class="card card1">
-                <div class="card-header">User Info</div>
+
+                <div class="card-header">
+                    <img src="@Model.User.ProfileImgUrlOrDefault"
+                         alt="Profile Image"
+                         class="rounded-circle"
+                         style="width: 30px; height: 30px; object-fit: cover; border:1px solid #17a2b8; padding:3px;" />
+                </div>
+
                 <ul class="list-group list-group-flush pad_top1">
                     <li class="list-group-item"><strong>Email:</strong> @Model.User.Email</li>
 
