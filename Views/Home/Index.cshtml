@@ -47,6 +47,48 @@
 
 </div>
 
+<!-- ***************************************** recommended artworks ****** -->
+
+<div class="container mt-5">
+    <h3 class="text-center text-secondary mb-2">Recommended for You</h3>
+
+    <div class="row justify-content-center">
+        @if (Model.RecommendedArtworks != null && Model.RecommendedArtworks.Any())
+        {
+            @foreach (var artwork in Model.RecommendedArtworks)
+            {
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+
+                        <img src="@artwork.ImageUrl"
+                             class="card-img-top"
+                             alt="@artwork.Title"
+                             style="height: 200px; object-fit: cover;">
+
+                        <div class="card-body d-flex flex-column text-center">
+                            <h5 class="card-title">@artwork.Title</h5>
+                            <p class="card-text text-muted">€@artwork.Price</p>
+
+                            <button type="button"
+                                    class="btn btn-outline-info mt-auto"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#artworkModal-@artwork.Id">
+                                <i class="bi bi-eye"></i> View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                @await Html.PartialAsync("_ArtworksModal", artwork)
+            }
+        }
+        else
+        {
+            <p class="text-center text-muted">No recommendations yet. <br> Log in and make a purchase to get personalized suggestions.</p>
+        }
+    </div>
+</div>
+
 <!-- ************************************************** top artists ****** -->
 
 <div class="py-5">

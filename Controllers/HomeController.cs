@@ -17,17 +17,19 @@ namespace OnlineGallery.Controllers
             _logger = logger;
             _context = context;
         }
-        
+
         public IActionResult Index()
         {
             var model = new HomeModel
             {
                 TopArtists = GetTopArtists(),
-                RecentArtworks = GetRecentArtworksOfTopArtists()
+                RecentArtworks = GetRecentArtworksOfTopArtists(),
+                RecommendedArtworks = GetRecommendedArtworks()
             };
 
             return View(model);
         }
+
 
         // *********************************** top 5 artists based on sales ******
 
@@ -80,6 +82,40 @@ namespace OnlineGallery.Controllers
 
             return artworks;
         }
+
+        // ********************************** recommended artworks for user ******
+
+        private List<ArtworksModel> GetRecommendedArtworks()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+            {
+                return new List<ArtworksModel>();
+            }
+
+            // completed transactions
+            var artistIds = _context.Transactions
+                .Where(t => t.BuyerId == userId && t.Status == TransactionStatus.Completed)
+                .Include(t => t.Artwork)
+                .Select(t => t.Artwork.ArtistId)
+                .Distinct()
+                .ToList();
+
+            if (!artistIds.Any())
+            {
+                return new List<ArtworksModel>();
+            }
+
+            var recommended = _context.Artworks
+                .Where(a => artistIds.Contains(a.ArtistId) && a.Status == ArtworkStatus.Available)
+                .OrderByDescending(a => a.CreatedAt)
+                .Take(8)
+                .ToList();
+
+            return recommended;
+        }
+
+        // ********************************** ***************************** ******
 
         public IActionResult Privacy()
         {
