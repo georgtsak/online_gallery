@@ -37,15 +37,22 @@
                         <div>
                             @if (Model.Status == ArtworkStatus.Available)
                             {
-                                <span title="Artwork available">
-                                    <i class="bi bi-circle-fill text-info small"> Available</i>
+                                <span title="Artwork available" class="d-inline">
+                                    <i class="bi bi-circle-fill text-info" style="font-size:0.5rem; vertical-align: middle;"></i>
+                                    <span class="text-info small">Available</span>
                                 </span>
+
                                 <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@Model.Id" method="post">
                                     <button type="submit" class="btn btn-info w-50 mt-2">Buy Now</button>
                                 </form>
                             }
                             else
                             {
+                                <span title="Artwork unavailable" class="d-inline">
+                                    <i class="bi bi-circle-fill text-secondary" style="font-size:0.5rem; vertical-align: middle;"></i>
+                                    <span class="text-secondary small">No longer available</span>
+                                </span>
+                                <br>
                                 <button type="button" class="btn btn-secondary w-50 mt-2" disabled>Sold</button>
                             }
                         </div>
