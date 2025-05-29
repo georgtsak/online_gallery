@@ -23,7 +23,7 @@
                              style="max-width: 80%; max-height: 80%; object-fit: contain;" />
                     </div>
 
-                    <div class="col-md-6 d-flex flex-column justify-content-center border rounded bg-light @(Model.Status == ArtworkStatus.Available ? "border-info" : "border-secondary")">
+                    <div class="col-md-6 d-flex flex-column justify-content-center border rounded text-center bg-light @(Model.Status == ArtworkStatus.Available ? "border-info" : "border-secondary")">
                         <div>
                             <p><strong>Description:</strong> @Model.Description</p>
                             <p><strong>Price:</strong> @Model.Price€</p>
