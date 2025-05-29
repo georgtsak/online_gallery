@@ -49,21 +49,12 @@ namespace OnlineGallery.Controllers
                 .ToList();
 
             var topArtists = topArtistsData
-                .Select(x =>
-                {
-                    var sampleArtwork = _context.Artworks
-                        .Where(a => a.ArtistId == x.ArtistId)
-                        .OrderBy(r => Guid.NewGuid())
-                        .FirstOrDefault();
-
-                    return new HomeModel.TopArtists1
+                    .Select(x => new HomeModel.TopArtists1
                     {
                         Artist = x.Artist,
-                        SalesCount = x.SalesCount,
-                        SampleArtwork = sampleArtwork
-                    };
-                })
-                .ToList();
+                        SalesCount = x.SalesCount
+                    })
+                    .ToList();
 
             return topArtists;
         }

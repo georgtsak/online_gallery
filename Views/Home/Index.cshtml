@@ -58,8 +58,11 @@
                 @foreach (var artist in Model.TopArtists)
                 {
                     <div class="col-md-2 text-center mx-2 mb-0">
-                        <img src="@artist.SampleArtwork?.ImageUrl" class="rounded mb-2"
-                             style="width: 170px; height: 170px; object-fit: cover;" />
+
+                        <img src="@artist.Artist.ProfileImgUrlOrDefault"
+                             class="rounded-circle mb-2 border border-info"
+                             style="width: 170px; height: 170px; object-fit: cover; padding: 4px;" />
+
                         <h5>@artist.Artist.FullName</h5>
                         <p>sales: @artist.SalesCount </p>
                     </div>
@@ -68,8 +71,6 @@
         </div>
     </div>
 </div>
-
-<!--<hr class="text-secondary" style="border: 1px solid currentColor; width: 97.5%; margin: 20px auto;">-->
 
 <!-- ******************************* recent artworks of top artists ****** -->
 
