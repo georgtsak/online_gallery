@@ -7,7 +7,7 @@
 
 <link rel="stylesheet" href="~/css/artworks.css" />
 <div class="center-wrapper">
-    <form asp-action="@(isEdit ? "Edit" : "Create")" asp-controller="Artworks" method="post" enctype="multipart/form-data" class="upload_form" novalidate>
+    <form id="artworkForm" asp-action="@(isEdit ? "Edit" : "Create")" asp-controller="Artworks" method="post" enctype="multipart/form-data" class="upload_form" novalidate>
         <h2>@(isEdit ? "Edit Artwork" : "Upload Artwork")</h2>
 
         <input type="hidden" asp-for="Id" />
@@ -52,10 +52,25 @@
             <button type="button" class="btn btn-dark w-50 mr-2" onclick="window.history.back();" style="border: none; padding: 10px 5px; border-radius: 10px;">
                 Cancel
             </button>
-            <button type="submit" class="btn btn-info w-50" style="border: none; padding: 10px 5px; border-radius: 10px;">
+            <button type="submit" id="artworkSubmitBtn" class="btn btn-info w-50" style="border: none; padding: 10px 5px; border-radius: 10px;">
                 @(isEdit ? "Save Changes" : "Upload")
             </button>
         </div>
 
     </form>
 </div>
+
+<script>
+
+    const artworkForm = document.getElementById("artworkForm");
+    const artworkSubmitBtn = document.getElementById("artworkSubmitBtn");
+
+    artworkForm.addEventListener("submit", function () {
+        artworkSubmitBtn.disabled = true;
+        artworkSubmitBtn.innerHTML = `
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Uploading...
+        `;
+    });
+
+</script>
