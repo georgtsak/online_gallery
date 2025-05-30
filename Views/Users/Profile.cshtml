@@ -286,20 +286,29 @@
         <div class="col-md-8">
             <div class="card card1">
 
-                <div class="card-header">
-                    <img src="@Model.User.ProfileImgUrlOrDefault"
-                         alt="Profile Image"
-                         class="rounded-circle"
-                         style="width: 30px; height: 30px; object-fit: cover; border:1px solid #17a2b8; padding:3px;" />
+                <li class="card-header list-group-item d-flex justify-content-between align-items-center">
+                    <span class="d-flex align-items-center">
+                        <img src="@Model.User.ProfileImgUrlOrDefault"
+                             class="rounded-circle"
+                             style="width: 100px; height: 100px; object-fit: cover; border:1px solid #17a2b8; padding:3px; margin-right: 10px;" />
 
-                         <form asp-controller="Users" asp-action="ChangeProfileImg" method="post" enctype="multipart/form-data">
+                        <form id="changeProfileForm" asp-controller="Users" asp-action="ChangeProfileImg" method="post" enctype="multipart/form-data" class="d-flex align-items-center">
                             @Html.AntiForgeryToken()
-                            <input type="file" name="profileImage" class="form-control-file mb-2" accept="image/*" required />
-                            <button type="submit" class="btn btn-outline-info btn-sm">Change Profile Image</button>
-                        </form>
-                </div>
 
-                <ul class="list-group list-group-flush pad_top1">
+                            <label for="profileImageInput" class="btn btn-outline-dark btn-sm mb-0" style="display: none;" id="chooseImageBtn">Choose Image...</label>
+                            <input type="file" name="profileImage" id="profileImageInput" accept="image/*" style="display: none;" />
+                            <span id="fileNamePreview" class="mx-2" style="display: none; font-size: 0.9em; color: #555;"></span>
+                            <button type="submit" id="saveProfileBtn" class="btn btn-outline-info btn-sm mx-1" style="display: none;">Save</button>
+                            <button type="button" id="cancel_profile_btn" class="btn btn-outline-secondary btn-sm" style="display: none;">Cancel</button>
+                        </form>
+                    </span>
+
+                    <div>
+                        <button id="edit_profile_img_btn" class="btn btn-outline-secondary btn-sm">Change Profile Image <i class="bi bi-pencil-square"></i></button>
+                    </div>
+                </li>
+
+                <ul class="list-group list-group-flush">
                     <li class="list-group-item"><strong>Email:</strong> @Model.User.Email</li>
 
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -516,6 +525,43 @@
         saveBtn.style.display = "none";
         cancelBtn.style.display = "none";
         editBtn.style.display = "inline-block";
+    });
+
+    // ***************************************** change profile image ****** //
+
+    const edit_profile_img_btn = document.getElementById("edit_profile_img_btn");
+    const cancel_profile_btn = document.getElementById("cancel_profile_btn");
+    const profileImageInput = document.getElementById("profileImageInput");
+    const saveProfileBtn = document.getElementById("saveProfileBtn");
+    const chooseImageBtn = document.getElementById("chooseImageBtn");
+    const fileNamePreview = document.getElementById("fileNamePreview");
+
+    edit_profile_img_btn.addEventListener("click", function () {
+        chooseImageBtn.style.display = "inline-block";
+        saveProfileBtn.style.display = "inline-block";
+        cancel_profile_btn.style.display = "inline-block";
+        edit_profile_img_btn.style.display = "none";
+    });
+
+    cancel_profile_btn.addEventListener("click", function () {
+        profileImageInput.value = "";
+        fileNamePreview.style.display = "none";
+        fileNamePreview.textContent = "";
+        chooseImageBtn.style.display = "none";
+        saveProfileBtn.style.display = "none";
+        cancel_profile_btn.style.display = "none";
+        edit_profile_img_btn.style.display = "inline-block";
+    });
+
+    profileImageInput.addEventListener("change", function () {
+        const fileName = profileImageInput.files.length > 0 ? profileImageInput.files[0].name : "";
+        if (fileName) {
+            fileNamePreview.textContent = fileName;
+            fileNamePreview.style.display = "inline-block";
+        } else {
+            fileNamePreview.textContent = "";
+            fileNamePreview.style.display = "none";
+        }
     });
 
     // *********************************** restrict unsafe characters ****** //
