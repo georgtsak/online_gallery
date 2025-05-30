@@ -1,23 +1,26 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using OnlineGallery.Data;
+using OnlineGallery.Helper;
+using OnlineGallery.Models;
+using Supabase.Interfaces;
+using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using OnlineGallery.Models;
-using OnlineGallery.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using OnlineGallery.Helper;
 using static System.Collections.Specialized.BitVector32;
 
 public class UsersController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly Supabase.Client _supabaseClient;
 
-    public UsersController(AppDbContext context)
+    public UsersController(AppDbContext context, Supabase.Client supabaseClient)
     {
         _context = context;
+        _supabaseClient = supabaseClient;
     }
 
     // **************************************************** return View ******
@@ -332,6 +335,51 @@ public class UsersController : Controller
         await _context.SaveChangesAsync();
 
         TempData["InfoMsg"] = "Full Name changed successfully!";
+        return RedirectToAction("Profile", new { section = "account" });
+    }
+
+    // ******************************************* change profile image ******
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangeProfileImg(IFormFile profileImage)
+    {
+        int? userId = HttpContext.Session.GetInt32("UserId");
+        if (userId == null) return Unauthorized();
+
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null) return NotFound();
+
+        if (profileImage == null || profileImage.Length == 0)
+        {
+            TempData["InfoMsg"] = "No image selected.";
+            return RedirectToAction("Profile", new { section = "account" });
+        }
+
+        using var memoryStream = new MemoryStream();
+        await profileImage.CopyToAsync(memoryStream);
+        var imageBytes = memoryStream.ToArray();
+
+        var bucket = _supabaseClient.Storage.From("profile-img");
+        var fileName = $"{Guid.NewGuid()}_{profileImage.FileName}";
+
+        // delete img (an uparxei)
+        if (!string.IsNullOrEmpty(user.ProfileImgUrl))
+        {
+            var oldUri = new Uri(user.ProfileImgUrl);
+            var oldFileName = Path.GetFileName(oldUri.LocalPath);
+            await bucket.Remove(oldFileName);
+        }
+
+        // upload new img
+        await bucket.Upload(imageBytes, fileName);
+        var publicUrl = bucket.GetPublicUrl(fileName);
+
+        // save url to db
+        user.ProfileImgUrl = publicUrl;
+        await _context.SaveChangesAsync();
+
+        TempData["InfoMsg"] = "Profile image updated successfully!";
         return RedirectToAction("Profile", new { section = "account" });
     }
 }

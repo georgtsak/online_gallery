@@ -291,6 +291,12 @@
                          alt="Profile Image"
                          class="rounded-circle"
                          style="width: 30px; height: 30px; object-fit: cover; border:1px solid #17a2b8; padding:3px;" />
+
+                         <form asp-controller="Users" asp-action="ChangeProfileImg" method="post" enctype="multipart/form-data">
+                            @Html.AntiForgeryToken()
+                            <input type="file" name="profileImage" class="form-control-file mb-2" accept="image/*" required />
+                            <button type="submit" class="btn btn-outline-info btn-sm">Change Profile Image</button>
+                        </form>
                 </div>
 
                 <ul class="list-group list-group-flush pad_top1">
