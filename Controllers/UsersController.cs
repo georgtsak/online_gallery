@@ -382,4 +382,37 @@ public class UsersController : Controller
         TempData["InfoMsg"] = "Profile image updated successfully!";
         return RedirectToAction("Profile", new { section = "account" });
     }
+
+    // ******************************************* remove profile image ******
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> RemoveProfileImg()
+    {
+        int? userId = HttpContext.Session.GetInt32("UserId");
+        if (userId == null) return Unauthorized();
+
+        var user = await _context.Users.FindAsync(userId);
+        if (user == null) return NotFound();
+
+        var bucket = _supabaseClient.Storage.From("profile-img");
+
+        if (!string.IsNullOrEmpty(user.ProfileImgUrl))
+        {
+            var oldUri = new Uri(user.ProfileImgUrl);
+            var oldFileName = Path.GetFileName(oldUri.LocalPath);
+            await bucket.Remove(oldFileName);
+            user.ProfileImgUrl = null;
+            await _context.SaveChangesAsync();
+
+            TempData["InfoMsg"] = "Profile image removed successfully!";
+        }
+        else
+        {
+            TempData["InfoMsg"] = "No profile image to remove.";
+        }
+
+        return RedirectToAction("Profile", new { section = "account" });
+    }
+
 }

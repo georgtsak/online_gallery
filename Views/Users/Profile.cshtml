@@ -301,6 +301,19 @@
                             <button type="submit" id="saveProfileBtn" class="btn btn-outline-info btn-sm mx-1" style="display: none;">Save</button>
                             <button type="button" id="cancel_profile_btn" class="btn btn-outline-secondary btn-sm" style="display: none;">Cancel</button>
                         </form>
+
+                        <button id="removeProfileImgBtn" class="btn btn-outline-danger btn-sm">Remove Current Image</button>
+
+                        <div id="removeConfirmBox" style="display:none; margin-top: 10px;">
+                            <p>Are you sure?</p>
+                            <button id="confirmRemoveBtn" class="btn btn-danger btn-sm">Yes, I'm sure</button>
+                            <button id="cancelRemoveBtn" class="btn btn-secondary btn-sm">Cancel</button>
+                        </div>
+
+                        <form id="removeProfileImgForm" asp-controller="Users" asp-action="RemoveProfileImg" method="post" style="display:none;">
+                            @Html.AntiForgeryToken()
+                        </form>
+
                     </span>
 
                     <div>
@@ -327,8 +340,6 @@
                             <button id="editBtn" class="btn btn-outline-secondary btn-sm">Edit <i class="bi bi-pencil-square"></i></button>
                         </div>
                     </li>
-
-
 
                     <li class="list-group-item"><strong>Role:</strong> @Model.User.Role</li>
                 </ul>
@@ -562,6 +573,28 @@
             fileNamePreview.textContent = "";
             fileNamePreview.style.display = "none";
         }
+    });
+
+    // ***************************************** remove current image ****** //
+
+    const removeProfileImgBtn = document.getElementById("removeProfileImgBtn");
+    const removeConfirmBox = document.getElementById("removeConfirmBox");
+    const confirmRemoveBtn = document.getElementById("confirmRemoveBtn");
+    const cancelRemoveBtn = document.getElementById("cancelRemoveBtn");
+    const removeProfileImgForm = document.getElementById("removeProfileImgForm");
+
+    removeProfileImgBtn.addEventListener("click", () => {
+        removeConfirmBox.style.display = "block";
+        removeProfileImgBtn.style.display = "none";
+    });
+
+    cancelRemoveBtn.addEventListener("click", () => {
+        removeConfirmBox.style.display = "none";
+        removeProfileImgBtn.style.display = "inline-block";
+    });
+
+    confirmRemoveBtn.addEventListener("click", () => {
+        removeProfileImgForm.submit();
     });
 
     // *************************************** spinner - uploading... ****** //
