@@ -5,7 +5,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> <!-- icons -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-
 <!-- ****************************************************** buttons ****** -->
 
 <div class="text-center mb-4" style="padding-top:60px;">
@@ -287,38 +286,44 @@
             <div class="card card1">
 
                 <li class="card-header list-group-item d-flex justify-content-between align-items-center">
-                    <span class="d-flex align-items-center">
-                        <img src="@Model.User.ProfileImgUrlOrDefault"
-                             class="rounded-circle"
-                             style="width: 100px; height: 100px; object-fit: cover; border:1px solid #17a2b8; padding:3px; margin-right: 10px;" />
+                      <span class="d-flex align-items-center" style="gap: 15px;">
+                            <img src="@Model.User.ProfileImgUrlOrDefault"
+                                 class="rounded-circle"
+                                 style="width: 100px; height: 100px; object-fit: cover; border:1px solid #17a2b8; padding:3px;" />
 
-                        <form id="changeProfileForm" asp-controller="Users" asp-action="ChangeProfileImg" method="post" enctype="multipart/form-data" class="d-flex align-items-center">
+                            <div id="hiddenContainers" style="min-width: 250px;">
+                                <form id="changeProfileForm" asp-controller="Users" asp-action="ChangeProfileImg" method="post" enctype="multipart/form-data" style="display: none;">
+                                    @Html.AntiForgeryToken()
+
+                                    <label for="profileImageInput" class="btn btn-outline-dark btn-sm mb-2" id="chooseImageBtn" style="display: inline-block;">
+                                    Choose Image..
+                                    </label>
+
+                                    <input type="file" name="profileImage" id="profileImageInput" accept="image/*" style="display: none;" />
+                                    <span id="fileNamePreview" class="mx-2" style="font-size: 0.9em; color: #555; vertical-align: middle;"></span>
+                                    <br>
+
+                                    <button type="button" id="cancel_profile_btn" class="btn btn-outline-secondary btn-sm mr-1">Cancel</button>
+                                    <button type="submit" id="saveProfileBtn" class="btn btn-outline-info btn-sm">Save</button>
+
+                                </form>
+
+                                <div id="removeConfirmBox" style="display:none;">
+                                    <p class="mb-2">Are you sure?</p>
+                                    <button id="cancelRemoveBtn" class="btn btn-outline-secondary btn-sm">Cancel</button>
+                                    <button id="confirmRemoveBtn" class="btn btn-outline-danger btn-sm">Yes, delete</button>
+                                </div>
+                            </div>
+                      </span>
+
+                      <div class="d-flex flex-column" style="gap: 10px;">
+                            <button id="edit_profile_img_btn" class="btn btn-outline-secondary btn-sm">Change Profile Image <i class="bi bi-pencil-square"></i></button>
+                            <button id="removeProfileImgBtn" class="btn btn-outline-danger btn-sm">Remove Current Image<i class="bi bi-trash3"></i></button>
+                      </div>
+
+                      <form id="removeProfileImgForm" asp-controller="Users" asp-action="RemoveProfileImg" method="post" style="display:none;">
                             @Html.AntiForgeryToken()
-
-                            <label for="profileImageInput" class="btn btn-outline-dark btn-sm mb-0" style="display: none;" id="chooseImageBtn">Choose Image...</label>
-                            <input type="file" name="profileImage" id="profileImageInput" accept="image/*" style="display: none;" />
-                            <span id="fileNamePreview" class="mx-2" style="display: none; font-size: 0.9em; color: #555;"></span>
-                            <button type="submit" id="saveProfileBtn" class="btn btn-outline-info btn-sm mx-1" style="display: none;">Save</button>
-                            <button type="button" id="cancel_profile_btn" class="btn btn-outline-secondary btn-sm" style="display: none;">Cancel</button>
-                        </form>
-
-                        <button id="removeProfileImgBtn" class="btn btn-outline-danger btn-sm">Remove Current Image</button>
-
-                        <div id="removeConfirmBox" style="display:none; margin-top: 10px;">
-                            <p>Are you sure?</p>
-                            <button id="confirmRemoveBtn" class="btn btn-danger btn-sm">Yes, I'm sure</button>
-                            <button id="cancelRemoveBtn" class="btn btn-secondary btn-sm">Cancel</button>
-                        </div>
-
-                        <form id="removeProfileImgForm" asp-controller="Users" asp-action="RemoveProfileImg" method="post" style="display:none;">
-                            @Html.AntiForgeryToken()
-                        </form>
-
-                    </span>
-
-                    <div>
-                        <button id="edit_profile_img_btn" class="btn btn-outline-secondary btn-sm">Change Profile Image <i class="bi bi-pencil-square"></i></button>
-                    </div>
+                      </form>
                 </li>
 
                 <ul class="list-group list-group-flush">
@@ -548,20 +553,30 @@
     const fileNamePreview = document.getElementById("fileNamePreview");
 
     edit_profile_img_btn.addEventListener("click", function () {
-        chooseImageBtn.style.display = "inline-block";
-        saveProfileBtn.style.display = "inline-block";
-        cancel_profile_btn.style.display = "inline-block";
+        // hide confirmation
+        removeConfirmBox.style.display = "none";
+        removeProfileImgBtn.style.display = "inline-block";
+
+        changeProfileForm.style.display = "block";
+
+        // hide basic btns
         edit_profile_img_btn.style.display = "none";
+        removeProfileImgBtn.style.display = "none";
     });
 
     cancel_profile_btn.addEventListener("click", function () {
         profileImageInput.value = "";
         fileNamePreview.style.display = "none";
         fileNamePreview.textContent = "";
-        chooseImageBtn.style.display = "none";
-        saveProfileBtn.style.display = "none";
-        cancel_profile_btn.style.display = "none";
+        chooseImageBtn.style.display = "inline-block";
+        saveProfileBtn.style.display = "inline-block";
+        cancel_profile_btn.style.display = "inline-block";
+
+        changeProfileForm.style.display = "none";
+
+        // display basic btns
         edit_profile_img_btn.style.display = "inline-block";
+        removeProfileImgBtn.style.display = "inline-block";
     });
 
     profileImageInput.addEventListener("change", function () {
@@ -584,12 +599,21 @@
     const removeProfileImgForm = document.getElementById("removeProfileImgForm");
 
     removeProfileImgBtn.addEventListener("click", () => {
+        // hide change profile form
+        changeProfileForm.style.display = "none";
+
         removeConfirmBox.style.display = "block";
+
+        // hide basic btns
+        edit_profile_img_btn.style.display = "none";
         removeProfileImgBtn.style.display = "none";
     });
 
     cancelRemoveBtn.addEventListener("click", () => {
         removeConfirmBox.style.display = "none";
+
+        // display basic btns
+        edit_profile_img_btn.style.display = "inline-block";
         removeProfileImgBtn.style.display = "inline-block";
     });
 
