@@ -99,20 +99,33 @@
             <div class="row justify-content-center">
                 @foreach (var artist in Model.TopArtists)
                 {
-                    <div class="col-md-2 text-center mx-2 mb-0">
+                    var artistModal = Model.ArtistProfile.FirstOrDefault(a => a.Artist.Id == artist.Artist.Id);
+                    if (artistModal != null)
+                    {
+                        <div class="col-md-2 text-center mx-2 mb-0">
+                            <a class="text-decoration-none text-reset artist-link" href="#" data-bs-toggle="modal" data-bs-target="#artistModal-@artist.Artist.Id">
+                                <img title="press" src="@artist.Artist.ProfileImgUrlOrDefault"
+                                     class="rounded-circle mb-2 border border-info"
+                                     style="width: 170px; height: 170px; object-fit: cover; padding: 4px;" />
+                                <h5>@artist.Artist.FullName</h5>
+                            </a>
 
-                        <img src="@artist.Artist.ProfileImgUrlOrDefault"
-                             class="rounded-circle mb-2 border border-info"
-                             style="width: 170px; height: 170px; object-fit: cover; padding: 4px;" />
-
-                        <h5>@artist.Artist.FullName</h5>
-                        <p>sales: @artist.SalesCount </p>
-                    </div>
+                            <p>Sales: @artist.SalesCount</p>
+                        </div>
+                    }
                 }
             </div>
         </div>
     </div>
+    @foreach(var artistProfile in Model.ArtistProfile)
+    {
+        @await Html.PartialAsync("_ArtistModal", artistProfile)
+    }
+
 </div>
+
+
+
 
 <!-- ******************************* recent artworks of top artists ****** -->
 

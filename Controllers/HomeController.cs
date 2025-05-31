@@ -24,7 +24,8 @@ namespace OnlineGallery.Controllers
             {
                 TopArtists = GetTopArtists(),
                 RecentArtworks = GetRecentArtworksOfTopArtists(),
-                RecommendedArtworks = GetRecommendedArtworks()
+                RecommendedArtworks = GetRecommendedArtworks(),
+                ArtistProfile = GetArtistProfile()
             };
 
             return View(model);
@@ -113,6 +114,27 @@ namespace OnlineGallery.Controllers
                 .ToList();
 
             return recommended;
+        }
+
+        // ******************************************* artist profile modal ******
+
+        private List<ArtistModalModel> GetArtistProfile()
+        {
+            var topArtistIds = GetTopArtists().Select(a => a.Artist.Id).ToList();
+
+            var artistProfiles = _context.Users
+                .Where(u => topArtistIds.Contains(u.Id))
+                .Select(u => new ArtistModalModel
+                {
+                    Artist = u,
+                    Artworks = _context.Artworks
+                        .Where(a => a.ArtistId == u.Id)
+                        .OrderByDescending(a => a.CreatedAt)
+                        .ToList()
+                })
+                .ToList();
+
+            return artistProfiles;
         }
 
         // ********************************** ***************************** ******

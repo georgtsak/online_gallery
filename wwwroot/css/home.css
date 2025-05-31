@@ -10,3 +10,15 @@
         box-shadow: 0 0.2rem 0.4rem rgba(23,162,184, 0.5);
         background-color: rgba(0,0,0,0.3);
     }
+
+
+/* artist profile modal*/
+
+.artist-link img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .artist-link img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 8px rgba(23,162,184, 0.7);
+    }

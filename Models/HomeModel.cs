@@ -13,5 +13,6 @@
             public User Artist { get; set; }                      
             public int SalesCount { get; set; }     
         }
+        public List<ArtistModalModel> ArtistProfile { get; set; }
     }
 }
