@@ -1,0 +1,46 @@
+﻿<div class="modal fade" id="buyerModal-@Model.Buyer.Id" tabindex="-1" aria-labelledby="buyerModalLabel-@Model.Buyer.Id" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="@Model.Buyer.ProfileImgUrlOrDefault"
+                         alt="Profile Image"
+                         class="rounded-circle border border-info"
+                         style="width: 100px; height: 100px; object-fit: cover; padding: 2px;" />
+                    <h5 class="modal-title m-0 ml-2" id="buyerModalLabel-@Model.Buyer.Id">@Model.Buyer.FullName</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" style="height: 410px; overflow-y: auto;">
+                <p>
+                    <strong>Email:</strong> @Model.Buyer.Email
+                </p>
+                <p>
+                    <strong>Total Purchases:</strong> @Model.TotalPurchases
+                </p>
+
+                <p>
+                    <strong>Total Amount Spent:</strong> €@Model.TotalSpent
+                </p>
+
+                @if (Model.MostExpensivePurchase != null)
+                {
+                    <div class="card border-info mb-3 shadow-sm">
+                        <div class="card-body">
+                            <h6 class="card-title mb-2">
+                                Most Expensive Purchase: <span class="fw-bold">@Model.MostExpensivePurchase.Artwork.Title</span>
+                            </h6>
+                            <p class="card-text mb-1">Price: €@Model.MostExpensivePurchase.Price</p>
+                            <p class="card-text mb-0">Date: @Model.MostExpensivePurchase.PurchasedAt.ToString("dd/MM/yyyy")</p>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted fst-italic">No completed purchases found.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

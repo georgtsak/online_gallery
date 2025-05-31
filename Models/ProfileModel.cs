@@ -7,6 +7,7 @@
         public List<ArtworksModel> AllArtworks { get; set; }
         public List<TransactionsModel> Purchases { get; set; }
         public List<TransactionsModel> Sales { get; set; }
+        public List<BuyerModalModel> BuyerInfo { get; set; }
     }
 
 }

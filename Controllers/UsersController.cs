@@ -212,9 +212,21 @@ public class UsersController : Controller
 
         var sales = await _context.Transactions
             .Include(t => t.Artwork)
+            .Include(t => t.Buyer)
             .Where(t => t.Artwork.ArtistId == userId && t.Status == TransactionStatus.Completed)
             .OrderByDescending(t => t.PurchasedAt)
             .ToListAsync();
+
+
+        var uniqueBuyerIds = sales.Select(s => s.BuyerId).Distinct().ToList();
+
+        var buyerInfoList = new List<BuyerModalModel>();
+        foreach (var buyerId in uniqueBuyerIds)
+        {
+            var buyerDetails = await GetBuyerDetails(buyerId);
+            if (buyerDetails != null)
+                buyerInfoList.Add(buyerDetails);
+        }
 
         var model = new ProfileModel
         {
@@ -222,7 +234,8 @@ public class UsersController : Controller
             Artworks = artworks,
             AllArtworks = allArtworks,
             Purchases = purchases,
-            Sales = sales
+            Sales = sales,
+            BuyerInfo = buyerInfoList
         };
 
         var redirectToPurchases = HttpContext.Session.GetBool("RedirectToPurchases") ?? false;
@@ -413,6 +426,33 @@ public class UsersController : Controller
         }
 
         return RedirectToAction("Profile", new { section = "account" });
+    }
+
+    public async Task<BuyerModalModel> GetBuyerDetails(int buyerId)
+    {
+        var buyer = await _context.Users.FindAsync(buyerId);
+        if (buyer == null)
+            return null;
+
+        var purchases = await _context.Transactions
+            .Include(t => t.Artwork)
+            .Where(t => t.BuyerId == buyerId && t.Status == TransactionStatus.Completed)
+            .ToListAsync();
+
+        var totalSpent = purchases.Sum(t => t.Price);
+        var mostExpensive = purchases
+            .OrderByDescending(t => t.Price)
+            .FirstOrDefault();
+
+        var model = new BuyerModalModel
+        {
+            Buyer = buyer,
+            TotalPurchases = purchases.Count,
+            TotalSpent = totalSpent,
+            MostExpensivePurchase = mostExpensive
+        };
+
+        return model;
     }
 
 }

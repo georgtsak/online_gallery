@@ -237,6 +237,17 @@
             <div id="artworks_container" class="list-view">
                 @foreach (var s in Model.Sales)
                 {
+                    if (Model.BuyerInfo != null)
+                    {
+                        var buyerInfo = Model.BuyerInfo.FirstOrDefault(b => b.Buyer.Id == s.Buyer.Id);
+
+                        if (buyerInfo != null)
+                        {
+                            @await Html.PartialAsync("_BuyerModal", buyerInfo)
+
+                        }
+                    }
+
                     <div class="col-md-2">
                         <div class="card">
                             <img src="@s.Artwork.ImageUrl" class="card-img-top" alt="@s.Artwork.Title" />
@@ -247,6 +258,12 @@
                                         €@s.Price
                                         <small class="text-muted">on @s.PurchasedAt.ToString("dd/MM/yyyy")</small>
                                     </p>
+                                    <p class="card-text mb-0">
+                                        Buyer:
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#buyerModal-@s.Buyer.Id">@s.Buyer.FullName</a>
+
+                                    </p>
+
                                 </div>
                                 @if (s.Artwork.Status == ArtworkStatus.Sold)
                                 {
@@ -256,7 +273,8 @@
                         </div>
                     </div>
                 }
-            </div>
+
+            </div>  
             <div class="row">
                 <div class="col-md-6" style="padding:20px;">
                     <div class="card" style="padding:15px;"><canvas id="sales_count_chart"></canvas></div>
