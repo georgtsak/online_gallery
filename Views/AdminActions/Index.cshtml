@@ -1,0 +1,46 @@
+﻿@model IEnumerable<OnlineGallery.Models.User>
+
+<h2>Users</h2>
+
+<table class="table bg-light">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.FullName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <form asp-action="Ban" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="submit" class="btn btn-outline-danger">Ban</button>
+                        </form>
+
+                        <form asp-action="Unban" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="submit" class="btn btn-outline-success">Unban</button>
+                        </form>
+                        <form asp-action="History" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="submit" class="btn btn-outline-info">History</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <p>No user found.</p>
+        }
+    </tbody>
+</table>
