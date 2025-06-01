@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var userRole = Context.Session.GetString("UserRole");
+    var isAdmin = userRole == "Admin";
+}
+
+<!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
 <head>
@@ -42,16 +47,26 @@
                         <img src="~/img/logo.png" alt="Logo" />
                     </a>
                     <div class="ms-3">
-                        <a class="btn btn-outline-info me-2" asp-area="" asp-controller="Artworks" asp-action="Index">Artworks</a>
-                        <a class="btn btn-info me-2" asp-area="" asp-controller="Artworks" asp-action="Create">Upload your artwork now</a>
-                        <a class="btn btn-warning me-2" asp-area="" asp-controller="AdminActions" asp-action="Index">Admin Actions</a>
+                        @if (isAdmin)
+                        {
+                            <a class="btn btn-outline-info me-2" asp-area="" asp-controller="AdminActions" asp-action="Index">Admin Actions</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-outline-info me-2" asp-area="" asp-controller="Artworks" asp-action="Index">Artworks</a>
+                            <a class="btn btn-info me-2" asp-area="" asp-controller="Artworks" asp-action="Create">Upload your artwork now</a>
+                        }
                     </div>
                 </div>
 
                 <div class="ms-auto">
                     @if (Context.Session.GetInt32("UserId") != null)
                     {
-                        <a class="btn btn-outline-info me-2" asp-area="" asp-controller="Users" asp-action="Profile">Profile</a>
+                        @if (!isAdmin)
+                        {
+                            <a class="btn btn-outline-info me-2" asp-area="" asp-controller="Users" asp-action="Profile">Profile</a> 
+                        }
+
                         <a class="btn btn-outline-light me-2" asp-controller="Users" asp-action="Logout">Logout</a>
                     }
                     else
