@@ -190,6 +190,7 @@ public class UsersController : Controller
         var allArtworks = await _context.Artworks
             .IgnoreQueryFilters()
             .Include(a => a.Artist)
+            .OrderByDescending(a => a.CreatedAt)
             .ToListAsync();
 
         foreach (var a in artworks)
@@ -207,8 +208,6 @@ public class UsersController : Controller
             .Where(t => t.BuyerId == userId)
             .OrderByDescending(t => t.PurchasedAt)
             .ToListAsync();
-
-
 
         var sales = await _context.Transactions
             .Include(t => t.Artwork)

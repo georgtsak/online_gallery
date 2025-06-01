@@ -15,7 +15,7 @@
             <!-- info:available - secondary:sold -->
 
             <div class="modal-body m-3 border rounded" 
-                 style="height: 410px; background-color: @(Model.Status == ArtworkStatus.Available
+                 style="height: 447px; background-color: @(Model.Status == ArtworkStatus.Available
                                                             ? "rgba(23, 162, 184, 0.1)" 
                                                             : "rgba(108, 117, 125, 0.2)");">
                  <div class="row h-100 mr-2">
@@ -39,7 +39,16 @@
 
                                 @if (Model.Artist != null)
                                 {
-                                    <p><strong>Artist:</strong> @Model.Artist.FullName (@Model.Artist.Email)</p>
+                                    <p><strong>Artist:</strong> @Model.Artist.FullName -
+                                        @if (Model.Artist.IsDeleted)
+                                        {
+                                            @MaskEmail(Model.Artist.Email)
+                                        }
+                                        else
+                                        {
+                                            @Model.Artist.Email
+                                        }
+                                    </p>
                                 }
                             </div>
 
@@ -83,3 +92,20 @@
         </div>
     </div>
 </div>
+
+@functions {
+    public string MaskEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email)) return "";
+
+        var parts = email.Split('@');
+        if (parts.Length != 2) return email;
+
+        var local = parts[0];
+        var domain = parts[1];
+
+        string visiblePart = local.Length >= 2 ? local.Substring(0, 2) : local;
+        return $"{visiblePart}***@{domain}";
+    }
+}
+    

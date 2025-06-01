@@ -41,8 +41,8 @@
                     @foreach (var art in Model.Artworks)
                     {
                         <div class="col">
-                            <div class="card p-3 border-info mb-3">
-                                <img src="@art.ImageUrl" class="card-img-top" alt="@art.Title" style="object-fit: cover; height: 130px; width:200px;" />
+                            <div class="card p-3 border-info mb-4" style="max-width:400px;">
+                                <img src="@art.ImageUrl" class="card-img-top" alt="@art.Title" style="object-fit: cover; height: 130px;" />
                                 <div class="card-body">
                                     <h6 class="card-title text-truncate">
                                         @art.Title
