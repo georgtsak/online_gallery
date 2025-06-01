@@ -53,10 +53,19 @@
                                         <span class="text-info small">Available</span>
                                     </span>
 
+                                    var userId = ViewBag.UserId as int?;
+                                    var artworkOwner = userId != null && Model.Artist != null && Model.Artist.Id == userId.Value;
+
                                     <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@Model.Id" method="post">
-                                        <button type="submit" class="btn btn-info w-50 mt-2">Buy Now</button>
+                                        <button type="submit" class="btn btn-info w-50 mt-2" @(artworkOwner ? "disabled" : "")>
+                                            Buy Now
+                                        </button>
                                     </form>
-                                }
+                                    @if (artworkOwner)
+                                    {
+                                        <div class="text-danger small mt-1">You cannot buy your own artwork.</div>
+                                    }
+                                                                }
                                 else
                                 {
                                     <span title="Artwork unavailable" class="d-inline">

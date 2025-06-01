@@ -80,6 +80,7 @@ namespace OnlineGallery.Controllers
                 .OrderByDescending(a => a.CreatedAt)
                 .ToListAsync();
 
+            ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
             return View(artworks);
         }
 
