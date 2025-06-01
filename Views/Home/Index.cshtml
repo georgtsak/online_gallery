@@ -138,15 +138,17 @@
             {
                 <div class="card m-2 flex-shrink-0" style="width: 250px;">
                     <img src="@artwork.ImageUrl" class="card-img-top" alt="@artwork.Title" style="height: 200px; object-fit: cover;">
-                    <div class="card-body text-center">
+
+                    <div class="card-body text-center" style="display: flex; flex-direction: column; justify-content: space-between; height: 140px;">
                         <h5 class="card-title">@artwork.Title</h5>
-                        <p class="card-text">€@artwork.Price</p>
-                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#artworkModal-@artwork.Id">
-                            <i class="bi bi-eye"></i>
-                        </button>
+                        <p class="card-text text-muted">€@artwork.Price - @artwork.Artist.FullName </p>
+                        <!--<button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#artworkModal-@artwork.Id">
+                         <i class="bi bi-eye"></i>
+                        </button>-->
                     </div>
+
                 </div>
-                @await Html.PartialAsync("_ArtworksModal", artwork)
+                //@await Html.PartialAsync("_ArtworksModal", artwork)
             }
         </div>
     </div>
