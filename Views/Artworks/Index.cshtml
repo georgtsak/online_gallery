@@ -21,11 +21,39 @@
                     <h5>@artwork.Title</h5>
                     @*<h5>@artwork.Description</h5>*@
                     <p>@artwork.Price€</p>
-                    <div class="button-row">
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#artworkModal-@artwork.Id">
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button type="button" class="btn btn-info" title="View details" data-bs-toggle="modal" data-bs-target="#artworkModal-@artwork.Id">
                             <i class="bi bi-eye"></i>
                         </button>
-                        <a href="#" class="btn btn-success"><i class="bi bi-cart2"></i></a>
+
+                        @{
+                            var userId = ViewBag.UserId as int?;
+                            var artworkOwner = userId != null && artwork.Artist != null && artwork.Artist.Id == userId.Value;
+                            var available = artwork.Status == ArtworkStatus.Available;
+
+                        }
+
+                        <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@artwork.Id" method="post">
+
+                            @if (artworkOwner)
+                            {
+                                <button type="submit" class="btn btn-secondary" title="You cannot buy your own artwork." disabled>
+                                    <i class="bi bi-cart2"></i>
+                                </button>
+                            }
+                            else if (!available)
+                            {
+                                <button type="submit" class="btn btn-secondary" title="This artwork is no longer available." disabled>
+                                    <i class="bi bi-cart2"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-success" title="Buy Now">
+                                    <i class="bi bi-cart2"></i>
+                                </button>
+                            }
+                        </form>
                     </div>
                 </div>
             </div>
