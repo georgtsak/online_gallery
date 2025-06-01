@@ -18,8 +18,19 @@ public class AdminActionsController : Controller
     {
         var users = await _context.Users
             .Where(u => !u.IsDeleted && u.Role != Role.Admin)
+            .Select(u => new BanStatusModel
+            {
+                User = u,
+                IsCurrentlyBanned = _context.AdminActions
+                    .Where(a => a.UserId == u.Id)
+                    .OrderByDescending(a => a.ActionDate)
+                    .Select(a => a.ActionType == ActionType.Ban)
+                    .FirstOrDefault()
+            })
             .ToListAsync();
+
         return View(users);
+
     }
 
     [HttpPost]

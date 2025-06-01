@@ -1,46 +1,65 @@
-﻿@model IEnumerable<OnlineGallery.Models.User>
+﻿@model IEnumerable<BanStatusModel>
 
 <h2>Users</h2>
 
-<table class="table bg-light">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            foreach (var user in Model)
-            {
-                <tr>
-                    <td>@user.Id</td>
-                    <td>@user.FullName</td>
-                    <td>@user.Email</td>
-                    <td>
-                        <form asp-action="Ban" method="post" style="display:inline;">
-                            <input type="hidden" name="id" value="@user.Id" />
-                            <button type="submit" class="btn btn-outline-danger">Ban</button>
-                        </form>
+<div class="card" style="max-height: 550px; overflow-y: auto; border-radius: 15px; box-shadow: 0 4px 12px rgba(23,0162,184,0.9);">
 
-                        <form asp-action="Unban" method="post" style="display:inline;">
-                            <input type="hidden" name="id" value="@user.Id" />
-                            <button type="submit" class="btn btn-outline-success">Unban</button>
-                        </form>
-                        <form asp-action="History" method="post" style="display:inline;">
-                            <input type="hidden" name="id" value="@user.Id" />
-                            <button type="submit" class="btn btn-outline-info">History</button>
-                        </form>
-                    </td>
-                </tr>
+    <table class="table bg-light" style="border-radius: 10px; overflow: hidden;">
+        <thead class="thead-light">
+            <tr>
+                <th>Id</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var model in Model)
+                {
+                    var user = model.User;
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.FullName</td>
+                        <td>@user.Email</td>
+                        <td>
+                            @if (model.IsCurrentlyBanned)
+                            {
+                                <form asp-action="Unban" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-outline-dark w-25">Unban</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="Ban" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-outline-danger w-25">Ban user</button>
+                                </form>
+                            }
+
+                            <form asp-action="History" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit" class="btn btn-outline-info">History</button>
+                            </form>
+                        </td>
+                        @if (model.IsCurrentlyBanned)
+                        {
+                            <td class="text-danger">Banned User</td>
+                        }
+                        else
+                        {
+                            <td>Active</td>
+                        }
+                    </tr>
+                }
             }
-        }
-        else
-        {
-            <p>No user found.</p>
-        }
-    </tbody>
-</table>
+            else
+            {
+                <p> No user found. </p>
+            }
+        </tbody>
+    </table>
+</div>
