@@ -30,7 +30,8 @@
                             var userId = ViewBag.UserId as int?;
                             var artworkOwner = userId != null && artwork.Artist != null && artwork.Artist.Id == userId.Value;
                             var available = artwork.Status == ArtworkStatus.Available;
-
+                            var userRole = Context.Session.GetString("UserRole");
+                            var isAdmin = userRole == "Admin";
                         }
 
                         <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@artwork.Id" method="post">
@@ -40,6 +41,12 @@
                                 <button type="submit" class="btn btn-secondary" title="You cannot buy your own artwork." disabled>
                                     <i class="bi bi-cart2"></i>
                                 </button>
+                            }
+                            else if (isAdmin)
+                            {
+                                <button type="submit" class="btn btn-secondary" title="Admins are not allowed to perform purchases." disabled>
+                                    <i class="bi bi-cart2"></i>
+                                </button> 
                             }
                             else if (!available)
                             {
