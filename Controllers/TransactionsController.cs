@@ -33,6 +33,10 @@ namespace OnlineGallery.Controllers
             if (artwork.Status != ArtworkStatus.Available)
                 return BadRequest("This artwork is no longer available.");
 
+            var userRole = HttpContext.Session.GetString("UserRole");
+            if (userRole == Role.Admin.ToString())
+                return BadRequest("Admins are not allowed to perform purchases.");
+
             // create pending transaction
             var tx = new TransactionsModel
             {
