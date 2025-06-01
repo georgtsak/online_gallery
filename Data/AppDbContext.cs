@@ -13,8 +13,10 @@ namespace OnlineGallery.Data
 		public DbSet<User> Users { get; set; }
 		public DbSet<ArtworksModel> Artworks { get; set; }
 		public DbSet<TransactionsModel> Transactions { get; set; }
+        public DbSet<AdminModel> AdminActions { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<TransactionsModel>()
 				.HasOne(t => t.Artwork)
