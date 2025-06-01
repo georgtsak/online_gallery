@@ -86,7 +86,7 @@ public class UsersController : Controller
         var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
         if (existingUser != null)
         {
-            ModelState.AddModelError("Email", "Το email αυτό χρησιμοποιείται ήδη.");
+            ModelState.AddModelError("Email", "This email address is already registered.");
             return View(user);
         }
 
@@ -212,6 +212,7 @@ public class UsersController : Controller
         var sales = await _context.Transactions
             .Include(t => t.Artwork)
             .Include(t => t.Buyer)
+            .IgnoreQueryFilters()
             .Where(t => t.Artwork.ArtistId == userId && t.Status == TransactionStatus.Completed)
             .OrderByDescending(t => t.PurchasedAt)
             .ToListAsync();

@@ -7,14 +7,28 @@
                          alt="Profile Image"
                          class="rounded-circle border border-info"
                          style="width: 100px; height: 100px; object-fit: cover; padding: 2px;" />
-                    <h5 class="modal-title m-0 ml-2" id="buyerModalLabel-@Model.Buyer.Id">@Model.Buyer.FullName</h5>
+                    <h5 class="modal-title m-0 ml-2" id="buyerModalLabel-@Model.Buyer.Id">@Model.Buyer.FullName
+                        @if (Model.Buyer.IsDeleted)
+                        {
+                        <span class="text-danger small"><em> - Deleted user</em></span>
+                        }
+                    </h5>
+                    
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body" style="max-height: 410px; overflow-y: auto;">
                 <p>
-                    <strong>Email:</strong> @Model.Buyer.Email
+                    <strong>Email:</strong>
+                    @if (Model.Buyer.IsDeleted)
+                    {
+                        @MaskEmail(Model.Buyer.Email)
+                    }
+                    else
+                    {
+                        @Model.Buyer.Email
+                    }
                 </p>
                 <p>
                     <strong>Total Purchases:</strong> @Model.TotalPurchases
@@ -44,3 +58,19 @@
         </div>
     </div>
 </div>
+
+@functions {
+    public string MaskEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email)) return "";
+
+        var parts = email.Split('@');
+        if (parts.Length != 2) return email;
+
+        var local = parts[0];
+        var domain = parts[1];
+
+        string visiblePart = local.Length >= 2 ? local.Substring(0, 2) : local;
+        return $"{visiblePart}***@{domain}";
+    }
+}
