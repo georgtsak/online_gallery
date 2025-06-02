@@ -24,7 +24,11 @@ namespace OnlineGallery.Controllers
             if (buyerId == null)
                 return RedirectToAction("Login", "Users");
 
-            var artwork = _context.Artworks.Find(id);
+            var artwork = _context.Artworks
+                .IgnoreQueryFilters()
+                .Include(a => a.Artist)
+                .FirstOrDefault(a => a.Id == id);
+
             if (artwork == null)
                 return NotFound();
 
@@ -44,6 +48,9 @@ namespace OnlineGallery.Controllers
 
             if (UserHelper.IsUserBanned(_context, artwork.ArtistId))
                 return BadRequest("This artist is banned. Purchases are not allowed.");
+
+            if (artwork.Artist.IsDeleted)
+                return BadRequest("This artist has been deleted. Purchases are not allowed.");
 
             // create pending transaction
             var tx = new TransactionsModel

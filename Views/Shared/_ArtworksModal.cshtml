@@ -71,10 +71,12 @@
                                     var isBuyerBanned = ViewBag.IsBuyerBanned as bool? ?? false;
                                     var artistBanStatus = ViewBag.ArtistBanStatus as Dictionary<int, bool>;
                                     var isArtistBanned = Model.Artist != null && artistBanStatus != null && artistBanStatus.ContainsKey(Model.Artist.Id) && artistBanStatus[Model.Artist.Id];
+                                    var isArtistDeleted = Model.Artist != null && Model.Artist.IsDeleted;
+
 
                                     <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@Model.Id" method="post">
                                         <button type="submit" class="btn btn-info w-50 mt-2" 
-                                            @(artworkOwner || isAdmin || isBuyerBanned || isArtistBanned ? "disabled" : "")>
+                                            @(artworkOwner || isAdmin || isBuyerBanned || isArtistBanned || isArtistDeleted ? "disabled" : "")>
                                             Buy Now
                                         </button>
                                     </form>
@@ -94,6 +96,11 @@
                                     {
                                         <div class="text-danger small mt-1">This artist is banned. Purchases are not allowed.</div>
                                     }
+                                    if (isArtistDeleted)
+                                    {
+                                        <div class="text-danger small mt-1">This artist has been deleted. Purchases are not allowed.</div>
+                                    }
+
                                 }
                                 else
                                 {
