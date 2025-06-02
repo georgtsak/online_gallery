@@ -4,6 +4,7 @@ using OnlineGallery.Data;
 using OnlineGallery.Helper;
 using OnlineGallery.Models;
 using Microsoft.EntityFrameworkCore;
+using OnlineGallery.Helper;
 
 namespace OnlineGallery.Controllers
 {
@@ -36,6 +37,13 @@ namespace OnlineGallery.Controllers
             var userRole = HttpContext.Session.GetString("UserRole");
             if (userRole == Role.Admin.ToString())
                 return BadRequest("Admins are not allowed to perform purchases.");
+
+            // extra elegxos, o banned user den mporei na kanei oute login
+            if (UserHelper.IsUserBanned(_context, buyerId.Value))
+                return BadRequest("Banned users cannot make purchases.");
+
+            if (UserHelper.IsUserBanned(_context, artwork.ArtistId))
+                return BadRequest("Cannot purchase artwork from a banned user.");
 
             // create pending transaction
             var tx = new TransactionsModel

@@ -1,9 +1,10 @@
-using OnlineGallery.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using OnlineGallery.Data;
+using OnlineGallery.Helper;
+using OnlineGallery.Models;
+using System.Diagnostics;
+using System.Security.Claims;
 
 namespace OnlineGallery.Controllers
 {
@@ -47,6 +48,8 @@ namespace OnlineGallery.Controllers
                     ArtistId = g.Key,
                     SalesCount = g.Count()
                 })
+                .ToList()
+                .Where(x => !UserHelper.IsUserBanned(_context, x.ArtistId))
                 .OrderByDescending(x => x.SalesCount)
                 .Take(5)
                 .ToList();
