@@ -38,12 +38,12 @@ namespace OnlineGallery.Controllers
             if (userRole == Role.Admin.ToString())
                 return BadRequest("Admins are not allowed to perform purchases.");
 
-            // extra elegxos, o banned user den mporei na kanei oute login
+            // o banned user den mporei na agorasei
             if (UserHelper.IsUserBanned(_context, buyerId.Value))
-                return BadRequest("Banned users cannot make purchases.");
+                return BadRequest("Your account is banned. You cannot make purchases.");
 
             if (UserHelper.IsUserBanned(_context, artwork.ArtistId))
-                return BadRequest("Cannot purchase artwork from a banned user.");
+                return BadRequest("This artist is banned. Purchases are not allowed.");
 
             // create pending transaction
             var tx = new TransactionsModel

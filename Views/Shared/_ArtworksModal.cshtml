@@ -68,8 +68,13 @@
                                     var userId = ViewBag.UserId as int?;
                                     var artworkOwner = userId != null && Model.Artist != null && Model.Artist.Id == userId.Value;
 
+                                    var isBuyerBanned = ViewBag.IsBuyerBanned as bool? ?? false;
+                                    var artistBanStatus = ViewBag.ArtistBanStatus as Dictionary<int, bool>;
+                                    var isArtistBanned = Model.Artist != null && artistBanStatus != null && artistBanStatus.ContainsKey(Model.Artist.Id) && artistBanStatus[Model.Artist.Id];
+
                                     <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@Model.Id" method="post">
-                                        <button type="submit" class="btn btn-info w-50 mt-2" @(artworkOwner || isAdmin ? "disabled" : "")>
+                                        <button type="submit" class="btn btn-info w-50 mt-2" 
+                                            @(artworkOwner || isAdmin || isBuyerBanned || isArtistBanned ? "disabled" : "")>
                                             Buy Now
                                         </button>
                                     </form>
@@ -80,6 +85,14 @@
                                     if (isAdmin)
                                     {
                                         <div class="text-danger small mt-1">Admins are not allowed to perform purchases.</div>
+                                    }
+                                    if (isBuyerBanned)
+                                    {
+                                        <div class="text-danger small mt-1">Your account is banned. You cannot make purchases.</div>
+                                    }
+                                    if (isArtistBanned)
+                                    {
+                                        <div class="text-danger small mt-1">This artist is banned. Purchases are not allowed.</div>
                                     }
                                 }
                                 else

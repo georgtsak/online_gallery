@@ -1,4 +1,5 @@
-﻿@model IEnumerable<OnlineGallery.Models.ArtworksModel>
+﻿@using OnlineGallery.Helper
+@model IEnumerable<OnlineGallery.Models.ArtworksModel>
 
 @{
     Layout = "_Layout";
@@ -32,10 +33,14 @@
                             var available = artwork.Status == ArtworkStatus.Available;
                             var userRole = Context.Session.GetString("UserRole");
                             var isAdmin = userRole == "Admin";
+
+                            var isBuyerBanned = ViewBag.IsBuyerBanned as bool? ?? false;
+                            var artistBanStatus = ViewBag.ArtistBanStatus as Dictionary<int, bool>;
+                            var isArtistBanned = artwork.Artist != null && artistBanStatus.ContainsKey(artwork.Artist.Id) && artistBanStatus[artwork.Artist.Id];
+
                         }
 
                         <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@artwork.Id" method="post">
-
                             @if (artworkOwner)
                             {
                                 <button type="submit" class="btn btn-secondary" title="You cannot buy your own artwork." disabled>
@@ -54,6 +59,18 @@
                                     <i class="bi bi-cart2"></i>
                                 </button>
                             }
+                            else if (isBuyerBanned)
+                            {
+                                <button type="submit" class="btn btn-secondary" title="Your account is banned. You cannot make purchases." disabled>
+                                    <i class="bi bi-cart2"></i>
+                                </button>
+                            }
+                            else if (isArtistBanned)
+                            {
+                                <button type="submit" class="btn btn-secondary" title="This artist is banned. Purchases are not allowed." disabled>
+                                    <i class="bi bi-cart2"></i>
+                                </button>
+                            }
                             else
                             {
                                 <button type="submit" class="btn btn-success" title="Buy Now">
@@ -61,6 +78,7 @@
                                 </button>
                             }
                         </form>
+
                     </div>
                 </div>
             </div>

@@ -73,16 +73,33 @@ namespace OnlineGallery.Controllers
 
         // ********************************************************** index ******
 
-        public async Task<IActionResult> Index()    
+        public async Task<IActionResult> Index()
         {
             var artworks = await _context.Artworks
                 .Include(a => a.Artist)
                 .OrderByDescending(a => a.CreatedAt)
                 .ToListAsync();
 
-            ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
+            var userId = HttpContext.Session.GetInt32("UserId");
+            var buyer = await _context.Users.FindAsync(userId);
+
+            bool isBuyerBanned = buyer != null && UserHelper.IsUserBanned(_context, buyer.Id);
+            ViewBag.IsBuyerBanned = isBuyerBanned;
+
+            var artistBanStatus = new Dictionary<int, bool>();
+            foreach (var artwork in artworks)
+            {
+                if (artwork.Artist != null && !artistBanStatus.ContainsKey(artwork.Artist.Id))
+                {
+                    artistBanStatus[artwork.Artist.Id] = UserHelper.IsUserBanned(_context, artwork.Artist.Id);
+                }
+            }
+            ViewBag.ArtistBanStatus = artistBanStatus;
+            ViewBag.UserId = userId;
+
             return View(artworks);
         }
+
 
         // *************************************************** edit artwork ******
 
