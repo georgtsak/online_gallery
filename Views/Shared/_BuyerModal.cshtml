@@ -10,7 +10,11 @@
                     <h5 class="modal-title m-0 ml-2" id="buyerModalLabel-@Model.Buyer.Id">@Model.Buyer.FullName
                         @if (Model.Buyer.IsDeleted)
                         {
-                        <span class="text-danger small"><em> - Deleted user</em></span>
+                            <span class="text-danger small"><em> - Deleted user</em></span>
+                        }
+                        else if (Model.IsBanned)
+                        {
+                            <span class="text-warning small"><em> - Banned user</em></span>
                         }
                     </h5>
                     
@@ -21,7 +25,7 @@
             <div class="modal-body" style="max-height: 410px; overflow-y: auto;">
                 <p>
                     <strong>Email:</strong>
-                    @if (Model.Buyer.IsDeleted)
+                    @if (Model.Buyer.IsDeleted || Model.IsBanned)
                     {
                         @MaskEmail(Model.Buyer.Email)
                     }

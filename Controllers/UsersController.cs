@@ -449,7 +449,9 @@ public class UsersController : Controller
             Buyer = buyer,
             TotalPurchases = purchases.Count,
             TotalSpent = totalSpent,
-            MostExpensivePurchase = mostExpensive
+            MostExpensivePurchase = mostExpensive,
+            IsBanned = UserHelper.IsUserBanned(_context, buyer.Id),
+
         };
 
         return model;

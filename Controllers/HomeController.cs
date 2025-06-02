@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using OnlineGallery.Data;
 using OnlineGallery.Helper;
 using OnlineGallery.Models;
+using Supabase.Gotrue;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -48,8 +49,9 @@ namespace OnlineGallery.Controllers
                     ArtistId = g.Key,
                     SalesCount = g.Count()
                 })
-                .ToList()
-                .Where(x => !UserHelper.IsUserBanned(_context, x.ArtistId))
+                // exclude banned users from top5
+                //.ToList()
+                //.Where(x => !UserHelper.IsUserBanned(_context, x.ArtistId))
                 .OrderByDescending(x => x.SalesCount)
                 .Take(5)
                 .ToList();
@@ -125,20 +127,24 @@ namespace OnlineGallery.Controllers
         {
             var topArtistIds = GetTopArtists().Select(a => a.Artist.Id).ToList();
 
-            var artistProfiles = _context.Users
+            var users = _context.Users
                 .Where(u => topArtistIds.Contains(u.Id))
-                .Select(u => new ArtistModalModel
-                {
-                    Artist = u,
-                    Artworks = _context.Artworks
-                        .Where(a => a.ArtistId == u.Id)
-                        .OrderByDescending(a => a.CreatedAt)
-                        .ToList()
-                })
                 .ToList();
+
+            var artistProfiles = users.Select(u => new ArtistModalModel
+            {
+                Artist = u,
+                IsBanned = UserHelper.IsUserBanned(_context, u.Id),
+                Artworks = _context.Artworks
+                    .Where(a => a.ArtistId == u.Id)
+                    .OrderByDescending(a => a.CreatedAt)
+                    .ToList()
+            })
+            .ToList();
 
             return artistProfiles;
         }
+
 
         // ********************************** ***************************** ******
 
