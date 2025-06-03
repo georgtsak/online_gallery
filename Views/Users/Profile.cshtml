@@ -364,7 +364,16 @@
                         </div>
                     </li>
 
-                    <li class="list-group-item"><strong>Role:</strong> @Model.User.Role</li>
+                    <li class="list-group-item"><strong>Role:</strong>
+                        @if (Model.IsBanned)
+                        {
+                            <span class="badge-warning pr-1 pl-1"><em>Your account is banned.</em></span>
+                        }
+                        else
+                        {
+                            @Model.User.Role 
+                        }
+                    </li>
                 </ul>
             </div>
         </div>

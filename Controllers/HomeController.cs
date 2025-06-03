@@ -30,9 +30,37 @@ namespace OnlineGallery.Controllers
                 ArtistProfile = GetArtistProfile()
             };
 
+            SetViewBags();
+
             return View(model);
         }
 
+        private async Task SetViewBags()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            ViewBag.UserId = userId;
+
+            if (userId.HasValue)
+            {
+                bool isBuyerBanned = UserHelper.IsUserBanned(_context, userId.Value);
+                ViewBag.IsBuyerBanned = isBuyerBanned;
+            }
+
+            var artworks = await _context.Artworks
+                .Include(a => a.Artist)
+                .ToListAsync();
+
+            var artistBanStatus = new Dictionary<int, bool>();
+            foreach (var artwork in artworks)
+            {
+                if (artwork.Artist != null && !artistBanStatus.ContainsKey(artwork.Artist.Id))
+                {
+                    artistBanStatus[artwork.Artist.Id] = UserHelper.IsUserBanned(_context, artwork.Artist.Id);
+                }
+            }
+
+            ViewBag.ArtistBanStatus = artistBanStatus;
+        }
 
         // *********************************** top 5 artists based on sales ******
 

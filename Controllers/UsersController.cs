@@ -228,6 +228,9 @@ public class UsersController : Controller
                 buyerInfoList.Add(buyerDetails);
         }
 
+        var isBanned = UserHelper.IsUserBanned(_context, user.Id);
+
+
         var model = new ProfileModel
         {
             User = user,
@@ -235,7 +238,8 @@ public class UsersController : Controller
             AllArtworks = allArtworks,
             Purchases = purchases,
             Sales = sales,
-            BuyerInfo = buyerInfoList
+            BuyerInfo = buyerInfoList,
+            IsBanned = isBanned
         };
 
         var redirectToPurchases = HttpContext.Session.GetBool("RedirectToPurchases") ?? false;
@@ -248,6 +252,21 @@ public class UsersController : Controller
         {
             ViewData["ActiveSection"] = section;
         }
+
+        var buyer = await _context.Users.FindAsync(userId);
+
+        bool isBuyerBanned = buyer != null && UserHelper.IsUserBanned(_context, buyer.Id);
+        ViewBag.IsBuyerBanned = isBuyerBanned;
+
+        var artistBanStatus = new Dictionary<int, bool>();
+        foreach (var artwork in allArtworks)
+        {
+            if (artwork.Artist != null && !artistBanStatus.ContainsKey(artwork.Artist.Id))
+            {
+                artistBanStatus[artwork.Artist.Id] = UserHelper.IsUserBanned(_context, artwork.Artist.Id);
+            }
+        }
+        ViewBag.ArtistBanStatus = artistBanStatus;
 
         return View(model);
     }

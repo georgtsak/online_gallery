@@ -42,8 +42,11 @@
 
                                 @if (Model.Artist != null)
                                 {
+                                    var artistBanStatus = ViewBag.ArtistBanStatus as Dictionary<int, bool>;
+                                    var isArtistBanned = Model.Artist != null && artistBanStatus != null && artistBanStatus.ContainsKey(Model.Artist.Id) && artistBanStatus[Model.Artist.Id];
+
                                     <p><strong>Artist:</strong> @Model.Artist.FullName -
-                                        @if (Model.Artist.IsDeleted)
+                                        @if (Model.Artist.IsDeleted || isArtistBanned)
                                         {
                                             @MaskEmail(Model.Artist.Email)
                                         }
@@ -72,7 +75,6 @@
                                     var artistBanStatus = ViewBag.ArtistBanStatus as Dictionary<int, bool>;
                                     var isArtistBanned = Model.Artist != null && artistBanStatus != null && artistBanStatus.ContainsKey(Model.Artist.Id) && artistBanStatus[Model.Artist.Id];
                                     var isArtistDeleted = Model.Artist != null && Model.Artist.IsDeleted;
-
 
                                     <form asp-action="Buy" asp-controller="Transaction" asp-route-id="@Model.Id" method="post">
                                         <button type="submit" class="btn btn-info w-50 mt-2" 

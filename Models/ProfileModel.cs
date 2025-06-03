@@ -8,6 +8,7 @@
         public List<TransactionsModel> Purchases { get; set; }
         public List<TransactionsModel> Sales { get; set; }
         public List<BuyerModalModel> BuyerInfo { get; set; }
+        public bool IsBanned { get; set; }
     }
 
 }

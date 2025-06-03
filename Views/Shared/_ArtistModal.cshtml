@@ -16,7 +16,8 @@
                         {
                             <span class="text-danger small"><em> - Deleted user</em></span>
                         }
-                        else if (Model.IsBanned)
+                        else if (Model.IsBanned ||
+                        (ViewBag.ArtistBanStatus != null && ViewBag.ArtistBanStatus.ContainsKey(Model.Artist.Id) && ViewBag.ArtistBanStatus[Model.Artist.Id]))
                         {
                             <span class="text-warning small"><em> - Banned user</em></span>
                         }
@@ -29,7 +30,8 @@
             <div class="modal-body" style="height: 410px; overflow-y: auto;">
                 <p>
                     <strong>Email:</strong>
-                    @if (Model.Artist.IsDeleted || Model.IsBanned)
+                    @if (Model.Artist.IsDeleted || Model.IsBanned ||
+                                        (ViewBag.ArtistBanStatus != null && ViewBag.ArtistBanStatus.ContainsKey(Model.Artist.Id) && ViewBag.ArtistBanStatus[Model.Artist.Id]))
                     {
                         @MaskEmail(Model.Artist.Email)
                     }

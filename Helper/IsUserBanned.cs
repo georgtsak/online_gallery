@@ -8,6 +8,9 @@ namespace OnlineGallery.Helper
     {
         public static bool IsUserBanned(AppDbContext context, int userId)
         {
+            if (context == null)
+                return false;
+
             var lastAction = context.AdminActions
                 .Where(a => a.UserId == userId)
                 .OrderByDescending(a => a.ActionDate)
