@@ -125,7 +125,7 @@
 
                 
                 <li class="list-group-item d-flex align-items-center justify-content-between"
-                    style="padding:10px;margin-bottom:10px; border: 2px solid rgba(52, 58, 64,0.8);">
+                    style="padding:10px; padding-bottom:15px; padding-top:15px;margin-bottom:10px; border: 2px solid rgba(52, 58, 64,0.8);">
 
                     <div>
                         <h5 class="mb-1">@t.Artwork.Title</h5>
@@ -135,9 +135,7 @@
                         <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#artistModal-@artist.Id" class="text-info" style="cursor: pointer;">
                             @t.Artwork.Artist?.FullName
                         </a>
-                    </small><br />
-
-
+                    </small>
                     </div>
 
                     <div class="d-flex justify-content-center flex-grow-1">
@@ -237,11 +235,11 @@
 }
 
 <div class="row" id="sales_section" style="display:none;">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <h3>My Sales</h3>
         @if (Model.Sales.Any())
         {
-            <div id="artworks_container" class="list-view">
+            <div id="artworks_container" class="list-view" style="max-height:410px;overflow: auto; margin-bottom:20px;">
                 @foreach (var s in Model.Sales)
                 {
                     if (Model.BuyerInfo != null)
@@ -284,11 +282,11 @@
             </div>  
             <div class="row">
                 <div class="col-md-6" style="padding:20px;">
-                    <div class="card" style="padding:15px;"><canvas id="sales_count_chart"></canvas></div>
+                    <div class="card" style="padding:40px;"><canvas id="sales_count_chart"></canvas></div>
                 </div>
 
                 <div class="col-md-6" style="padding:20px;">
-                    <div class="card" style="padding:15px;"><canvas id="sales_sum_chart"></canvas></div>
+                    <div class="card" style="padding:40px;"><canvas id="sales_sum_chart"></canvas></div>
                 </div>
             </div>
         }
@@ -712,7 +710,7 @@
                     data: count1,
                     backgroundColor: colors,
                     borderColor: '#fff',
-                    borderWidth: 2
+                    borderWidth: 4
                 }]
             },
             options: {
@@ -734,7 +732,7 @@
                     data: sum1,
                     backgroundColor: colors,
                     borderColor: '#fff',
-                    borderWidth: 2
+                    borderWidth: 4
                 }]
             },
             options: {
