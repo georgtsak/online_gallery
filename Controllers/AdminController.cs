@@ -14,8 +14,19 @@ public class AdminActionsController : Controller
         _context = context;
     }
 
+    private bool IsNotAdmin()
+    {
+        var userId = HttpContext.Session.GetInt32("UserId");
+        var role = HttpContext.Session.GetString("UserRole");
+
+        return userId == null || role != "Admin";
+    }
+
     public async Task<IActionResult> Index()
     {
+        if (IsNotAdmin())
+            return RedirectToAction("Login", "Users");
+
         var users = await _context.Users
             .Where(u => !u.IsDeleted && u.Role != Role.Admin)
             .Select(u => new BanStatusModel
@@ -36,6 +47,9 @@ public class AdminActionsController : Controller
     [HttpPost]
     public async Task<IActionResult> Ban(int id)
     {
+        if (IsNotAdmin())
+            return RedirectToAction("Login", "Users");
+
         var admin_id = HttpContext.Session.GetInt32("UserId");
         if (admin_id == null)
         {
@@ -62,6 +76,9 @@ public class AdminActionsController : Controller
     [HttpPost]
     public async Task<IActionResult> Unban(int id)
     {
+        if (IsNotAdmin())
+            return RedirectToAction("Login", "Users");
+
         var admin_id = HttpContext.Session.GetInt32("UserId");
         if (admin_id == null)
         {

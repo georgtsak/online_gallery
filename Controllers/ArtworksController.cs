@@ -105,9 +105,15 @@ namespace OnlineGallery.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                return RedirectToAction("Login", "Users");
+
             var artwork = await _context.Artworks.FindAsync(id);
             if (artwork == null)
                 return NotFound();
+            if (artwork.ArtistId != userId.Value)
+                return RedirectToAction("Index");
 
             ViewBag.IsEdit = true;
 
@@ -118,9 +124,16 @@ namespace OnlineGallery.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ArtworksModel updatedArtwork)
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                return RedirectToAction("Login", "Users");
+
             var artwork = await _context.Artworks.FindAsync(id);
             if (artwork == null)
                 return NotFound();
+
+            if (artwork.ArtistId != userId.Value)
+                return RedirectToAction("Index");
 
             artwork.Title = updatedArtwork.Title;
             artwork.Description = updatedArtwork.Description;
@@ -138,6 +151,10 @@ namespace OnlineGallery.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+                return RedirectToAction("Login", "Users");
+
             var artwork = await _context.Artworks.FindAsync(id);
             if (artwork == null)
                 return NotFound();
