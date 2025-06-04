@@ -44,13 +44,17 @@
 
                 @if (Model.MostExpensivePurchase != null)
                 {
-                    <div class="card border-info mb-3 shadow-sm">
+                    <div class="p-0 pl-2 bg-info text-white fw-semibold text-left" style="border-radius: 0.25rem 0.25rem 0 0;">
+                        Most expensive purchase
+                    </div>
+
+                    <div class="card border-info shadow-sm" style="max-width: 100%;border-radius: 0 0 0.25rem 0.25rem;">
                         <div class="card-body">
-                            <h6 class="card-title mb-2">
-                                Most Expensive Purchase: <span class="fw-bold">@Model.MostExpensivePurchase.Artwork.Title</span>
+                            <h6 class="card-title mb-3">
+                                <span class="fw-bold">@Model.MostExpensivePurchase.Artwork.Title</span>
                             </h6>
-                            <p class="card-text mb-1">Price: €@Model.MostExpensivePurchase.Price</p>
-                            <p class="card-text mb-0">Date: @Model.MostExpensivePurchase.PurchasedAt.ToString("dd/MM/yyyy")</p>
+                            <p class="card-text mb-1" style="font-size: 14px;"><strong>Price:</strong> €@Model.MostExpensivePurchase.Price</p>
+                            <p class="card-text mb-0" style="font-size: 14px;"><strong>Date:</strong> @Model.MostExpensivePurchase.PurchasedAt.ToString("dd/MM/yyyy")</p>
                         </div>
                     </div>
                 }
