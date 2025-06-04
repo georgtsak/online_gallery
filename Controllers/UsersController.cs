@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineGallery.Data;
 using OnlineGallery.Helper;
@@ -475,5 +476,18 @@ public class UsersController : Controller
 
         return model;
     }
+
+    public async Task<IActionResult> DownloadImg(string url, string filename)
+    {
+        using var httpClient = new HttpClient();
+        var response = await httpClient.GetAsync(url);
+
+        if (!response.IsSuccessStatusCode)
+            return BadRequest("Could not fetch image.");
+
+        var bytes = await response.Content.ReadAsByteArrayAsync();
+        return File(bytes, "application/octet-stream", filename);
+    }
+
 
 }

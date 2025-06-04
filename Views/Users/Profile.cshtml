@@ -166,9 +166,13 @@
                         }
                         else if (t.Status == TransactionStatus.Completed)
                         {
-                            <button type="submit" class="btn btn-outline-info btn-sm">
-                                Download <i class="bi bi-download"></i>
-                            </button>
+                            var filename = System.IO.Path.GetFileName(t.Artwork.ImageUrl);
+                            <a asp-controller="Users" asp-action="DownloadImg"
+                               asp-route-url="@t.Artwork.ImageUrl"
+                               asp-route-filename="@filename"
+                               class="btn btn-outline-info btn-sm">
+                               Download <i class="bi bi-download"></i>
+                            </a>
                         }
                     </div>
 
