@@ -28,21 +28,32 @@ public class AdminActionsController : Controller
             return RedirectToAction("Login", "Users");
 
         var usersWithHistory = await _context.Users
-            .Where(u => !u.IsDeleted && u.Role != Role.Admin)
-            .Select(u => new
-            {
-                User = u,
-                IsCurrentlyBanned = _context.AdminActions
-                    .Where(a => a.UserId == u.Id)
-                    .OrderByDescending(a => a.ActionDate)
-                    .Select(a => a.ActionType == ActionType.Ban)
-                    .FirstOrDefault(),
-                History = _context.AdminActions
-                    .Where(a => a.UserId == u.Id)
-                    .OrderByDescending(a => a.ActionDate)
-                    .ToList()
-            })
-            .ToListAsync();
+        .Where(u => !u.IsDeleted && u.Role != Role.Admin)
+        .Select(u => new
+        {
+            User = u,
+            IsCurrentlyBanned = _context.AdminActions
+                .Where(a => a.UserId == u.Id)
+                .OrderByDescending(a => a.ActionDate)
+                .Select(a => a.ActionType == ActionType.Ban)
+                .FirstOrDefault(),
+            History = _context.AdminActions
+                .Where(a => a.UserId == u.Id)
+                .OrderByDescending(a => a.ActionDate)
+                .Select(a => new AdminModel
+                {
+                    Id = a.Id,
+                    UserId = a.UserId,
+                    User = a.User,
+                    AdminId = a.AdminId,
+                    Admin = a.Admin,
+                    ActionType = a.ActionType,
+                    ActionDate = a.ActionDate
+                })
+                .ToList()
+        })
+        .ToListAsync();
+
 
         var model = usersWithHistory.Select(u => new BanStatusModel
         {

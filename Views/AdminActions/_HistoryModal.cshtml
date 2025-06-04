@@ -1,5 +1,17 @@
 ﻿@model BanStatusModel
 
+@functions {
+    string GetAdminName(int adminId)
+    {
+        return adminId switch
+        {
+            24 => "admin1",
+            25 => "admin2",
+            _ => "unknown_admin"
+        };
+    }
+}
+
 <div class="modal fade" id="historyModal-@Model.User.Id" tabindex="-1" aria-labelledby="historyModalLabel-@Model.User.Id" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 800px;">
         <div class="modal-content">
@@ -13,6 +25,8 @@
                         <tr>
                             <th>Action</th>
                             <th>Date</th>
+                            <th>Admin</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -21,6 +35,7 @@
                             <tr>
                                 <td>@(action.ActionType == ActionType.Ban ? "Ban" : "Unban")</td>
                                 <td>@action.ActionDate.ToString("g")</td>
+                                <td>@GetAdminName(action.AdminId)</td>
                             </tr>
                         }
                     </tbody>
