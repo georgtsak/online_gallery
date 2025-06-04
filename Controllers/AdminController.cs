@@ -27,22 +27,33 @@ public class AdminActionsController : Controller
         if (IsNotAdmin())
             return RedirectToAction("Login", "Users");
 
-        var users = await _context.Users
+        var usersWithHistory = await _context.Users
             .Where(u => !u.IsDeleted && u.Role != Role.Admin)
-            .Select(u => new BanStatusModel
+            .Select(u => new
             {
                 User = u,
                 IsCurrentlyBanned = _context.AdminActions
                     .Where(a => a.UserId == u.Id)
                     .OrderByDescending(a => a.ActionDate)
                     .Select(a => a.ActionType == ActionType.Ban)
-                    .FirstOrDefault()
+                    .FirstOrDefault(),
+                History = _context.AdminActions
+                    .Where(a => a.UserId == u.Id)
+                    .OrderByDescending(a => a.ActionDate)
+                    .ToList()
             })
             .ToListAsync();
 
-        return View(users);
+        var model = usersWithHistory.Select(u => new BanStatusModel
+        {
+            User = u.User,
+            IsCurrentlyBanned = u.IsCurrentlyBanned,
+            History = u.History
+        }).ToList();
 
+        return View(model);
     }
+
 
     [HttpPost]
     public async Task<IActionResult> Ban(int id)
