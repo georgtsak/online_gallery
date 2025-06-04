@@ -130,10 +130,13 @@
                     <div>
                         <h5 class="mb-1">@t.Artwork.Title</h5>
                         <small class="text-muted">€@t.Price on @t.PurchasedAt</small>
-                        <small class="text-muted">Artist: @t.Artwork.Artist?.FullName @*(@t.Artwork.Artist?.Email)*@</small><br />
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#artistModal-@artist.Id">
-                            <i class="bi bi-eye"></i>
-                        </button>
+                        <small class="text-muted">
+                        Artist:
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#artistModal-@artist.Id" class="text-info" style="cursor: pointer;">
+                            @t.Artwork.Artist?.FullName
+                        </a>
+                    </small><br />
+
 
                     </div>
 
