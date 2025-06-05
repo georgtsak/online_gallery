@@ -146,7 +146,7 @@
                             {
                                 <form asp-controller="Transaction" asp-action="Pay" method="post" style="padding-right:5px;">
                                     <input type="hidden" name="transactionId" value="@t.Id" />
-                                    <button type="submit" class="btn btn-outline-primary btn-sm">
+                                    <button type="submit" class="btn btn-outline-info btn-sm">
                                         Pay Now <i class="bi bi-credit-card-2-back"></i>
                                     </button>
                                 </form>
@@ -191,7 +191,7 @@
                         }
                         else if (t.Status == TransactionStatus.Completed)
                         {
-                            <span class="badge bg-success fixed-badge">Completed</span>
+                            <span class="badge bg-info fixed-badge">Completed</span>
                         }
                         else if (t.Status == TransactionStatus.Cancelled)
                         {
